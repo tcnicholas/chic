@@ -18,7 +18,7 @@ Requirements
 
 Cite
 ----
-A preprint related to this work can be found on [ChemRxiv](https://www.doi.org/10.33774/chemrxiv-2021-bdkwx).
+A preprint related to this work can be found on ChemRxiv here_.
 
 
 
@@ -32,3 +32,5 @@ A preprint related to this work can be found on [ChemRxiv](https://www.doi.org/1
 .. _DScribe: https://singroup.github.io/dscribe/latest/
 .. _skikit-learn: https://scikit-learn.org/stable/
 .. _UMAP: https://umap-learn.readthedocs.io/en/latest/
+
+.. _here: https://www.doi.org/10.33774/chemrxiv-2021-bdkwx
