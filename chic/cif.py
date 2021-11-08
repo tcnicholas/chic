@@ -245,7 +245,7 @@ class writeCIF:
         Write unit cell loop to file string.
         """
         # Get (a,b,c,alpha,beta,gamma), cell volume, and number of formula units
-        cellParams = np.concatenate(self.lattice.lengths_and_angles)
+        cellParams = np.ravel(self.lattice.parameters)
         cellVolume = self.lattice.volume
         _, Z = self.structure.composition.get_reduced_composition_and_factor()
 

@@ -18,10 +18,12 @@ from .local_env import *
 from .cg import *
 
 from pymatgen.io.ase import AseAtomsAdaptor
+from pymatgen.io.cif import CifWriter
 
 from timeit import default_timer as timer
 from itertools import chain
 from pathlib import Path
+import multiprocessing
 import warnings
 
 
@@ -33,7 +35,7 @@ class Structure:
     Reads a CIF and allows you to process them using class methods.
     """
 
-    def __init__(self, filePath: str, sites=None, method="mof"):
+    def __init__(self, filePath: str, sites=None, method="mof", cores=None):
         """
         Args
         ----
@@ -69,6 +71,7 @@ class Structure:
         self._sites = sort_sites(self.atoms, method) if sites is None else sites
         self.units = {}
         self.cg_method = None
+        self.cores = multiprocessing.cpu_count() if cores is None else cores
 
     
     def repair_disorder(self, method="poreOxygen", **kwargs):
@@ -162,7 +165,7 @@ class Structure:
         """
         
         # calculate neighbour list for all atoms.
-        nn = nn_dict(self.atoms, elements=list(chain(*self.sites)))
+        nn = nn_dict(self.atoms, elements=list(chain(*self.sites)), cores=self.cores)
 
         # time the reduce() method.
         start = timer()

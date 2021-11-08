@@ -495,8 +495,10 @@ class dataPoint:
         # structural properties stored for calculations.
         self._labels = None
         self._atoms = None
+        self._atoms_pym = None 
         self._sites = None
         self._bonds = None
+        self._bonds_raw = None
         self._getAtoms(filePath=filePath, sites=sites, sitesMethod=sitesMethod)
 
         # store parameters used.
@@ -591,6 +593,10 @@ class dataPoint:
         # rescale the atoms cell and store scale factor to dataPoint attribute.
         self._atoms.set_cell(self._atoms.get_cell() * sf, scale_atoms=True)
         self._scaleFactor = sf
+
+        # also try and scale bonds.
+        if self._bonds is not None:
+            self._scale_bonds(sf)
 
 
     def calc_soap(self, parameters, package="dscribe", atomic_numbers=None, 
@@ -687,6 +693,13 @@ class dataPoint:
         # extract structure, structure information and bonds.
         s, info, bonds = read_cif(str(filePath))
 
+        # store pymatgen structure object too (this is probably redundant but
+        # used currently as a way of re-scaling the bonds/bond vectors. Need to
+        # check if the AseAtomsAdaptor preserves atom indices/absolute frac
+        # coords etc.).
+        self._atoms_pym = s
+        self._bonds_raw = bonds
+
         # convert Pymatgen to ASE Atoms.
         self._atoms = AseAtomsAdaptor.get_atoms(s)
 
@@ -761,6 +774,26 @@ class dataPoint:
 
         # outsource calculation to soapMethods.py
         return heterogeneity(zeta, soap_vectors)
+
+    
+    def _scale_bonds(self, scaleValue):
+        """
+        If the atoms object is scaled, also recompute the bond vectors etc.
+
+        Args
+        ----
+        scaleValue: float
+            Scale factor to multiply all lattice vectors by. Note this will be
+            converted into the scale factor to scale the Pymatgen structure
+            Lattice volume by.
+        """
+
+        new_volume = self._atoms_pym.lattice.volume * (scaleValue**3)
+        self._atoms_pym.lattice = self._atoms_pym.lattice.scale(new_volume)
+
+        # process bond information.
+        self._bonds = bonding(self._atoms_pym, self._labels, self._bonds_raw)
+        
     
 
     @property

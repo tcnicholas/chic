@@ -42,7 +42,7 @@ def get_nn_dict(cnn, structure, ix):
     return { i:cnn.get_nn_info(structure,i) for i in ix }
 
 
-def nn_dict(structure, elements):
+def nn_dict(structure, elements, cores):
     """
     Get nearest-neighbour dictionary for structure using crystalNN.
     Rate-limiting step so pool to multiple cores.
@@ -57,6 +57,9 @@ def nn_dict(structure, elements):
 
     elements: list
         Atomic symbols for elements to search neighbours for.
+        
+    cores: int
+        Number of cores to use when creating neighbour list.
     """
 
     warnings.simplefilter("ignore") # Throws warning from pymatgen.
@@ -69,7 +72,6 @@ def nn_dict(structure, elements):
     ix = [i for i,a in enumerate(structure) if a.specie.symbol in elements 
                 and a.specie.symbol not in one_cn]
 
-    cores = multiprocessing.cpu_count()
     with multiprocessing.Pool(processes=cores) as pool:
         results = pool.map(partial( get_nn_dict, cnn, structure),
                                     np.array_split(ix, cores))
@@ -134,9 +136,8 @@ def Sg(vectors):
     vectors: np.ndarray
         Four (1x3) vectors that define the tetrahedron.
     """
-
-    assert len(vectors) == 4, "Tetrahedon must be defined by 4 vectors, " \
-        f"{len(vectors)} != 4."
+    
+    assert len(vectors) == 4
 
     # iterate through (6) unique pairs of vectors.
     vals = np.zeros(6)

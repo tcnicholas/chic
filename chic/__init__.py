@@ -1,6 +1,6 @@
 """ CHIC """
 
-__all__ = ["structure", "StructureMap"]
+__all__ = ["Structure", "StructureMap"]
 __version__ = "0.1.0a1"
 
 from chic.structure import Structure

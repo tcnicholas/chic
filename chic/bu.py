@@ -329,7 +329,7 @@ class moleculeGraph:
             # try decomposing cycle to smaller cycles.
             # if can, not simple cycle so remove.
             if len(all_cycles(sg)) > 1:
-                simle_cycles.remove(c)
+                simple_cycles.remove(c)
                 
         return simple_cycles
 
