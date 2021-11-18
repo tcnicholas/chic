@@ -18,7 +18,7 @@ Requirements
 
 Cite
 ----
-A preprint related to this work can be found on ChemRxiv here_.
+Please cite this publication here_ if you use the CHIC software in your work.
 
 
 
