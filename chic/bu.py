@@ -151,7 +151,7 @@ class buildingUnit:
     def connecting_atoms(self):
         """
         Get the atoms in the building unit that are bonded to external atoms. If
-        multiple "interal" atoms are bound to the same "external" atom, choose
+        multiple "internal" atoms are bound to the same "external" atom, choose
         one with greatest voronoi weight.
         """
 

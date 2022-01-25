@@ -590,6 +590,14 @@ class dataPoint:
             # Get scale factor and scale the lattice to the new volume.
             sf = scaleValue / np.amin(d)
         
+        elif method == "volume":
+        
+            # get current volume.
+            v = self._atoms.get_volume()
+            
+            # get scale factor.
+            sf = (scaleValue / v)**(1/3)
+        
         # rescale the atoms cell and store scale factor to dataPoint attribute.
         self._atoms.set_cell(self._atoms.get_cell() * sf, scale_atoms=True)
         self._scaleFactor = sf
