@@ -113,7 +113,7 @@ class buildingUnit:
         return np.mean(self.atoms[ix],axis=0)
 
     
-    def shortest_path(self, useCycles=False):
+    def shortest_path(self, useCycles=False, connectingAtomsByElement=None):
         """
         Get the middle of the shortest path between the "connecting" nodes of
         the building unit to the external units.
@@ -129,10 +129,20 @@ class buildingUnit:
         useCycles: bool
             If True, contracts all cycles to single node at the centre and then
             determines the new path.
+            
+        connectingAtomsByElement
         """
 
         # get connecting atoms.
-        ca = self.connecting_atoms()
+        if connectingAtomsByElement is None:
+            ca = self.connecting_atoms()
+        else:
+            ca = self.set_default_conenctivity_by_elememt(connectingAtomsByElement)
+            
+        assert len(ca) > 0, "No connecting atoms found for this building unit."
+        
+        if len(ca) == 1:
+            return self.atoms[self.ix.index(ca[0][0])]
 
         # for all combinations of connecting atoms, get the middle node(s) of
         # the shortest path(s).
@@ -183,6 +193,18 @@ class buildingUnit:
         
         # turn back to original formatting.
         return [iis[a] for a in ui]
+        
+    
+    
+    def set_default_conenctivity_by_elememt(self, element: str):
+        """
+        For particularly unusual structures it is potentially useful to choose
+        "connecting" atoms by chemical element. E.g. for hypothetical ZIFs, we
+        know the nitrogen atoms will be connecting to the zincs, hence just
+        default to those (in cases where neighbourlist building fails).
+        """
+        ix = [i for i,s in enumerate(self.sym) if s in element]
+        return [[ix,None] for ix in np.array(self.ix)[ix]]
 
     
     def cn(self, get_atoms=False):

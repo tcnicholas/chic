@@ -1,0 +1,127 @@
+data_VELVOY
+_citation_doi                       '10.1073/pnas.0602439103'
+_citation_year                                         '2006'
+_chemical_name_common                                 'ZIF-8'
+_chemical_formula_sum                                   'AB2'
+_cell_length_a			5.38047
+_cell_length_b			5.38047
+_cell_length_c			5.38047
+_cell_angle_alpha		90.00000
+_cell_angle_beta		90.00000
+_cell_angle_gamma		90.00000
+_cell_volume			155.76207
+_cell_formula_units_Z		12
+_symmetry_space_group_name_H-M	'P 1'
+_symmetry_Int_Tables_number	1
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 x,y,z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+Si1     Si   1     0.000000   0.500000   0.750000   1
+Si2     Si   1     0.500000   0.000000   0.750000   1
+Si3     Si   1     0.750000   0.500000   0.000000   1
+Si4     Si   1     0.000000   0.750000   0.500000   1
+Si5     Si   1     0.000000   0.500000   0.250000   1
+Si6     Si   1     0.250000   0.500000   1.000000   1
+Si7     Si   1     0.500000   0.000000   0.250000   1
+Si8     Si   1     0.500000   0.250000   1.000000   1
+Si9     Si   1     0.000000   0.250000   0.500000   1
+Si10    Si   1     0.250000   0.000000   0.500000   1
+Si11    Si   1     0.750000   0.000000   0.500000   1
+Si12    Si   1     0.500000   0.750000   0.000000   1
+O1      O    1     0.857002   0.551436   0.857002   1
+O2      O    1     0.551436   0.857002   0.857002   1
+O3      O    1     0.857002   0.857002   0.551436   1
+O4      O    1     0.642998   0.642998   0.051436   1
+O5      O    1     0.642998   0.051436   0.642998   1
+O6      O    1     0.051436   0.642998   0.642998   1
+O7      O    1     0.448564   0.857002   0.142998   1
+O8      O    1     0.857002   0.448564   0.142998   1
+O9      O    1     0.948564   0.357002   0.642998   1
+O10     O    1     0.357002   0.948564   0.642998   1
+O11     O    1     0.857002   0.142998   0.448564   1
+O12     O    1     0.448564   0.142998   0.857002   1
+O13     O    1     0.142998   0.857002   0.448564   1
+O14     O    1     0.642998   0.357002   0.948564   1
+O15     O    1     0.142998   0.448564   0.857002   1
+O16     O    1     0.948564   0.642998   0.357002   1
+O17     O    1     0.142998   0.551436   0.142998   1
+O18     O    1     0.357002   0.357002   0.051436   1
+O19     O    1     0.551436   0.142998   0.142998   1
+O20     O    1     0.051436   0.357002   0.357002   1
+O21     O    1     0.357002   0.051436   0.357002   1
+O22     O    1     0.142998   0.142998   0.551436   1
+O23     O    1     0.642998   0.948564   0.357002   1
+O24     O    1     0.357002   0.642998   0.948564   1
+loop_
+_topol_link.node_label_1
+_topol_link.node_label_2
+_topol_link.distance
+_topol_link.site_symmetry_symop_1
+_topol_link.site_symmetry_translation_1_x
+_topol_link.site_symmetry_translation_1_y
+_topol_link.site_symmetry_translation_1_z
+_topol_link.site_symmetry_symop_2
+_topol_link.site_symmetry_translation_2_x
+_topol_link.site_symmetry_translation_2_y
+_topol_link.site_symmetry_translation_2_z
+_topol_link.type
+_topol_link.multiplicity
+Si5   O17   1.0     1  0  0  0   1  0  0  0  V 1
+Si5   O16   1.0     1  0  0  0   1 -1  0  0  V 1
+Si7   O19   1.0     1  0  0  0   1  0  0  0  V 1
+Si9   O22   1.0     1  0  0  0   1  0  0  0  V 1
+Si8   O12   1.0     1  0  0  0   1  0  0  0  V 1
+Si12  O2    1.0     1  0  0  0   1  0  0 -1  V 1
+Si2   O10   1.0     1  0  0  0   1  0 -1  0  V 1
+Si7   O23   1.0     1  0  0  0   1  0 -1  0  V 1
+Si6   O18   1.0     1  0  0  0   1  0  0  1  V 1
+Si7   O21   1.0     1  0  0  0   1  0  0  0  V 1
+Si5   O20   1.0     1  0  0  0   1  0  0  0  V 1
+Si3   O1    1.0     1  0  0  0   1  0  0 -1  V 1
+Si1   O6    1.0     1  0  0  0   1  0  0  0  V 1
+Si8   O19   1.0     1  0  0  0   1  0  0  1  V 1
+Si11  O11   1.0     1  0  0  0   1  0  0  0  V 1
+Si10  O10   1.0     1  0  0  0   1  0 -1  0  V 1
+Si4   O3    1.0     1  0  0  0   1 -1  0  0  V 1
+Si3   O8    1.0     1  0  0  0   1  0  0  0  V 1
+Si6   O24   1.0     1  0  0  0   1  0  0  0  V 1
+Si1   O15   1.0     1  0  0  0   1  0  0  0  V 1
+Si11  O5    1.0     1  0  0  0   1  0  0  0  V 1
+Si8   O18   1.0     1  0  0  0   1  0  0  1  V 1
+Si2   O12   1.0     1  0  0  0   1  0  0  0  V 1
+Si3   O14   1.0     1  0  0  0   1  0  0 -1  V 1
+Si6   O15   1.0     1  0  0  0   1  0  0  0  V 1
+Si1   O9    1.0     1  0  0  0   1 -1  0  0  V 1
+Si9   O9    1.0     1  0  0  0   1 -1  0  0  V 1
+Si6   O17   1.0     1  0  0  0   1  0  0  1  V 1
+Si7   O7    1.0     1  0  0  0   1  0 -1  0  V 1
+Si4   O6    1.0     1  0  0  0   1  0  0  0  V 1
+Si12  O7    1.0     1  0  0  0   1  0  0  0  V 1
+Si9   O20   1.0     1  0  0  0   1  0  0  0  V 1
+Si12  O4    1.0     1  0  0  0   1  0  0  0  V 1
+Si2   O2    1.0     1  0  0  0   1  0 -1  0  V 1
+Si4   O13   1.0     1  0  0  0   1  0  0  0  V 1
+Si1   O1    1.0     1  0  0  0   1 -1  0  0  V 1
+Si10  O13   1.0     1  0  0  0   1  0 -1  0  V 1
+Si10  O21   1.0     1  0  0  0   1  0  0  0  V 1
+Si3   O4    1.0     1  0  0  0   1  0  0  0  V 1
+Si12  O24   1.0     1  0  0  0   1  0  0 -1  V 1
+Si2   O5    1.0     1  0  0  0   1  0  0  0  V 1
+Si5   O8    1.0     1  0  0  0   1 -1  0  0  V 1
+Si10  O22   1.0     1  0  0  0   1  0  0  0  V 1
+Si11  O23   1.0     1  0  0  0   1  0 -1  0  V 1
+Si4   O16   1.0     1  0  0  0   1 -1  0  0  V 1
+Si8   O14   1.0     1  0  0  0   1  0  0  0  V 1
+Si9   O11   1.0     1  0  0  0   1 -1  0  0  V 1
+Si11  O3    1.0     1  0  0  0   1  0 -1  0  V 1
+#End of data_VELVOY
+

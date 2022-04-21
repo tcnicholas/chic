@@ -200,6 +200,7 @@ class bonding:
         """
         # order of atom bonds for per-atom bond information.
         self._labels = labels
+        self._bonds = bonds
 
         # store per-atom bond information.
         self._vectors = []
@@ -414,8 +415,8 @@ class bonding:
             bond_labels.append(ls)
 
         # format vectors as numpy array.
-        self._vectors = np.array(vectors)
-        self._bonded_labels = np.array(bond_labels)
+        self._vectors = np.array(vectors, dtype="object")
+        self._bonded_labels = np.array(bond_labels, dtype="object")
         
     
     def _unique_bonds(self, structure, labels, bonds):

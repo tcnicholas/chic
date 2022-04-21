@@ -1,0 +1,9 @@
+package:
+  name: "chic"
+  version: "0.1.0"
+about:
+  summary: "Coarse-graining Hybrid and Inorganic Crystals"
+source:
+  path: ..
+build:
+  script: python setup.py install

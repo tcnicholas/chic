@@ -11,6 +11,7 @@ References:
 
 
 from .cif import *
+from .lammpsdata import *
 from .sites import *
 from .utils import *
 from .disorder import *
@@ -25,6 +26,7 @@ from itertools import chain
 from pathlib import Path
 import multiprocessing
 import warnings
+import sys
 
 
 class Structure:
@@ -35,7 +37,8 @@ class Structure:
     Reads a CIF and allows you to process them using class methods.
     """
 
-    def __init__(self, filePath: str, sites=None, method="mof", cores=None):
+    def __init__(self, filePath: str, sites=None, method="mof", cores=None,
+        dataFormat="cif", primitive=False):
         """
         Args
         ----
@@ -67,9 +70,16 @@ class Structure:
 
         """
         self.filePath = filePath
-        self.atoms, self.info, _ = read_cif(filePath)
-        self._sites = sort_sites(self.atoms, method) if sites is None else sites
         self.units = {}
+        
+        if dataFormat=="cif":
+            self.atoms, self.info, _ = read_cif(filePath, primitive)
+        elif dataFormat=="lammps-data":
+            self.atoms, _, self.info = read_lammps(filePath)
+        else:
+            warnings.warn(f"File format {dataFormat} unrecongnised.")
+            
+        self._sites = sort_sites(self.atoms, method) if sites is None else sites
         self.cg_method = None
         self.cores = multiprocessing.cpu_count() if cores is None else cores
 
@@ -209,6 +219,15 @@ class Structure:
         # end timer and print report.
         t = timer() - start
         print(f"* reduce * Reduce algorithm took {t:.3f} s.")
+        
+    
+    def extract_lammps_topology(self):
+        """
+        If the structure is a LAMMPS data format including topology information
+        (e.g. ZIFs), one can extract all of the building units using the mol-id
+        and bond information.
+        """
+        self.units = get_units_from_LAMMPS(self.filePath)
 
 
     def coarse_grain(self, method="centroid", minReqCN=2, **kwargs):
@@ -345,7 +364,7 @@ class Structure:
             return s_info, s
         
         return s_info
-
+        
     
     def atoms_html(self):
         """

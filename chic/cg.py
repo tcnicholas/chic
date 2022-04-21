@@ -97,7 +97,7 @@ def get_neighbours(nn, ix, weight, seed, distance=None, structure=None):
     structure: pymatgen.core.Structure
         Pymatgen Structure object.
     """
-    n = [a for a in nn[seed] if (a["site_index"] in ix and a["weight"]>weight)]
+    n = [a for a in nn[seed] if (a["site_index"] in ix and a["weight"]>=weight)]
 
     if distance is not None:
         assert structure is not None
@@ -190,7 +190,8 @@ def cluster_crawl(structure, nn, remaining, unit, seed, growing, intraWeight,
     for shoot in seed:
 
         # Retrieve neighbours of correct site-type AND weighting > intraWeight.
-        n = get_neighbours(nn, remaining, intraWeight, shoot[0])
+        n = get_neighbours(nn, remaining, intraWeight, shoot[0],
+            distance=intraBond, structure=structure)
 
         # If one-coordinate atoms found as neighbours, fast-track them to the
         # unit list (rather than setting them as seeds, because they should only
@@ -525,7 +526,10 @@ def coarse_grain(structure, units, method, minReqCN, **kwargs):
             # Remove building unit and flag it as one not to keep in the bond-
             # defining steps below.
             inv_u.append(ul)
-            del units[ul]
+            #del units[ul]
+    
+    for ul in inv_u:
+        del units[ul]
         
     # Now set bonds (and images) between units.
     for ul, u in units.items():
@@ -538,18 +542,20 @@ def coarse_grain(structure, units, method, minReqCN, **kwargs):
         # belong, and determine final image of that unit.
         b = []
         for a in ea:
-            
-            # Get external unit and image.
-            eui = ix_u[a[0]]
+            try:
+                # Get external unit and image.
+                eui = ix_u[a[0]]
 
-            if eui[0] not in inv_u:
-            
-                # Image of bonded other unit is the bonded atom image plus the
-                # image shift for that bonded atom (defined above to compensate
-                # for the difference in location of the unit centroid, relative 
-                # to the bonded atom) minus the image of the unit centred on.
-                # Store the bond as the tuple(unitLabel, image).
-                b.append((ix_u[a[0]][0], a[1] + ix_u[a[0]][1] - u.frac_img[1]))
+                if eui[0] not in inv_u:
+                
+                    # Image of bonded other unit is the bonded atom image plus the
+                    # image shift for that bonded atom (defined above to compensate
+                    # for the difference in location of the unit centroid, relative
+                    # to the bonded atom) minus the image of the unit centred on.
+                    # Store the bond as the tuple(unitLabel, image).
+                    b.append((ix_u[a[0]][0], a[1] + ix_u[a[0]][1] - u.frac_img[1]))
+            except:
+                pass
         
         # Update building unit property.
         u.unit_bonds = b

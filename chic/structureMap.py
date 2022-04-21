@@ -559,6 +559,7 @@ class dataPoint:
                 "min_xx": minimum bond length between any atoms.
                 "min_ab": minimum bond length between building units.
                 "avg_ab": average bond length between building units.
+                "volume": achieve the specified volume in the unit cell.
             
         scaleValue: float
             Length (Å) to scale the characteristic bond length (defined by

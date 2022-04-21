@@ -64,7 +64,7 @@ def match_cif_pym_atoms(atoms, structure):
     for i, a in enumerate(cif_atoms):
 
         # get index in Pymatgen Structure that corresponds to this atom.
-        ix = [j for j,b in enumerate(pym_atoms) if np.all(a == b)]
+        ix = [j for j,b in enumerate(pym_atoms) if np.all(a==b)]
 
         assert ix, "No match found!"
         assert len(ix) == 1, "Duplicate atoms found!"
@@ -95,7 +95,7 @@ def extract_topo(structure, cif_dict):
     bonds = parseBonds([cif_dict[t] for t in topo_tags])
 
     # Match up atom species in Pymatgen Structure and labels from CIF.
-    try:
+    if True:
 
         # get labels.
         pym_labels = match_cif_pym_atoms(atoms, structure)
@@ -104,14 +104,14 @@ def extract_topo(structure, cif_dict):
         for i,a in enumerate(structure):
             a.properties["label"] = pym_labels[i]
 
-    except:
+    else:
         warnings.warn(f"Failed to match up Pymatgen-TopoCIF atoms.")
         pym_labels = None
 
     return structure, bonds
 
 
-def read_cif(filePath: str):
+def read_cif(filePath: str, primitive=False):
     """
     Read CIF file with Pymatgen CifParser.
 
@@ -121,7 +121,7 @@ def read_cif(filePath: str):
     """
 
     # Parse the input file using Pymatgen.
-    p = CifParser(Path(filePath),occupancy_tolerance=100, site_tolerance=0)
+    p = CifParser(Path(filePath), occupancy_tolerance=100, site_tolerance=0)
     pDict = p.as_dict()[list(p.as_dict().keys())[0]]
 
     # Get extra info from CIF.
@@ -131,7 +131,7 @@ def read_cif(filePath: str):
     # file at a time, and therefore this should just receive the one and only
     # input structure.
     #TODO: adapt all reads to cycle through all structures in catenated CIF.
-    s = p.get_structures(primitive=False)[0]
+    s = p.get_structures(primitive=primitive)[0]
 
     # Iterate through all atoms, a, in the structure and set occupancy to 1.
     for i,a in enumerate(s):
@@ -151,10 +151,10 @@ def read_cif(filePath: str):
 
     # Occasionally deuterated structures are give, however some routines require
     # protons only. Automatically convert D --> H.
-    ds = [a.index for a in s if a.specie.symbol == "D"]
+    ds = [i for i,a in enumerate(s) if a.specie.symbol == "D"]
 
     for d in ds:
-        s.replace(d,Element("H"), properties={"index" : d})
+        s.replace(d,Element("H"))#, properties={"index" : d})
 
     # Consider parsing TopoCIF data. This mainly functions well for structures
     # already processed by this code, thereby achieving interal consistency.
@@ -179,7 +179,7 @@ class writeCIF:
         labels,
         frac_coords,
         bonds,
-        info = None,
+        info = {},
         topos = False,
     ):
         """
@@ -192,10 +192,13 @@ class writeCIF:
         self.lattice = lattice
         self.symbols = symbols
         self.labels = labels
-        self.frac_coords = frac_coords
+        self.frac_coords = np.array(frac_coords)
         self.bonds = bonds
         self.info = info
         self.topos = topos
+        self.modify = {}
+        self._check_frac_coords_wrapping(frac_coords)
+        
 
     
     def write_file(self, fileName, bonds=True):
@@ -213,7 +216,45 @@ class writeCIF:
 
         with open(Path(fileName),"w+") as w:
             w.writelines(f)
-
+            
+    
+    def _check_frac_coords_wrapping(self, frac_coords):
+        """
+        Sometimes fractional coordinates are stored at 1.0 rather than 0.0,
+        which can cause problems when re-interpreting the bond information later
+        or in other programs (e.g. ToposPro).
+        """
+        for i, (label, coord) in enumerate(zip(self.labels, self.frac_coords)):
+            if np.any(np.round(coord,8) != np.round(coord,8)%1):
+                new_frac = np.round(coord,8)%1 # wrap [0,1)
+                adjust = new_frac-np.round(coord,8) # vector adjustment for bonds.
+                self.frac_coords[i,:] = new_frac
+                self.modify[label] = adjust
+        
+        new_bonds = []
+        for i, (l1, l2, d, img1, img2) in enumerate(self.bonds):
+        
+            # determine how much the second node image needs adjusting.
+            tot_adjust = np.zeros(3)
+            if l1 in self.modify:
+                tot_adjust += self.modify[l1]
+            if l2 in self.modify:
+                tot_adjust -= self.modify[l2]
+            
+            # compute new image for node2. assume node1 remains seated within
+            # the unit cell.
+            n_img2 = (np.array(img2) + tot_adjust).astype(np.int64)
+            
+            # check the distance is ok.
+            c = self.lattice.get_cartesian_coords(
+                [self.frac_coords[self.labels.index(l1)],
+                self.frac_coords[self.labels.index(l2)]+n_img2])
+            n_d = np.linalg.norm(c[1]-c[0])
+            assert np.round(n_d,4) == np.round(float(d),4), f"old: {d} new: {n_d}"
+            new_bonds.append([l1,l2,n_d,img1,tuple(n_img2)])
+            
+        self.bonds = new_bonds
+            
     
     def _header(self):
         """
@@ -235,7 +276,7 @@ class writeCIF:
 
         l = 60 - len("_chemical_formula_sum")
         h += f"_chemical_formula_sum {form:>{l}}\n"
-        h += f";\nFile: {self.name}.\n;\n"
+        #h += f";\nFile: {self.name}.\n;\n"
 
         return h
 
@@ -327,7 +368,7 @@ def format_bonds(lattice, labels, positions, bonds, return_lengths=False):
     """
 
     # Define a "zero-image" array.
-    zero_img = np.zeros(3,dtype=int)
+    zero_img = list(np.zeros(3,dtype=int))
 
     # Create label-position,image dictionary.
     li = {l:p for l,p in zip(labels,positions)}
@@ -348,12 +389,12 @@ def format_bonds(lattice, labels, positions, bonds, return_lengths=False):
 
             # Calculate Cartesian distance between two nodes.
             cs = lattice.get_cartesian_coords([c1,c2])
-            d = np.round(np.linalg.norm(np.subtract(*cs),axis=0),4)
+            d = np.round(np.linalg.norm(np.subtract(*cs),axis=0),8)
 
             # Get sorted nodes and re-center bond such that the node1 image is
             # zero.
             nodes = sorted(((n1, zero_img), (n2, img)), key=lambda x: x[0])
-            nodes = np.concatenate(nodes)
+            nodes = np.concatenate(np.array(nodes,dtype="object"),dtype="object")
             fb.append( 
                 (nodes[0],nodes[2],d,tuple(zero_img),tuple(nodes[3]-nodes[1])) 
             )
@@ -437,7 +478,7 @@ def coords2str(labels, symbols, x):
     cs = []
     for l,s,a in zip(labels,symbols,x):
         cs.append(" ".join( [f"{l:<8}{s:<5}{1:<3}"] + \
-                            [f"{v:>10.6f}" for v in a] + \
+                            [f"{v:>18.12f}" for v in a] + \
                             [f"{1:>3}"]) )
     return "\n".join(cs)
 
@@ -449,9 +490,9 @@ def bonds2str(bonds):
     bs = []
     for b in bonds:
         bs.append(" ".join(
-            [f"{x:<5}" for x in b[:3]] + [f"{1:>3}"] + \
-            ["{:>2} {:>2} {:>2}".format(*b[3])] + [f"{1:>3}"] + \
-            ["{:>2} {:>2} {:>2}".format(*b[4])] + [f"{'V':>2}{1:>2}"]
+            [f"{x:>8}" for x in b[:2]] + [f"{b[2]:>8.5f}"] + [f"{1:>3}"] + \
+            ["{:>3} {:>3} {:>3}".format(*b[3])] + [f"{1:>3}"] + \
+            ["{:>3} {:>3} {:>3}".format(*b[4])] + [f"{'V':>2}{1:>2}"]
         ))
     
     return "\n".join(bs)
