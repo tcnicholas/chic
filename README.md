@@ -2,14 +2,6 @@
 **C**oarse-graining **H**ybrid **I**organic **C**rystals.
 
 
-## Installation
-    
-To install *chic* simply run:
-
-```bash
-pip install chic-lib
-```
-
 ## Getting started
 
 Install with `pip install chic-lib`, and you're ready to go!
