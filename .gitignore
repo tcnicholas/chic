@@ -9,4 +9,5 @@
 tests.py
 sandpit.ipynb
 dist/
+build/
 site/
