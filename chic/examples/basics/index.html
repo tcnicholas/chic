@@ -1,0 +1,718 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../neighbourlists/">
+      
+      
+        <link rel="next" href="../trajectories/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Basic usage - chic</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#basic_usage_coarse-graining_zif-8" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="chic" class="md-header__button md-logo" aria-label="chic" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            chic
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Basic usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="chic" class="md-nav__button md-logo" aria-label="chic" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    chic
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        Quick start
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../neighbourlists/" class="md-nav__link">
+        Neighbour lists
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Basic usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Basic usage
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the_task" class="md-nav__link">
+    The task
+  </a>
+  
+    <nav class="md-nav" aria-label="The task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the_structure_class" class="md-nav__link">
+    The Structure class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processing_disorder" class="md-nav__link">
+    Processing disorder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coarse-graining" class="md-nav__link">
+    Coarse-graining
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_net_to_file" class="md-nav__link">
+    Write net to file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_pymatgen_and_ase" class="md-nav__link">
+    To Pymatgen and ASE
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full_code" class="md-nav__link">
+    Full code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trajectories/" class="md-nav__link">
+        Trajectories
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../atomic_energies/" class="md-nav__link">
+        Atomic energies
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the_task" class="md-nav__link">
+    The task
+  </a>
+  
+    <nav class="md-nav" aria-label="The task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the_structure_class" class="md-nav__link">
+    The Structure class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processing_disorder" class="md-nav__link">
+    Processing disorder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coarse-graining" class="md-nav__link">
+    Coarse-graining
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_net_to_file" class="md-nav__link">
+    Write net to file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_pymatgen_and_ase" class="md-nav__link">
+    To Pymatgen and ASE
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full_code" class="md-nav__link">
+    Full code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="basic_usage_coarse-graining_zif-8">Basic usage (coarse-graining ZIF-8)<a class="headerlink" href="#basic_usage_coarse-graining_zif-8" title="Permanent link">#</a></h1>
+<h2 id="the_task">The task<a class="headerlink" href="#the_task" title="Permanent link">#</a></h2>
+<p>In this example we take the CIF for the prototypical zeolitic imidazolate
+framework, ZIF-8, and coarse-grain it. We check the coarse-graining is 
+reasonable by overlaying the atomistic structure and coarse-grained structure
+before writing the final net in TopoCIF format.</p>
+<hr />
+<h3 id="the_structure_class">The Structure class<a class="headerlink" href="#the_structure_class" title="Permanent link">#</a></h3>
+<p>The majority of the work will be done by the <code>chic.structure.Structure</code> class.</p>
+<pre><code class="language-python">from chic.structure import Structure
+</code></pre>
+<p>We handle CIF and LAMMPS files separately to other file types because we make
+use of the topological data potentially stored in the files. The <code>Structure</code>
+class can be initialised accordingly:</p>
+<pre><code class="language-python">from pathlib import Path
+
+# path to test example directory.
+eg_dir = Path('examples/cg_zif8')
+
+# instantiate a Structure object from a CIF file.
+zif8 = Structure.from_cif(eg_dir / 'ZIF-8-sod.cif', cores=4, verbose=True)
+</code></pre>
+<p>The number of cores (<code>cores=4</code>) specifies how many cores will be used to 
+parallelise the neighbour list calculation, which is the bottle neck of the 
+code. The <code>verbose=True</code> setting determines whether or not timing statistics
+will be printed after each structure processing tasks.</p>
+<h3 id="processing_disorder">Processing disorder<a class="headerlink" href="#processing_disorder" title="Permanent link">#</a></h3>
+<p>The <code>Structure</code> class builds on <code>Pymatgen</code>'s <code>Structure</code> class (inheritance), 
+thereby giving us direct access to all of the functions you might already know
+from <code>Pymatgen</code>. Here, our starting structure contains oxygen atoms in the pore.
+Given that our main framework does not contain any oxygen atoms, we can remove
+these straight away.</p>
+<pre><code class="language-python"># we can apply methods native to the Pymatgen Structure class.
+zif8.remove_species('O')
+</code></pre>
+<p>Our starting structure has the additional complication of thermal disorder: the
+methyl (–CH<span class="arithmatex">\(_3\)</span>) substituent on the imidazolate linker will be free to rotate 
+due to low energetic barriers. We therefore have two sites for each of the H 
+atoms. For our purposes, it might be beneficial to instead take the "average" 
+position for each pair of H atoms.</p>
+<pre><code class="language-python"># we can apply methods native to the CHIC Structure class.
+zif8.average_element_pairs('H', rmin=0.0, rmax=0.9)
+</code></pre>
+<h3 id="coarse-graining">Coarse-graining<a class="headerlink" href="#coarse-graining" title="Permanent link">#</a></h3>
+<p>Our structure is now clean and ready to coarse-grain! The three main stages are:</p>
+<ol>
+<li>computing the neighbour list;</li>
+<li>finding the atomic clusters (the building blocks of the material that we wish
+    to reduce to a simplified representation); and </li>
+<li>coarse-graining the atomic clusters.</li>
+</ol>
+<p>Each stage requires a corresponding function call.</p>
+<p>I find the CrystalNN algorithm works superbly for a wide variety of materials,
+and therefore I think is worth the slightly longer compute time (especially for
+complicated materials like MOFs!). For a more primitive neighbour list building
+option, see the (...) example for a zeolite which instead uses simple radial
+cut-offs for determining neighbours.</p>
+<p>The next stage is performing a depth-first search (DFS) on the neighbour graph.
+This relies on differentiating between atomic cluster <em>types</em>, which in <code>chic</code>
+is achieved by <code>sorting</code> the chemical species (an obvious limitation of this
+method is when the coordination network is not built up in a <em>node</em> and <em>linker</em> 
+manner). Additional neighbour-determining constraints may be applied at this 
+stage (see the <a href="../../neighbourlists/">neighbour lists page</a>).</p>
+<p>Finally we are ready to coarse-grain. The default coarse-graining method is to
+place a single bead at the geometric centroid of all atoms in the cluster. When
+the <code>get_coarse_grained_net()</code> function is called, it also connects up the beads
+according to the <em>inter</em>-cluster connectivity determined in the previous step.</p>
+<pre><code class="language-python"># compute the neighbour list using the CrystalNN algorithm.
+zif8.get_neighbours_crystalnn()
+
+# determine atomic clusters.
+zif8.find_atomic_clusters()
+
+# coarse-grain with centroid method.
+zif8.get_coarse_grained_net()
+</code></pre>
+<h3 id="write_net_to_file">Write net to file<a class="headerlink" href="#write_net_to_file" title="Permanent link">#</a></h3>
+<p>So far we have had no confirmation that this process has worked (hopefully you
+also haven't received any errors...). One of the easiest ways of checking the 
+results is to write the coarse-grained structure to a file that can be opened in
+your favourite visualising program (e.g. CrystalMaker, VESTA, OVITO). Three 
+main "write" methods currently supported by <code>chic</code> are:</p>
+<ol>
+<li>to a CIF;</li>
+<li>to a LAMMPS data file; and</li>
+<li>to a CIF with the atomistic structure and the coarse-grained net overlaid.</li>
+</ol>
+<pre><code class="language-python"># we can write the coarse-grained net with the bond information to a TopoCIF.
+zif8.net_to_cif(eg_dir / 'ZIF-8-sod-cg.cif', write_bonds=True, name='ZIF-8-cg')
+
+# we can also write to LAMMPS data file.
+zif8.net_to_lammps_data(
+    eg_dir / 'ZIF-8-sod-cg.data', write_bonds=True, name='ZIF-8-cg'
+)
+
+# we can check the coarse-grained net seems reasonable.
+zif8.overlay_cg_atomistic_representations(eg_dir / 'ZIF-8-sod-overlay.cif')
+</code></pre>
+<p>Not satisfied with these three options? We can also use <code>Pymatgen</code>'s writer 
+functionality to output to “cif”, “poscar”, “cssr”, “json”, “xsf”, “mcsqs”, 
+“prismatic”, “yaml”, and “fleur-inpgen”. (Note, if you are familiar with
+Pymatgen, we haven't called <code>Structure.to(filename, fmt)</code> directly because that
+would write the atomistic structure to the file).</p>
+<pre><code class="language-python"># call Pymatgen's writer to write to a VASP POSCAR format.
+zif8.net_to(eg_dir / 'POSCAR', fmt='poscar')
+</code></pre>
+<p>Perhaps you are more familiar with <code>ASE</code> and its extensive IO capabilities? Not 
+a problem! We can also convert our coarse-grained structure into an <code>ASE</code> 
+<code>Atoms</code> object and use its write function too.</p>
+<pre><code class="language-python"># use ASE writer to write an xyz file.
+zif8.net_to_ase_to(eg_dir / 'ZIF-8-cg.xyz')
+</code></pre>
+<h3 id="to_pymatgen_and_ase">To Pymatgen and ASE<a class="headerlink" href="#to_pymatgen_and_ase" title="Permanent link">#</a></h3>
+<p>As suggested in the previous section, it is also possible to extract the 
+coarse-grained net as a <code>Pymatgen</code> <code>Structure</code> object, or as an <code>ASE</code> <code>Atoms</code>
+object.</p>
+<pre><code class="language-python"># net to Pymatgen Structure object.
+pym_net = zif8.net_to_struct()
+
+# net to ASE Atoms object.
+ase_net = zif8.net_to_ase_atoms()
+</code></pre>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">#</a></h2>
+<p>The overall structure processing task involves the following stages:</p>
+<ul>
+<li>Read structure from file.</li>
+<li>Compute the neighbour list.</li>
+<li>Find atomic clusters.</li>
+<li>Coarse-grain the structure.</li>
+<li>Output coarse-grained net.</li>
+</ul>
+<hr />
+<h2 id="full_code">Full code<a class="headerlink" href="#full_code" title="Permanent link">#</a></h2>
+<pre><code class="language-python">from pathlib import Path
+from chic.structure import Structure
+
+# path to test example directory.
+eg_dir = Path('examples/cg_zif8')
+
+# read file and tidy structure.
+zif8 = Structure.from_cif(eg_dir / 'ZIF-8-sod.cif', cores=4, verbose=True)
+zif8.remove_species('O')
+zif8.average_element_pairs('H', rmin=0.0, rmax=0.9)
+
+# coarse-grainiing process.
+zif8.get_neighbours_crystalnn()
+zif8.find_atomic_clusters()
+zif8.get_coarse_grained_net()
+
+# write coarse-grained net in different formats/representations.
+zif8.net_to_cif(eg_dir / 'ZIF-8-sod-cg.cif', write_bonds=True, name='ZIF-8-cg')
+zif8.net_to_lammps_data(
+    eg_dir / 'ZIF-8-sod-cg.data', write_bonds=True, name='ZIF-8-cg'
+)
+zif8.overlay_cg_atomistic_representations(eg_dir / 'ZIF-8-sod-overlay.cif')
+zif8.net_to(eg_dir / 'POSCAR', fmt='poscar')
+zif8.net_to_ase_to(eg_dir / 'ZIF-8-cg.xyz')
+
+# net to Pymatgen Structure and ASE Atoms objects.
+pym_net = zif8.net_to_struct()
+ase_net = zif8.net_to_ase_atoms()
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>
