@@ -1,18 +1,10 @@
 [build-system]
 requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "chic"
 version = "0.1.0"
-description = ""
-readme = "README.md"
-requires-python = ">=3.8"
-authors = [{
-    name = "Thomas C Nicholas",
-    email = "thomas.nicholas@chem.ox.ac.uk"
-}]
-license = "BSD"
-homepage = "https://github.com/tcnicholas/chic"
 keywords = ["materials"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -22,14 +14,20 @@ classifiers = [
     "Programming Language :: Python :: 3.8"
 ]
 
-[project.packages]
-chic = { include = "chic" }
+[[project.authors]]
+name = "Thomas C Nicholas"
+email = "thomas.nicholas@chem.ox.ac.uk"
 
-[project.dependencies]
-numpy = "*"
-scipy = "*"
-scikit-learn = "*"
-pymatgen = "*"
-networkx = "*"
-crystal-toolkit = "*"
-crystaltoolkit-extension = "*"
+[project.license]
+file = "LICENSE"
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "pymatgen",
+    "ase",
+    "networkx",
+    "crystal-toolkit",
+    "crystaltoolkit-extension"
+]

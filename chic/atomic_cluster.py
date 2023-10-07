@@ -246,6 +246,31 @@ class AtomicCluster:
         Exctract the periodic image for a given site index.
         """
         return self._images[self._site_indices.index(site_index)]
+
+
+    @classmethod
+    def with_updated_coordinates_and_images(cls, 
+        instance, 
+        new_cart_coords: np.ndarray, 
+        new_images: np.ndarray
+    ):
+        """
+        Create a copy of an existing AtomicCluster instance with updated 
+        cartesian coordinates and images. Also set edges_external to None.
+
+        :param instance: An instance of AtomicCluster to be copied.
+        :param new_cart_coords: Updated cartesian coordinates.
+        :param new_images: Updated images.
+        :return: New AtomicCluster instance with updated attributes.
+        """
+        return cls(
+            site_indices=instance.site_indices,
+            species=instance.species,
+            cart_coords=new_cart_coords,
+            images=new_images,
+            edges=instance._edges,
+            edges_external={}  # Set edges_external to None
+        )
     
 
     def _create_graph(self) -> nx.Graph:
@@ -332,10 +357,15 @@ def _order_beads(
 class Bead:
     """
     A bead is a fractional coordinate and a species.
+
+    The bead-mol-id allows us to group together beads that are part of the same
+    molecule. This is information can be used in the LAMMPS data and dump 
+    format files.
     """
     species: str
     species_number: int
     bead_id: int
+    bead_mol_id: int
     frac_coord: np.ndarray
 
 
@@ -365,20 +395,24 @@ class Bead:
     def to_lammps_string(self, 
         lattice, 
         atom_style: str, 
-        species_to_atom_type: Dict[str, int]
+        species_to_atom_type: Dict[str, int],
+        mass_dict = None
     ) -> str:
         """
         Convert the bead to a string in the LAMMPS format.
         """
         cart_coord = lattice.get_cartesian_coords(self.frac_coord % 1) + 0.0
         atom_type = species_to_atom_type[self.species]
+        mass = mass_dict[atom_type]['mass'] if mass_dict is not None else ''
         if atom_style == 'full':
             return self.to_lammps_full(atom_type, cart_coord)
         elif atom_style == 'atomic':
             return self.to_lammps_atomic(atom_type, cart_coord)
+        elif atom_style == 'dump':
+            return self.to_lammps_dump(atom_type, cart_coord)
         else:
             raise ValueError(
-                f"atom_style must be 'full' or 'atomic', not {atom_style}"
+                f"atom_style must be 'full', 'atomic', or 'dump', not {atom_style}"
             )
     
 
@@ -389,8 +423,8 @@ class Bead:
 
             atom-ID molecule-ID atom-type q x y z
         """
-        return f'{self.bead_id:>6.0f} {self.bead_id:>6.0f} ' \
-            f'{atom_type:>6.0f} {0.0:>6.0f} ' \
+        return f'{self.bead_id:>6.0f} {self.bead_mol_id:>6.0f} ' \
+            f'{atom_type:>6.0f} {0.0:>8.5f} ' \
             f'{cart_coord[0]:>15.10f} ' \
             f'{cart_coord[1]:>15.10f} ' \
             f'{cart_coord[2]:>15.10f}'
@@ -407,6 +441,16 @@ class Bead:
             f'{cart_coord[0]:>15.10f} ' \
             f'{cart_coord[1]:>15.10f} ' \
             f'{cart_coord[2]:>15.10f}'
+
+    
+    def to_lammps_dump(self, atom_type, cart_coord) -> str:
+        """
+        Convert the bead to a string in the LAMMPS dump format.
+
+            id mol type mass x y z
+        """
+        return f'{self.bead_id:.0f} {self.bead_mol_id:.0f} {atom_type:.0f} ' \
+            f'{cart_coord[0]:.10f} {cart_coord[1]:.10f} {cart_coord[2]:.10f}'
 
 
     def __repr__(self) -> str:

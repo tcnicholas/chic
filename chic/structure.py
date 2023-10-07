@@ -3,6 +3,7 @@
 
 
 import os
+import pickle
 import inspect
 import warnings
 import importlib
@@ -13,7 +14,9 @@ from typing import List, Union, Dict, Tuple
 from collections import ChainMap, defaultdict
 
 import numpy as np
+from ase import Atoms
 
+from pymatgen.io.ase import AseAtomsAdaptor
 from pymatgen.core.sites import PeriodicSite
 from pymatgen.core.periodic_table import Element
 from pymatgen.analysis.local_env import CrystalNN
@@ -24,9 +27,9 @@ from scipy.sparse import csr_matrix, csgraph
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import fcluster, linkage
 
-from .lammps import read_lammps_data, LammpsWriter
 from .sort_sites import sort_sites, create_site_type_lookup
 from .cif import read_cif, TopoCifWriter
+from .gulp import GulpWriter
 from .atomic_cluster import (
     Bead,
     AtomicCluster,
@@ -34,6 +37,13 @@ from .atomic_cluster import (
     _get_cluster_bead_info,
     _determine_second_bead_image,
     
+)
+from .lammps import (
+    find_periodic_images,
+    process_dump_file,
+    read_lammps_data,
+    LammpsDataWriter,
+    LammpsDumpWriter,
 )
 from .utils import (
     CoarseGrainingMethodRegistry,
@@ -82,7 +92,7 @@ class Structure(PymatgenStructure):
         site_types = None,
         sort_sites_method: str = 'mof',
         precomputed_atomic_clusters: Dict[str, AtomicCluster] = {},
-        precomputed_neighbour_list: Dict[int, List[Dict[str, Union[PeriodicSite, float]]]] = None,
+        precomputed_neighbour_list: Dict[int, list] = None,
         cores: int = 1,
         verbose: bool = True,
         **kwargs
@@ -246,15 +256,27 @@ class Structure(PymatgenStructure):
 
 
     @classmethod
-    def from_structure(cls, structure: PymatgenStructure, **kwargs) -> 'Structure':
+    def from_structure(cls, 
+        structure: PymatgenStructure, 
+        atomic_clusters=None,
+        **kwargs
+    ) -> 'Structure':
         """
         Create a new Structure object from an existing pymatgen Structure.
 
         :param structure: An existing pymatgen Structure object.
         :return: A new Structure object.
         """
-        return cls(structure.lattice, structure.species, structure.frac_coords, 
-                    validate_proximity=False, **kwargs)
+        instance = cls(
+            structure.lattice, 
+            structure.species, 
+            structure.frac_coords, 
+            validate_proximity=False,
+            **kwargs
+        )
+        if atomic_clusters:
+            instance._atomic_clusters = atomic_clusters
+        return instance
     
     
     @classmethod
@@ -302,6 +324,60 @@ class Structure(PymatgenStructure):
         cls_kwargs['precomputed_atomic_clusters'] = clusters
         cls_kwargs['precomputed_neighbour_list'] = nl
         return cls.from_structure(struct, **cls_kwargs)
+
+    
+    def append_lammps_trajectory(self, 
+        filename, 
+        intramolecular_cutoff=2.0,
+        start=0,
+        end=None,
+        step=1,
+        verbose=False,
+    ):
+        """
+        Append a LAMMPS trajectory file to the current structure object. For 
+        each cluster, the atomic clusters are updated to reflect the snapshot's 
+        structure. Only snapshots in the given range are returned.
+
+        :param filename: Path to the LAMMPS trajectory file.
+        :param intramolecular_cutoff: Cutoff for determining atomic clusters.
+        :param start: Starting snapshot index.
+        :param end: Ending snapshot index. If None, process full trajectory.
+        :param step: Step size between snapshots.
+        :param verbose: whether to instantiate the new chic classes with timing.
+        :param remove_elements: a list of elements to automatically remove from 
+            the structure before processing.
+        :return: Yield tuple of snapshot index and the corresponding Structure 
+            object.
+        """
+
+        # parse the dump file one frame at a time.
+        snapshots = process_dump_file(filename, start, end, step)
+        for count, lattice, frac_coords in snapshots:
+
+            atomic_clusters = defaultdict()
+            for label, cluster in self._atomic_clusters.items():
+
+                new_frac_coords = frac_coords[cluster.site_indices]
+                new_images = find_periodic_images(
+                    lattice, new_frac_coords, intramolecular_cutoff
+                )
+                new_cart_coords = lattice.get_cartesian_coords(
+                    [fc+new_images[i] for i,fc in enumerate(new_frac_coords)]
+                )
+                atomic_clusters[label] = \
+                    AtomicCluster.with_updated_coordinates_and_images(
+                        cluster, new_cart_coords, new_images
+                    )
+            
+            # Create the new Structure object using the new lattice, the old
+            # species, and the new fractional coordinates.
+            snapshot_structure = type(self).from_structure(
+                PymatgenStructure(lattice, self.species, frac_coords),
+                atomic_clusters=atomic_clusters, verbose=verbose
+            )
+
+            yield count, snapshot_structure
 
 
     def get_site_type_index(self, item: str) -> int:
@@ -472,7 +548,7 @@ class Structure(PymatgenStructure):
         
         all_beads = {}
         number_of_species = defaultdict(default_factory)
-        for label, cluster in self._atomic_clusters.items():
+        for bead_mol_id, (label, cluster) in enumerate(self._atomic_clusters.items(), 1):
             beads = cluster.beads_frac_coords
             bead_ids = cluster.bead_ids
             add_species = bead_type_to_element_mapping[label[0]]
@@ -487,7 +563,11 @@ class Structure(PymatgenStructure):
                 add_species = add_species[:len(beads)]
             for species, frac_coord, bead_id in zip(add_species, beads, bead_ids):
                 all_beads[bead_id] = Bead(
-                    species, number_of_species[species], bead_id, frac_coord
+                    species, 
+                    number_of_species[species], 
+                    bead_id, 
+                    bead_mol_id,
+                    frac_coord
                 )
                 number_of_species[species] += 1
 
@@ -529,14 +609,14 @@ class Structure(PymatgenStructure):
             crystal_toolkit_display(overlay_structure)
 
 
-    def to_cif(self, 
+    def net_to_cif(self, 
         filename: str, 
         write_bonds: bool = True,
         bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'},
         name: str = 'net'
-    ):
+    ) -> None:
         """
-        Write the structure to a (Topo)CIF file.
+        Write the coarse-grained structure to a (Topo)CIF file.
 
         :param filename: path to CIF to write.
         :param write_bonds: whether to write bonds to the CIF.
@@ -548,22 +628,148 @@ class Structure(PymatgenStructure):
         ).write_file(filename, write_bonds)
 
 
-    def to_lammps_data(self,
+    def net_to_lammps_data(self,
         filename: str,
         write_bonds: bool = True,
+        two_way_bonds: bool = False,
         atom_style: str = 'full',
         bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'},
         name: str = 'net',
-    ):
+    ) -> None:
         """
-        Write the structure to a LAMMPS data file.
+        Write the coarse-grained structure to a LAMMPS data file.
+
+        :param filename: path to LAMMPS data file to write.
+        :param write_bonds: whether to write bonds to the LAMMPS data file.
+        :param two_way_bonds: whether to write bonds in both directions.
+        :param atom_style: atom style to use. Either 'full' or 'atomic'.
+        :param net_name: name of the network.
+        :return: None.
         """
         # we force the get_beads() method to recompute so that the correct
         # mapping is used.
-        LammpsWriter(self, 
+        LammpsDataWriter(self, 
             self.get_beads(bead_type_to_element_mapping, force=True),
             self._bead_bonds, name
-        ).write_file(filename, write_bonds, atom_style)
+        ).write_file(
+            filename, 
+            write_bonds=write_bonds, 
+            atom_style=atom_style, 
+            two_way_bonds=two_way_bonds
+        )
+
+    
+    def net_to_lammps_dump(self,
+        filename: str,
+        bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'},
+        **kwargs
+    ):
+        """
+        """
+        LammpsDumpWriter(self,
+            self.get_beads(bead_type_to_element_mapping, force=True),
+            **kwargs
+        ).write_file(filename)
+
+
+    def net_to_struct(self, 
+        bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'}
+    ) -> PymatgenStructure:
+        """
+        Convert the coarse-grained structure to a pymatgen Structure object.
+        """
+
+        # gather the beads.
+        if self._beads is None:
+            self.get_beads(bead_type_to_element_mapping)
+        
+        # gather into a list of PeriodicSite objects.
+        sites = [
+            PeriodicSite(bead.species, bead.frac_coord, self.lattice)
+            for bead in self._beads.values()
+        ]
+    
+        return PymatgenStructure.from_sites(sites)
+    
+
+    def net_to_ase_atoms(self) -> Atoms:
+        """
+        Convert the coarse-grained structure to an ASE atoms object.
+        """
+        
+        # first gather beads into a PymatgenStructure object.
+        struct = self.net_to_struct()
+
+        # then use the Pymatgen ASE interface to convert to an ASE atoms object.
+        return AseAtomsAdaptor.get_atoms(struct)
+
+
+    def net_to(self, filename, fmt='', **kwargs) -> None:
+        """
+        Use Pymatgen's writer to write the coarse-grained structure to file.
+
+        :param filename: path to file to write.
+        :param fmt: format to write to. If not specified, will be inferred from
+            the file extension.
+        :param kwargs: keyword arguments to pass to the writer.
+        :return: None.
+        """
+        self.net_to_struct().to(filename, fmt, **kwargs)
+
+    
+    def net_to_ase_to(self, filename, fmt=None, **kwargs) -> None:
+        """
+        Use ASE's writer to write the coarse-grained structure to file.
+
+        :param filename: path to file to write.
+        :param fmt: format to write to. If not specified, will be inferred from
+            the file extension.
+        :param kwargs: keyword arguments to pass to the writer.
+        :return: None.
+        """
+        self.net_to_ase_atoms().write(filename, format=fmt, **kwargs)
+
+    
+    def net_to_gulp_framework_nodes(self, filename: str, **kwargs) -> None:
+        """
+        Reduce the coarse-grained AB2 net to the bare framework consisting of 
+        the A nodes only. Then write to a GULP input file.
+        """
+
+        # check first that the neighbourlist has been computed, atomic clusters
+        # have been identified, and the coarse-grained net has been generated.
+        if self._neighbour_list is None:
+            raise ValueError('Neighbourlist not computed. Please run ' \
+                'get_neighbours_crystalnn() first.')
+        if self._atomic_clusters is None:
+            raise ValueError('Atomic clusters not identified. Please run ' \
+                'find_atomic_clusters() first.')
+        if self._beads is None:
+            raise ValueError('Coarse-grained net not generated. Please run ' \
+                'get_coarse_grained_net() first.')
+        
+        # we cam now proceed to reduce the net to the framework nodes and write
+        # to a GULP input file.
+        _gulp_kwargs = {
+            'sub_elem': 'Si',
+            'rattle': 0.0,
+            'k_bond': 200.0,
+            'k_angle': 10.0,
+            'rtol': 2.0
+        }
+        _gulp_kwargs.update(kwargs)
+        gulp_writer = GulpWriter(self, **_gulp_kwargs)
+        gulp_writer.write_file(filename)
+
+    
+    def pickle_neighbourlist(self, filename: str):
+        """
+        Write the current computed neighbour list to a pickle-d file.
+
+        :param filename: name of file to write.
+        """
+        if not self._neighbour_list:
+            raise 
 
 
     def _get_adjacency_matrix(self):
@@ -809,6 +1015,11 @@ class Structure(PymatgenStructure):
         precision: float = 1e-8,
     ) -> Tuple[np.ndarray]:
         """
+        Wrap cartesian coordinates to fractional coordinates.
+
+        :param cart_coords: Cartesian coordinates to wrap.
+        :param precision: Precision to round to.
+        :return: Fractional coordinates and image.
         """
         frac_unwrapped = round_to_precision(
             self.lattice.get_fractional_coords(cart_coords), precision
@@ -822,13 +1033,14 @@ class Structure(PymatgenStructure):
         bead1: np.ndarray,
         bead2: np.ndarray,
         image: np.ndarray,
-    ):
+    ) -> float:
         """
         Compute the distance between two beads.
 
         :param bead1: Information for bead1.
         :param bead2: Information for bead2.
         :param image: Image of bead2.
+        :return: Distance between the two beads.
         """
         cart_coords = self.lattice.get_cartesian_coords(
             [bead1['bead_frac_coords'], bead2['bead_frac_coords']+image]
@@ -837,14 +1049,20 @@ class Structure(PymatgenStructure):
 
     
     def _update_bead_neighbourlist(self, 
-        bead1_id, 
-        bead2_id, 
-        image, 
-        weight, 
-        distance
-    ):
+        bead1_id: int, 
+        bead2_id: int, 
+        image: Tuple[int, int, int],
+        weight: float, 
+        distance: float
+    ) -> None:
         """
         Update the bead neighbourlist.
+
+        :param bead1_id: Bead ID of bead1.
+        :param bead2_id: Bead ID of bead2.
+        :param image: Image of bead2.
+        :param weight: Weight of the bond.
+        :param distance: Distance between the two beads.
         """
         bead1_list = self._bead_neighbour_list.get(bead1_id, [])
 
@@ -995,4 +1213,4 @@ class Structure(PymatgenStructure):
 
     @coarse_graining_methods.register('shortest path', 'single')
     def _shortest_path_method(self):
-        raise NotImplementedError('Centroid method not implemented yet.')
+        raise NotImplementedError('Shortest path method not implemented yet.')

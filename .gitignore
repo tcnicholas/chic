@@ -1,0 +1,9 @@
+**/__pycache__/
+**/.DS_Store
+**/cg_lammps_output/
+**/cg_lammps_trajectory/
+**/gulp/
+**/salem2/
+**/.ipynb_checkpoints/
+**/*.egg-info/
+tests.py
