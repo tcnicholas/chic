@@ -7,3 +7,5 @@
 **/.ipynb_checkpoints/
 **/*.egg-info/
 tests.py
+sandpit.ipynb
+dist/
