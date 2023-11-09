@@ -4,15 +4,20 @@
 Utility functions.
 """
 
-
+import os
+import re
+import sys
 import warnings
+import contextlib
 from math import log10
+from pathlib import Path
 from time import perf_counter
 from collections import Counter
 from string import ascii_lowercase
-from typing import List, Callable, Any, Union, TypeVar, Dict
+from typing import List, Callable, Any, Union, TypeVar, Dict, Tuple
 
 import numpy as np
+from ase.units import kcal, mol
 
 T = TypeVar('T', bound=Callable[..., Any])
 
@@ -76,22 +81,18 @@ class CoarseGrainingMethodRegistry:
         return [f'{m} (bead type = {b})' for m, b in zip(methods, bead_types)]
     
 
-def timer(func: T) -> T:
+def timer(func: Union[T, None] = None, *, colour: str = Colours.OKBLUE) -> T:
     """
     Timing decorator for functions. If the function is a method of a class,
     the class must have a _verbose attribute which determines if timing
     information is printed. Otherwise, timing information is always printed.
 
     :param func: The function to time.
+    :param colour: The colour to use for the printed timing information.
     :return: The wrapped function.
     """
     def wrapper(*args, **kwargs) -> Any:
-        # The function could be a standalone function or a method of a class.
-        # If it's a method, args[0] will be self. We need to check if _verbose 
-        # attribute exists and if it's set to True.
         verbose = getattr(args[0], "_verbose", False) if args else True
-
-        # if verbose is not True, don't print timing information.
         if not verbose:
             return func(*args, **kwargs)
 
@@ -101,10 +102,79 @@ def timer(func: T) -> T:
         elapsed_time = end_time - start_time
         print(Colours.colourise(
             f"{func.__name__}() took {elapsed_time:.2f} seconds to execute.",
-            Colours.OKBLUE
+            colour
         ))
         return result
+
+    if func is None:
+        return lambda f: timer(f, colour=colour)
     return wrapper
+
+
+def rename_file(file_path: str, new_filename: str) -> None:
+    """
+    Rename a file to a new filename using pathlib for platform independence.
+
+    Arguments:
+        file_path: The path to the file to be renamed.
+        new_filename: The new filename.
+
+    Raises:
+        FileNotFoundError: If the specified file does not exist.
+        FileExistsError: If a file with the new filename already exists.
+    """
+    file_path = Path(file_path)
+    if not file_path.is_file():
+        raise FileNotFoundError("The specified file does not exist")
+
+    new_file_path = file_path.parent / new_filename
+    if new_file_path.exists():
+        raise FileExistsError("A file with the new filename already exists")
+
+    file_path.rename(new_file_path)
+
+
+def delete_files_except_suffixes(
+    directory: Path, 
+    suffixes: Union[str, List[str]]
+) -> None:
+    """
+    Delete all files in a given directory except for ones with specified suffixes.
+
+    Arguments:
+        directory: The path to the directory whose files you want to delete.
+        suffixes: Suffix or list of suffixes of the files you want to keep.
+    """
+    if not isinstance(directory, Path):
+        directory = Path(directory)
+
+    if not directory.is_dir():
+        print("Error: The specified path is not a directory.")
+        return
+
+    # Handle single string suffix
+    if isinstance(suffixes, str):
+        suffixes = [suffixes]
+    elif not isinstance(suffixes, list):
+        print("Error: The suffixes parameter should be a string or a list.")
+        return
+
+    # Normalize suffixes to start with a dot (.)
+    suffixes = [
+        '.' + suffix if not suffix.startswith('.') else suffix
+        for suffix in suffixes
+    ]
+
+    deleted_files = []
+    for file in directory.glob('*'):
+        if file.is_file() and file.suffix not in suffixes:
+            file.unlink()
+            deleted_files.append(file.name)
+
+    if deleted_files:
+        print(f"Deleted files: {', '.join(deleted_files)}")
+    else:
+        print("No files were deleted.")
 
 
 def get_nn_dict(cnn, structure, ix):
@@ -268,3 +338,170 @@ def most_common_value(a_list: List[Any]) -> Any:
     :return: The most common value.
     """
     return Counter(a_list).most_common(1)[0][0]
+
+
+def strip_number(x: str) -> str:
+    """
+    Remove number from atom label to get the symbol.
+
+    :param x: atom label with number.
+    :return: atom symbol without number.
+    """
+    return ''.join([s for s in x if not s.isdigit()])
+
+
+def setattrs(_self, **kwargs):
+    """
+    Set attributes of a dataclass.
+    """
+    for k,v in kwargs.items():
+        setattr(_self, k, v)
+        
+
+def replace_a_and_b(x: str) -> str:
+    """
+    Replace a and b with nothing.
+    """
+    return x.replace('a','').replace('b','')
+
+
+def atom2str(atom: list):
+    """
+    Make LAMMPS-like atom string.
+
+    :param atom: atom list.
+    :return: LAMMPS-like atom string.
+    """
+    return "{:>10.0f} {:>10.0f} {:>10.0f} {:>20.5f} {:>20.10f} {:>20.10f} {:>20.10f}\n".format(*atom)
+
+
+def sorted_directories(parent: Path) -> List:
+    """
+    Get all directories in a parent directory, sorted by name. Will attempt to
+    convert the directory name to a float, and if this fails, will assign a
+    value of infinity.
+
+    :param parent: The parent directory.
+    :return: A list of directories.
+    """
+    
+    parent = Path(parent)
+    directories = [d for d in parent.iterdir() if d.is_dir()]
+
+    def dir_key(x: Path) -> Tuple[Union[float, str], str]:
+        """
+        Get the directory name as a float and string part.
+
+        :param x: The directory.
+        :return: The directory name as a tuple (float part, string part).
+        """
+        match = re.match(r"([+-]?\d*\.?\d*)(.*)", x.name)
+        if match:
+            num_part, str_part = match.groups()
+            try:
+                return float(num_part), str_part
+            except ValueError:
+                return float('inf'), str_part
+        else:
+            return float('inf'), x.name
+
+    return sorted(directories, key=dir_key)
+
+
+def kcalmol2eV(kcalmol: Union[float, np.ndarray]) -> np.ndarray:
+    """
+    Convert kcal/mol to eV.
+    """
+    return kcalmol * kcal  / mol
+
+
+class NullIO:
+    def write(self, *args, **kwargs):
+        pass
+
+    def read(self, *args, **kwargs):
+        return ''
+
+    def flush(self, *args, **kwargs):
+        pass
+
+    def close(self, *args, **kwargs):
+        pass
+
+
+@contextlib.contextmanager
+def suppress_output():
+    # Store original stdout and stderr
+    orig_stdout = sys.stdout
+    orig_stderr = sys.stderr
+
+    # Replace stdout and stderr with our "null" versions
+    sys.stdout = NullIO()
+    sys.stderr = NullIO()
+
+    try:
+        yield
+    finally:
+        # Restore original stdout and stderr
+        sys.stdout = orig_stdout
+        sys.stderr = orig_stderr
+
+
+def no_output(func):
+    def wrapper(*args, **kwargs):
+        with suppress_output():
+            return func(*args, **kwargs)
+    return wrapper
+
+
+def mkdir(dirname: str) -> Path:
+    """
+    Generate a directory in one line.
+
+    :param dirname: name of directory to make.
+    :return: Path object for directory.
+    """
+    directory = Path(dirname)
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory
+
+
+def remove_non_letters(s: str) -> str:
+    """
+    Remove non-letter characters from a string.
+
+    :param s: string to modify.
+    :return: modified string.
+    """
+    return "".join((x for x in s if x.isalpha()))
+
+
+def remove_symbols(s: str) -> str:
+    """
+    Remove non-alphanumeric characters from a string.
+
+    :param s: string to modify.
+    :return: modified string.
+    """
+    return re.sub(r'[^a-zA-Z0-9]', '', s)
+
+
+def remove_uncertainties(s: str) -> float:
+    """
+    Remove uncertainty brackets from strings and return the float.
+
+    :param s: string to convert to float.
+    :return: float value of string.
+    """
+    try:
+        # Note that the ending ) is sometimes missing. That is why the code has
+        # been modified to treat it as optional. Same logic applies to lists.
+        return float(re.sub(r"\(.+\)*", "", s))
+    except TypeError:
+        if isinstance(s, list) and len(s) == 1:
+            return float(re.sub(r"\(.+\)*", "", s[0]))
+    except ValueError as exc:
+        if s.strip() == ".":
+            return 0
+        raise exc
+    raise ValueError(f"{s} cannot be converted to float")

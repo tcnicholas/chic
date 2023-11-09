@@ -138,6 +138,7 @@ def read_lammps_data(
     intramolecular_cutoff: float = 2.0,
     site_types = None,
     sort_sites_method: str = 'mof',
+    atom_style: str = 'full',
 ):
     """
     Read structure from LAMMPS data file.
@@ -164,7 +165,7 @@ def read_lammps_data(
         raise FileNotFoundError(f"File {filename} does not exist.")
     
     # read the file using the Pymatgen LammpsData parser.
-    data = LammpsData.from_file(filename, sort_id=True)
+    data = LammpsData.from_file(filename, sort_id=True, atom_style=atom_style)
     atom_type_to_species = guess_species_from_mass(
         data.masses.to_dict()['mass']
     )

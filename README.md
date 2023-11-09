@@ -1,6 +1,8 @@
 # CHIC
 **C**oarse-graining **H**ybrid **I**organic **C**rystals.
 
+![Schematic of decorating and coarse-graining the sodalite (**sod**) net](/bin/images/sod-decoration.png)
+
 
 ## Getting started
 
@@ -33,8 +35,9 @@ and more details!
 - [x] Add docs.
 - [ ] Add simple distance cut-off algorithm for neighbour list building.
 - [ ] Add custom implementation of optimised CrystalNN algorithm.
-- [ ] Integrate back-mapping code.
+- [x] Integrate back-mapping code.
 - [ ] Integrate extraction of local energies from LAMMPS dump format.
+- [ ] Add registry to Net class for easier future development beyond ZIFs.
 
 ## Authors
 

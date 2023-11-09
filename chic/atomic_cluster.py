@@ -12,6 +12,8 @@ import numpy as np
 import networkx as nx
 from pymatgen.core import Molecule
 
+from .utils import crystal_toolkit_display
+
 
 class AtomicCluster:
     """
@@ -42,8 +44,10 @@ class AtomicCluster:
         """
         assert len(site_indices)==len(species)==len(cart_coords)==len(images), \
             'Input lists must have same length.'
+        
         self._site_indices = site_indices
         self._species = species
+        self._symbols = [s.symbol for s in species]
         self._cart_coords = cart_coords
         self._images = images
         self._edges = edges
@@ -57,6 +61,11 @@ class AtomicCluster:
         self._beads_images = None
         self._atom_to_bead_index = None
         self._internal_bead_bonds = None
+
+        # whether this cluster is being skipped for the final network. This is
+        # usually based on the number of external edges, but could be set
+        # manually or via custom coarse-graining protocols.
+        self._skip = False
 
 
     @property
@@ -135,6 +144,46 @@ class AtomicCluster:
         return self._cart_coords
     
 
+    @property
+    def coordination_number(self) -> int:
+        """
+        :return: coordination number of the cluster, i.e. the number of external
+            edges.
+        """
+        return len(self._edges_external)
+    
+
+    @property
+    def skip(self) -> bool:
+        """
+        Getter for skip attribute.
+        """
+        return self._skip
+    
+
+    @skip.setter
+    def skip(self, value: bool):
+        """
+        Setter for skip attribute.
+        """
+        self._skip = value
+    
+
+    def get_indices_by_species(self, species: str) -> List[int]:
+        """
+        Get the indices of the sites in the cluster with a given species.
+        """
+        return [i for i, s in enumerate(self._symbols) if s == species]
+    
+
+    def get_cart_coords_by_species(self, species: str) -> np.ndarray:
+        """
+        Get the cartesian coordinates of the sites in the cluster with a given
+        species.
+        """
+        return self._cart_coords[self.get_indices_by_species(species)]
+    
+
     def assign_beads(
         self,
         bead_ids: List[int],
@@ -170,7 +219,10 @@ class AtomicCluster:
         :param skip_elements: the elements to skip when computing the centroid.
         """
         skip_elements = skip_elements or []
-        indices = [i for i, symbol in enumerate(self.species) if symbol not in skip_elements]
+        indices = [
+            i for i, symbol in enumerate(self.species) 
+            if symbol.symbol not in skip_elements
+        ]
         return np.mean(self.cart_coords[indices], axis=0)
     
 
@@ -247,6 +299,13 @@ class AtomicCluster:
         """
         return self._images[self._site_indices.index(site_index)]
 
+    
+    def visualise(self):
+        """
+        Visualise the cluster using crystal toolkit.
+        """
+        crystal_toolkit_display(self.to_molecule().get_centered_molecule())
+
 
     @classmethod
     def with_updated_coordinates_and_images(cls, 
@@ -282,6 +341,13 @@ class AtomicCluster:
         if self._edges is not None:
             graph.add_edges_from(self._edges)
         return graph
+    
+
+    def __len__(self) -> int:
+        """
+        :return: number of sites in the cluster.
+        """
+        return len(self._site_indices)
     
 
     def __repr__(self) -> str:
@@ -379,7 +445,7 @@ class Bead:
         """
         Return the label of the bead.
         """
-        return f"{self.species}-{self.species_number}"
+        return f"{self.species}{self.species_number}"
 
 
     def to_topocif_string(self) -> str:

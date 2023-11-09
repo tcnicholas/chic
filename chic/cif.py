@@ -9,9 +9,164 @@ from pathlib import Path
 from typing import Tuple, Dict, Union
 
 import numpy as np
+from scipy.spatial import cKDTree
 from pymatgen.io.cif import CifParser
 
+from .bonds import Bonding
 from .tidy import unit_occupancy, no_deuterium
+from .utils import remove_symbols, remove_uncertainties
+
+
+topo_tags = [    
+    '_topol_link.node_label_1',
+    '_topol_link.node_label_2',
+    '_topol_link.distance',
+    '_topol_link.site_symmetry_symop_1',
+    '_topol_link.site_symmetry_translation_1_x',
+    '_topol_link.site_symmetry_translation_1_y',
+    '_topol_link.site_symmetry_translation_1_z',
+    '_topol_link.site_symmetry_symop_2',
+    '_topol_link.site_symmetry_translation_2_x',
+    '_topol_link.site_symmetry_translation_2_y',
+    '_topol_link.site_symmetry_translation_2_z',
+    '_topol_link.type',
+    '_topol_link.multiplicity'
+]
+
+
+frac_tags = [ 
+    '_atom_site_fract_x',
+    '_atom_site_fract_y',
+    '_atom_site_fract_z'
+]
+
+
+def parse_bonds(bonds):
+    """
+    Takes raw TopoCIF input and converts to more useful arrays of bonded-atom
+    labels and their respective perioidic images.
+    """
+    # Extract the images for atoms 1 and 2 for each bond.
+    i1s = [np.array(x, dtype=int) for x in list(zip(*bonds[4:7]))]
+    i2s = [np.array(x, dtype=int) for x in list(zip(*bonds[8:11]))]
+
+    # strip away any nonsense.
+    modified_labels = [
+        [remove_symbols(item) for item in sublist] for sublist in bonds[:2]
+    ]
+    bonds[:2] = modified_labels
+
+    # Return them, along with the two atom-labels per bond.
+    return list(zip(list(zip(*bonds[:2])),list(zip(i1s,i2s))))
+
+
+def match_cif_pym_atoms(cif_dict, structure, tol=1e-5) -> None:
+    """
+    Match up the atom labels from CIF to the atoms in the Pymatgen Structure
+    object based on fractional coordinates with a tolerance. This only works
+    when the supplied CIF is in P1 space group, otherwise not all atoms are
+    labelled explicitly.
+
+    :param atoms: Dictionary of CIF atom labels as keys and fractional 
+        coordinates as values.
+    :param structure: Pymatgen Structure object.
+    :param tol: Tolerance for matching fractional coordinates.
+    :return: None.
+    """
+
+    # the coord tags are a list of tuples corresponding to the fractional
+    # coordinates of each atom in the CIF. we might need to remove the 
+    # uncertainties in brackets.
+    coord_tags = list(zip(*[cif_dict[t] for t in frac_tags]))
+    coord_tags = [[remove_uncertainties(x) for x in y] for y in coord_tags]
+    coords = np.array(coord_tags, dtype=np.float64)
+    cif_atoms = {
+        remove_symbols(atom_label):coord 
+        for atom_label,coord in zip(cif_dict["_atom_site_label"], coords)
+    }
+
+    # Create KD-Tree from Pymatgen fractional coords for efficient matching.
+    pym_coords = structure.frac_coords % 1.0
+    kdtree = cKDTree(pym_coords)
+
+    pym_labels = {}
+    try:
+        for cif_label, cif_frac_coords in cif_atoms.items():
+            dists, indices = kdtree.query(cif_frac_coords, k=1)
+            if dists < tol:
+                matching_index = int(indices)
+                pym_labels[matching_index] = cif_label
+            else:
+                raise ValueError(
+                    f"No matching atom found for CIF atom '{cif_label}'."
+                )
+            
+        for i,a in enumerate(structure):
+            a.properties["label"] = remove_symbols(pym_labels[i])
+    except:
+        warnings.warn('Unable to match CIF atoms to Pymatgen atoms.')
+
+
+def get_bonding(cif_dict, structure, tol=1e-8):
+    """
+    Extract bonding information from CIF.
+    
+    :param parser: Pymatgen CifParser object.
+    :param structure: Pymatgen Structure object.
+    :param tol: Tolerance for matching fractional coordinates.
+    :return: Bonding object.
+    """
+
+    # check if all of the topo_tags are in the cif_dict.
+    if not all([t in cif_dict for t in topo_tags]):
+        return None
+
+    # Get the bonding information from the CIF.
+    bonds = [cif_dict[t] for t in topo_tags]
+    bonds = parse_bonds(bonds)
+    labels = [a.properties["label"] for a in structure]
+
+    # Return the Bonding object.
+    return Bonding(structure, labels, bonds)
+
+
+def build_neighbor_list_from_topocif(struct, bonds):
+    """
+    Build a neighbor list for each site in the Pymatgen Structure based on a 
+    list of bonds.
+
+    :param struct: Pymatgen Structure object.
+    :param bonds: List of bonds where each bond is a tuple containing
+                  ((label1, label2), (image1, image2)).
+    :return: Dictionary mapping each site index to a list of neighboring sites.
+    """
+    label_to_index = {site.properties["label"]:i for i,site in enumerate(struct)}
+
+    neighbor_list = {i: [] for i in range(len(struct))}
+
+    for (label1, label2), (image1, image2) in bonds:
+
+        index1, index2 = label_to_index.get(label1), label_to_index.get(label2)
+
+        if index1 is not None:
+            neighbor_list[index1].append({
+                'site': struct[index2],
+                'image': image2 - image1,
+                'weight': 1.0,
+                'site_index': index2,
+                'distance': np.linalg.norm(image2 - image1)
+            })
+
+        if index2 is not None:
+            neighbor_list[index2].append({
+                'site': struct[index1],
+                'image': image1 - image2,
+                'weight': 1.0,
+                'site_index': index1,
+                'distance': np.linalg.norm(image1 - image2)
+            })
+
+    return neighbor_list
 
 
 def read_cif(
@@ -19,7 +174,8 @@ def read_cif(
     primitive: bool = False,
     occupancy_tolerance: float = 100,
     merge_tolerance: float = 0.01,
-    site_tolerance: float = 0
+    site_tolerance: float = 0,
+    match_atoms_tolerance: float = 1e-8,
 ):
     """
     Read CIF with Pymatgen.
@@ -46,7 +202,17 @@ def read_cif(
     no_deuterium(struct)
     struct.merge_sites(tol=merge_tolerance, mode="delete")
 
-    return struct
+    # add the raw CIF labels to the structure properties.
+    cif_dict = [x for x in parser.as_dict().values()][0]
+    match_cif_pym_atoms(cif_dict, struct, tol=match_atoms_tolerance)
+
+    # also attempt to gather the bonds from the CIF.
+    try:
+        bonding = get_bonding(cif_dict, struct)
+    except:
+        bonding = None
+
+    return struct, bonding
 
 
 def format_bond(
