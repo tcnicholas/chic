@@ -9,17 +9,17 @@
       
       
       
-        <link rel="prev" href="../../neighbourlists/">
+        <link rel="prev" href="../../atomiccluster/">
       
       
-        <link rel="next" href="../trajectories/">
+        <link rel="next" href="../disorder/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Basic usage - chic</title>
+        <title>Coarse-graining basics - chic</title>
       
     
     
@@ -38,6 +38,16 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/material.css">
+    
+      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/insiders.css">
     
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -61,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#basic_usage_coarse-graining_zif-8" class="md-skip">
+        <a href="#coarse-graining_basics_zif-8_example" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Basic usage
+              Coarse-graining basics
             
           </span>
         </div>
@@ -225,6 +235,83 @@
 
   
   
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Python API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Python API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../structure/" class="md-nav__link">
+        Structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../net/" class="md-nav__link">
+        Net
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../atomiccluster/" class="md-nav__link">
+        AtomicCluster
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -234,17 +321,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
           Examples
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_4">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Examples
         </label>
@@ -266,12 +353,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Basic usage
+          Coarse-graining basics
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Basic usage
+        Coarse-graining basics
       </a>
       
         
@@ -355,6 +442,34 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../disorder/" class="md-nav__link">
+        Removing disorder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decorating/" class="md-nav__link">
+        Decorating basics
+      </a>
     </li>
   
 
@@ -497,7 +612,7 @@
                   
 
 
-<h1 id="basic_usage_coarse-graining_zif-8">Basic usage (coarse-graining ZIF-8)<a class="headerlink" href="#basic_usage_coarse-graining_zif-8" title="Permanent link">#</a></h1>
+<h1 id="coarse-graining_basics_zif-8_example">Coarse-graining basics (ZIF-8 example)<a class="headerlink" href="#coarse-graining_basics_zif-8_example" title="Permanent link">#</a></h1>
 <h2 id="the_task">The task<a class="headerlink" href="#the_task" title="Permanent link">#</a></h2>
 <p>In this example we take the CIF for the prototypical zeolitic imidazolate
 framework, ZIF-8, and coarse-grain it. We check the coarse-graining is 
@@ -506,7 +621,7 @@ before writing the final net in TopoCIF format.</p>
 <hr />
 <h3 id="the_structure_class">The Structure class<a class="headerlink" href="#the_structure_class" title="Permanent link">#</a></h3>
 <p>The majority of the work will be done by the <code>chic.structure.Structure</code> class.</p>
-<pre><code class="language-python">from chic.structure import Structure
+<pre><code class="language-python">from chic import Structure
 </code></pre>
 <p>We handle CIF and LAMMPS files separately to other file types because we make
 use of the topological data potentially stored in the files. The <code>Structure</code>
