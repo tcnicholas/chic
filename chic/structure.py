@@ -619,10 +619,18 @@ class Structure(PymatgenStructure):
         labels_to_remove = []
         clusters_to_map = []
         for label, cluster in self.atomic_clusters.items():
+
             if any([Element(element) in cluster._species for element in elements]) and label[0] == 'a':
                 clusters_to_map.append(cluster)
                 labels_to_remove.append(label)
+
             elif len(cluster._species) == 1 and Element('O') in cluster._species:
+                
+                # this is a lone oxygen. however we also need not include oxygen
+                # atoms that are not bonded to anything.
+                if len(cluster._edges_external) == 0:
+                    continue
+
                 clusters_to_map.append(cluster)
                 labels_to_remove.append(label)
 
@@ -1484,6 +1492,28 @@ class Structure(PymatgenStructure):
                 if neighbor_index not in visited and neighbor_index not in stack:
                     stack.append(neighbor_index)
                     images[neighbor_index] = relative_image.astype(int)
+        
+        # Handle any site indices that didn't get an image during the first pass
+        for site_index in site_indices_set:
+            if site_index not in images:
+            
+                # Search for a visited neighbor with a valid image to use as a
+                # reference.
+                for neighbor in cluster_neighbors[site_index]:
+                    neighbor_index = neighbor['site_index']
+                    if neighbor_index in images:
+                        # Use the visited neighbor's image and relative image to
+                        # assign the new image
+                        neighbor_image = neighbor['image']
+                        images[site_index] = images[neighbor_index] + neighbor_image
+                        break
+                if site_index not in images:
+                    # If no visited neighbor with image was found, raise error.
+                    raise ValueError(
+                        f"No image found for site index {site_index}, "
+                        "and no visited neighbor with an image to use as "
+                        "a reference."
+                    )
 
         # gather all properties of the cluster.
         sites = [self[i] for i in site_indices_set]
