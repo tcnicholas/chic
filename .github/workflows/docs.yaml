@@ -4,6 +4,9 @@ on: [push]
 
 permissions:
     contents: write
+    
+env:
+    APT_INSTALL: sudo apt-get install -y --no-install-recommends
 
 jobs:
     docs:
