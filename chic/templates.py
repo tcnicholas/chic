@@ -23,7 +23,7 @@ import numpy as np
 
 
 @dataclass
-class ZIF8_CH3:
+class ZIF_CH3:
     """
     Store the parameters for the ZIF-8(CH3) material.
 
@@ -37,7 +37,7 @@ class ZIF8_CH3:
         defined in the example data input file, not in the SI itself.
     """
 
-    name = 'ZIF-8(CH3)'
+    name = 'ZIF_CH3'
 
     mofff_parameterised = True
 
@@ -93,7 +93,7 @@ class ZIF8_CH3:
         [-0.81449603,       3.07664393,       0.52981185],  # H3        [8]
         [ 0.97054650,       3.05470741,       0.26016854],  # H3        [9]
         [-0.16163473,       2.98456687,      -1.12856641],  # H3        [10]
-    ], dtype=np.float128)
+    ], dtype=np.float64)
 
     bonds_by_index = np.array([
         [0, 7],     # C2-C3
@@ -256,7 +256,7 @@ class ZIF8_CH3:
 
 
 @dataclass
-class ZIF8_H:
+class ZIF_H:
     """
     Store the parameters for the ZIF-8(H) material.
 
@@ -270,7 +270,7 @@ class ZIF8_H:
         find these defined in the example data input file, not in the SI itself.
     """
 
-    name = 'ZIF-8(H)'
+    name = 'ZIF_H'
 
     mofff_parameterised = True
 
@@ -318,7 +318,19 @@ class ZIF8_H:
         [ 1.41029730,      -1.77527570,      -0.01096395],  # H1(a)     [5]
         [-1.41030640,      -1.77527599,      -0.01098257],  # H1(b)     [6]
         [-0.00000493,       2.22845998,      -0.01704101],  # H2        [7]
-    ], dtype=np.float128)
+    ], dtype=np.float64)
+    
+    # updated coordinates from VEJYUF (ZIF-4) experimental structure.
+    coordinates_experiment = np.array([
+        [-0.00259284,       1.09794768,      -0.00748570],  # C2        [0]
+        [-0.67922515,      -0.91839665,      -0.00155239],  # C1(a)     [1]
+        [ 0.68361712,      -0.92484814,      -0.00264092],  # C1(b)     [2]
+        [-1.11273746,       0.37477594,       0.00550580],  # N(a)      [3]
+        [ 1.11093832,       0.37052117,       0.00617321],  # N(b)      [4]
+        [-1.22963442,      -1.67977267,      -0.00552243],  # H1(a)     [5]
+        [ 1.23315722,      -1.68711056,      -0.00644115],  # H1(b)     [6]
+        [-0.00259284,       2.03807421,      -0.02460687],  # H2        [7]
+    ], dtype=np.float64)
 
     bonds_by_index = np.array([
         [0, 7],        # C2–H2
@@ -468,7 +480,7 @@ class ZIF_C4H4:
     then add repulsive terms to avoid clashing imidazolate molecules.
     """
 
-    name = 'ZIF-(C4H4)'
+    name = 'ZIF_C4H4'
 
     mofff_parameterised = False
 
@@ -485,7 +497,6 @@ class ZIF_C4H4:
     }
 
     symbol_to_atom_type = {v:k for k,v in default_atom_types.items()}
-
     
     charge = {
         1:  0.0,    # Zn
@@ -501,9 +512,9 @@ class ZIF_C4H4:
 
     mass = {
         1: 65.3800,       # Zn
-        2:  1.0079,       # H1
-        3:  1.0079,       # H2
-        4:  1.0079,       # H3
+        2:  1.0079,       # H2
+        3:  1.0079,       # H3
+        4:  1.0079,       # H4
         5: 12.0107,       # C1
         6: 12.0107,       # C2
         7: 12.0107,       # C3
@@ -512,10 +523,14 @@ class ZIF_C4H4:
     }
 
     # imidazolate linker atom types.
-    atom_types = np.array([])
+    atom_types = np.array([6, 5, 5, 7, 7, 8, 8, 9, 9, 2, 3, 3, 4, 4])
 
     # imidaolate linker atom labels.
-    atom_labels = ['C2', 'C1a', 'C1b', 'Na', 'Nb', 'H1a', 'H1b', 'H2']
+    atom_labels = [
+        'C2', 'C1a', 'C1b', 'C3a', 'C3b', 'C4a', 'C4b',
+        'Na', 'Nb',
+        'H2', 'H3a', 'H3b', 'H4a', 'H4b'
+    ]
 
     coordinates = np.array([
         [-0.00000089,       1.05603741,       0.00000013],  # C2        [0]
@@ -532,4 +547,30 @@ class ZIF_C4H4:
         [ 2.43005058,      -2.16082569,       0.04827899],  # H3(b)     [11]
         [-1.19014189,      -4.16953700,       0.06600101],  # H4(a)     [12]
         [ 1.19014680,      -4.16953597,      -0.06600078]   # H4(b)     [13]
-    ], dtype=np.float128)
+    ], dtype=np.float64)
+
+    
+    def property_by_symbol(
+        self,
+        symbol: str,
+        property: str
+    ) -> float:
+        """
+        Return the property for the given atom symbol.
+        """
+        return getattr(self, property)[self.symbol_to_atom_type[symbol]]
+    
+
+    @property
+    def atom_charges(self) -> np.ndarray:
+        """
+        Per-atom charges.
+        """
+        return np.array([self.charge[i] for i in self.atom_types])
+    
+
+    def __len__(self) -> int:
+        """
+        Return the number of atoms in the building unit.
+        """
+        return len(self.atom_types)

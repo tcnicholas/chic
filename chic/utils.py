@@ -505,3 +505,11 @@ def remove_uncertainties(s: str) -> float:
             return 0
         raise exc
     raise ValueError(f"{s} cannot be converted to float")
+
+
+def get_symbol(site) -> str:
+    """
+    Assuming each site has only one type of element, get the symbol of the first 
+    (and only) element.
+    """
+    return [el.symbol for el in site.species.keys()][0]

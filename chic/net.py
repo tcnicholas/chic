@@ -7,7 +7,7 @@ The main Net class for decorating frameorks to MOFs.
 import inspect
 import warnings
 from pathlib import Path
-from typing import Union
+from typing import Union, List
 from itertools import combinations, product
 
 import ase
@@ -192,6 +192,8 @@ class Net(PymatgenStructure):
 
         # global variables.
         self._template = None
+        self._templates = []
+        self._template_names = []
         self._building_units = {}
         self._decorated_atoms = []
         self._formula = {"A":0, "B":0}
@@ -206,8 +208,124 @@ class Net(PymatgenStructure):
         self._dihedrals_lammps = []
         self._outofplanes_lammps = []
 
+    #TODO: add more control for how many of each template are placed rather
+    # than attempting to add as many bulky ones. For example, templates could
+    # be chosen with a certain probability, and if it cannot do that, it falls
+    # back on other templates. Alternatively, the coarse-grained structures
+    # could be labelled with different 'B' sites (C, D, E) which get mapped to
+    # different ligands.
+    def add_zif_atoms(self,
+        template: str = 'H',
+        fallbacks: List[str] = None,
+        closest_approach: float = 1.0
+    ) -> None:
+        """
+        Decorate the net with zinc nodes and imidazolate linkers with the
+        imidazolate molecules with the provided template.
+
+        Arguments:
+            template: Template ligand for decorating the net. Currently
+                supported templates are 'H', and 'CH3', with MOF-FF support.
+        """
+
+        # get the template class for this material.
+        self.reset_decoration()
+        template = getattr(templates, f"ZIF_{template}")()
+        self._template = template
+        fallback_templates = [
+            getattr(templates, f"ZIF_{x}")() for x in fallbacks
+        ] if fallbacks is not None else []
+        all_templates = [template] if fallbacks is None else [template] + fallback_templates
+
+        # if we allow for multiple templates, we need to be able to call them for
+        # each unit when outputting the structures.
+        self._templates = all_templates
+        self._template_names = []
+        this_template = all_templates[0]
+
+        atom_id = 1
+        for mol_id, (label, ix) in enumerate(self._label_index.items(), 1):
+
+            centroid = self[ix].coords
+
+            if 'Si' in label:
+
+                # A site nodes are simply zinc atoms in the same position.
+                a_site = Zinc(mol_id, atom_id)
+                self._building_units[label] = a_site
+                self._building_units[mol_id] = a_site
+                self._decorated_atoms.append([
+                    atom_id,
+                    mol_id,
+                    1,
+                    template.property_by_symbol('Zn', 'charge'),
+                    *list(centroid)
+                ])
+                atom_id += 1
+                self._formula["A"] += 1
+                self._template_names.append(template.name)
+                
+            
+            elif 'O' in label:
+
+                fb = 0
+                placement_ok = False
+                num_fallbacks = 1 if fallbacks is None else len(all_templates)
+                while (fb < num_fallbacks) and not placement_ok:
+                    
+                    # try the first template.
+                    this_template = all_templates[fb]
+
+                    # B site nodes are imidazolate molecules. The imidazolate
+                    # molecules are placed at the centroids of the O atoms. The
+                    # orientation of the imidazolate molecule is determined by
+                    # the bond vectors of the O atoms to the Si atoms.
+                    a_ids = list(range(atom_id, atom_id+len(this_template)))
+                    b_site = Imidizolate(
+                        mol_id,
+                        a_ids,
+                        this_template.atom_labels,
+                    )
+                    self._building_units[label] = b_site
+                    self._building_units[mol_id] = b_site
+                    coords = place_linker(
+                        this_template,
+                        centroid,
+                        self._bonding.bond_by_label(label)
+                    )
+
+                    # now check distance constraints.
+                    placement_ok = False
+                    if not len(self._decorated_atoms):
+                        placement_ok = True
+                    else:
+                        f1 = self._lattice.get_fractional_coords(coords)
+                        f2 = self._lattice.get_fractional_coords(
+                            np.array(self._decorated_atoms)[:,-3:]
+                        )
+                        d = self._lattice.get_all_distances(f1,f2)
+                        if not np.any(d < closest_approach):
+                            placement_ok = True
+                        
+
+                    fb += 1
+
+                atom_data = zip(*[
+                    this_template.atom_types, this_template.atom_charges, coords
+                ])
+
+                for a_type, charge, coord in atom_data:
+                    self._decorated_atoms.append(
+                        [atom_id, mol_id, a_type, charge, *list(coord)])
+                    atom_id += 1
+
+                self._formula["B"] += 1
+                self._template_names += [this_template.name] * len(this_template.atom_types)
+
+        self._decorated_atoms = np.array(self._decorated_atoms)
+
     
-    def add_zif_atoms(self, 
+    def add_zif_atoms_legacy(self,
         template: str = 'H'
     ) -> None:
         """
@@ -221,7 +339,7 @@ class Net(PymatgenStructure):
 
         # get the template class for this material.
         self.reset_decoration()
-        template = getattr(templates, f"ZIF8_{template}")()
+        template = getattr(templates, f"ZIF_{template}")()
         self._template = template
 
         atom_id = 1
@@ -589,7 +707,7 @@ class Net(PymatgenStructure):
     #TODO: implement our own wrap function that also stores the correct periodic 
     # image of all atoms so that it will be easier to identify the rigid bodies
     # in LAMMPS.
-    def to_ase_atoms(self) -> ase.Atoms:
+    def to_ase_atoms(self) -> Atoms:
         """
         Gather the decorated atoms into an ASE Atoms object.
 
@@ -602,24 +720,23 @@ class Net(PymatgenStructure):
         all_pos = []
         symbols = []
         mol_ids = []
-        for atom in self._decorated_atoms:
+        for atom,template_name in zip(self._decorated_atoms, self._template_names):
             all_pos.append(atom[-3:])
             mol_ids.append(atom[1])
+            this_template = getattr(templates, template_name)()
             symbols.append(
-                strip_number(self._template.default_atom_types[atom[2]])
+                strip_number(this_template.default_atom_types[atom[2]])
             )
 
         # hence compile the atoms object.
         atoms = Atoms(
-            symbols, 
-            positions=all_pos, 
+            symbols,
+            positions=all_pos,
             cell=self.lattice.matrix,
             pbc=True
         )
         atoms.arrays['mol-id'] = np.array(mol_ids, dtype=int)
         atoms = sort(atoms)
-        #atoms.wrap() # it is important we don't wrap the coordinates otherwise
-        # the rigid bodies will not be correctly identified in LAMMPS.
         return atoms
     
 
@@ -631,6 +748,7 @@ class Net(PymatgenStructure):
             filename: filename of output file.
             fmt: format of output file.
         """
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
         self.to_ase_atoms().write(filename, format=fmt, **kwargs)
     
 

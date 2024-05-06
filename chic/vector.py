@@ -111,3 +111,12 @@ def align_matrix(f,t):
               [h*vx*vz - vy, h*vy*vz + vx,  c+h*vz**2   ]  ], dtype=np.float64)
     
     return renormalize_matrix_svd(matrix)
+
+
+def rotate_vector(v, axis, theta):
+    """
+    Rotate vector v around axis by theta degrees.
+    """
+    axis = axis / np.linalg.norm(axis)
+    v_rot = np.cos(np.radians(theta)) * v + np.sin(np.radians(theta)) * np.cross(axis, v) + (1 - np.cos(np.radians(theta))) * np.dot(axis, v) * axis
+    return v_rot

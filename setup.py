@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='chic-lib',
-    version='0.1.5',
+    version='0.1.13',
     packages=find_packages(),
     install_requires=[
         'numpy',
@@ -12,8 +12,8 @@ setup(
         'pymatgen',
         'ase',
         'networkx',
-        'crystal-toolkit',
-        'crystaltoolkit-extension'
+        #'crystal-toolkit',             # this might cause dependency issues.
+        #'crystaltoolkit-extension'     # this might cause dependency issues.
     ],
     author='Thomas C Nicholas',
     author_email='thomas.nicholas@chem.ox.ac.uk',

@@ -14,6 +14,8 @@ new_net.ipynb
 dist/
 build/
 site/
+examples/
+**/build/
 **/7-framework-nodes.ipynb
 **/8-decorating-sio2.ipynb
 **/gulp-part-II.ipynb

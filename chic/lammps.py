@@ -6,17 +6,22 @@ Handling LAMMPS input and output files.
 
 
 from pathlib import Path
+from copy import deepcopy
 from datetime import datetime
-from typing import Dict, Union
+from itertools import combinations
+from typing import Dict, Union, List
 from collections import defaultdict
 
 import numpy as np
+from sklearn.cluster import DBSCAN
 from pymatgen.core.periodic_table import Element
 from pymatgen.core import PeriodicSite, Lattice
+from ase.calculators.lammps import Prism, convert
 from pymatgen.io.lammps.outputs import parse_lammps_dumps
 from pymatgen.core.structure import Structure as PymatgenStructure
 from pymatgen.io.lammps.data import LammpsData, lattice_2_lmpbox
 
+from .vector import compute_angle
 from .atomic_cluster import AtomicCluster
 from .utils import most_common_value, get_first_n_letters
 from .sort_sites import sort_sites, create_site_type_lookup
@@ -58,7 +63,6 @@ def atoms_data_to_periodic_sites(
     ])
 
 
-
 def find_nearest_neighbors(
     lattice: Lattice, 
     site_frac_coords: np.ndarray, 
@@ -87,6 +91,22 @@ def find_nearest_neighbors(
                 'image': np.array(image)
             })
     return neighbors
+
+
+def sort_angle_windows(angle_windows):
+    modified_windows = [
+        (min(first, third), second, max(first, third), *rest)
+        for first, second, third, *rest in angle_windows
+    ]
+    return sorted(modified_windows, key=lambda x: (x[0], x[2]))
+
+
+def sort_bond_windows(bond_windows):
+    modified_windows = [
+        (min(first, second), max(first, second), *rest)
+        for first, second, *rest in bond_windows
+    ]
+    return sorted(modified_windows, key=lambda x: (x[0], x[1]))
 
 
 def find_periodic_images(
@@ -139,6 +159,7 @@ def read_lammps_data(
     site_types = None,
     sort_sites_method: str = 'mof',
     atom_style: str = 'full',
+    skip_elements: List[str] = None,
 ):
     """
     Read structure from LAMMPS data file.
@@ -221,26 +242,41 @@ def read_lammps_data(
         for mol_id in unique_mol_ids:
             
             # gather the sites for this molecule id.
-            these_sites = periodic_sites[mol_ids==mol_id]
+            these_sites = np.array(periodic_sites[mol_ids==mol_id])
             these_sites_indices = site_indices[mol_ids==mol_id]
-            these_species = [
-                site.species.elements[0].symbol for site in these_sites
-            ]
+            these_species = np.array([
+                site.species.elements[0] for site in these_sites
+            ])
+            these_symbols = np.array([x.symbol for x in these_species])
+            these_frac_coords = frac_coords_array[mol_ids==mol_id]
+            
+            # if skips sites, exclude the sites with these symbols.
+            if skip_elements is not None:
+                keep = [
+                    i for i,s in enumerate(these_symbols)
+                    if s not in skip_elements
+                ]
+                these_sites = these_sites[keep]
+                these_sites_indices = these_sites_indices[keep]
+                these_species = these_species[keep]
+                these_symbols = these_symbols[keep]
+                these_frac_coords = these_frac_coords[keep]
 
             # assign what atomic cluster type it is.
-            site_type_index = site_type_lookup[most_common_value(these_species)]
+            site_type_index = site_type_lookup[most_common_value(these_symbols)]
             site_type = all_sites[site_type_index]
             number = site_type_counts[site_type_index]
 
             # gather the periodic images for these sites and convert to a set of
             # image consistent Cartesian coordinates.
             images = find_periodic_images(
-                lattice, frac_coords_array[mol_ids==mol_id], 
+                lattice, these_frac_coords, 
                 intramolecular_cutoff
             )
             try:
                 cart_coords = lattice.get_cartesian_coords([
-                    site.frac_coords+images[i] for i,site in enumerate(these_sites)
+                    site.frac_coords+images[i]
+                    for i,site in enumerate(these_sites)
                 ])
             except:
                 failed = Path('.failed_clusters')
@@ -263,7 +299,7 @@ def read_lammps_data(
     return struct, atomic_clusters, neighbour_list
 
 
-def process_dump_file(filename, start=0, end=None, step=1):
+def process_dump_file(filename, start=0, end=None, step=1, gather_columns=None):
     """
     Generator function to parse LAMMPS dump files and yield snapshots within the 
     given range.
@@ -292,7 +328,20 @@ def process_dump_file(filename, start=0, end=None, step=1):
             snapshot.data[['x','y','z']]
         )
         
-        yield count, lattice, frac_coords
+        # try and get forces if present.
+        forces = None
+        if all(x in snapshot.data.columns for x in ('fx', 'fy', 'fz')):
+            forces = snapshot.data[['fx', 'fy', 'fz']].to_numpy()
+        
+        # the user can also specify additional columns to extract from the
+        # lammps trajectory.
+        extra_data = {'forces': forces} if forces is not None else {}
+        if gather_columns is not None:
+            for label in gather_columns:
+                if label in snapshot.data.columns:
+                    extra_data[label] = snapshot.data[[label]].to_numpy()
+        
+        yield count, lattice, frac_coords, extra_data
 
 
 class LammpsDataWriter:
@@ -314,15 +363,30 @@ class LammpsDataWriter:
         self._decimal_places = decimal_places
         self._n_types = None
         self._bond_to_bond_type = None
+        self._prismobj = None
         self._box, self._symm_op = lattice_2_lmpbox(parent_structure.lattice)
         self._process_beads()
+        self._bonds = None
+        self._bonds_average = None
+        self._angles = None
+        self._angles_average = None
 
     
     def write_file(self, 
         filename: Union[str, Path], 
-        write_bonds: bool=True,
+        write_bonds: bool = True,
+        write_angles: bool = False,
         atom_style: str = 'full',
         two_way_bonds: bool = False,
+        bond_windows: list = None,
+        bond_eps = 3,
+        bond_min_samples=1,
+        bond_exclude_uncategorised: bool = False,
+        angle_windows: list = None,
+        angle_eps = 3,
+        angle_min_samples=1,
+        angle_exclude_uncategorised: bool = False
+        
     ):
         """
         Writes the content to a file with the provided filename.
@@ -333,8 +397,20 @@ class LammpsDataWriter:
         :param two_way_bonds: Whether to write the bonds in both directions.
         """
 
+        if write_bonds or write_angles:
+            self._bonds, self._bonds_average = self._process_bead_bonds(
+                two_way_bonds, bond_windows, bond_eps, bond_min_samples,
+                bond_exclude_uncategorised
+            )
+
+        if write_angles:
+            self._angles, self._angles_average = self._process_bead_angles(
+                two_way_bonds, angle_windows, angle_eps, angle_min_samples,
+                angle_exclude_uncategorised
+            )
+
         sections = [
-            self._header(two_way_bonds), 
+            self._header(write_bonds, write_angles, two_way_bonds),
             self._cell_loop(),
             self._masses_loop(),
             self._positions_loop(atom_style)
@@ -342,6 +418,9 @@ class LammpsDataWriter:
 
         if write_bonds and self._bead_bonds:
             sections.append(self._bonds_loop(two_way_bonds))
+
+        if write_angles:
+            sections.append(self._angles_loop())
         
         content = "".join(sections)
 
@@ -351,7 +430,7 @@ class LammpsDataWriter:
             w.write(content)
 
     
-    def _header(self, two_way_bonds: bool) -> str:
+    def _header(self, write_bonds: bool, write_angles: bool, two_way_bonds: bool) -> str:
         """
         Generates the header of file string.
 
@@ -388,16 +467,42 @@ class LammpsDataWriter:
         """
         h = f"# '{self._name}' generated by CHIC ({datetime.now()})\n\n"
         h += f"{len(self._beads)} atoms\n"
-        h += f"{len(self._bead_bonds)*(1+two_way_bonds)} bonds\n"
-        h += "0 angles\n"
+        if write_bonds and self._bead_bonds:
+            h += f"{len(self._bead_bonds)*(1+two_way_bonds)} bonds\n"
+        else:
+            h += f"0 bonds\n"
+        if write_angles and self._angles is not None:
+            h += f"{len(self._angles)} angles\n"
+        else:
+            h += "0 angles\n"
         h += "0 dihedrals\n"
         h += "0 impropers\n\n"
 
         h += f"{self._n_types['atoms']} atom types\n"
-        h += f"{self._n_types['bonds']} bond types\n"
-        h += "0 angle types\n"
+        if write_bonds and self._bead_bonds:
+            h += f"{self._n_types['bonds']} bond types\n"
+        else:
+            h += "0 bond types\n"
+
+        if write_angles and self._angles is not None:
+            h += f"{len(self._angles_average)} angle types\n"
+        else:
+            h += "0 angle types\n"
         h += "0 dihedral types\n"
         h += "0 improper types\n\n"
+
+        # also add average bond length information.
+        if write_bonds:
+            h += "# Average bond length information:\n"
+            for bond_type, average_size in self._bonds_average.items():
+                h += f"# type {bond_type}: {average_size:.3f} Å\n"
+            h += "\n"
+
+        if write_angles:
+            h += "# Average bond angle information:\n"
+            for angle_type, average_size in self._angles_average.items():
+                h += f"# type {angle_type}: {average_size:.3f} degrees\n"
+            h += "\n"
         
         return h
     
@@ -407,7 +512,18 @@ class LammpsDataWriter:
         Append the cell loop to the content string. This delegates to the
         Pymatgen LammpsBox class.
         """
-        return self._box.get_string(self._decimal_places) + '\n\n'
+        prismobj = Prism(self._parent_structure.lattice.matrix)
+        xhi, yhi, zhi, xy, xz, yz = convert(
+            prismobj.get_lammps_prism(), 'distance', 'ASE', tounits='metal'
+        )
+        boxstr = (f'0.0 {xhi:23.17g}  xlo xhi\n'
+            f'0.0 {yhi:23.17g}  ylo yhi\n'
+            f'0.0 {zhi:23.17g}  zlo zhi\n'
+        )
+        if prismobj.is_skewed():
+            boxstr += f'{xy:23.17g} {xz:23.17g} {yz:23.17g}  xy xz yz\n'
+        self._prismobj = prismobj
+        return boxstr + '\n'
     
 
     def _masses_loop(self) -> str:
@@ -429,7 +545,8 @@ class LammpsDataWriter:
         sorted_beads = sorted(self._beads.items(), key=lambda x: x[1].bead_id)
         for bead in sorted_beads:
             p += bead[1].to_lammps_string(
-                self._parent_structure.lattice, 
+                self._parent_structure.lattice,
+                self._prismobj,
                 atom_style,
                 self._bead_type_to_atom_type
             ) + '\n'
@@ -449,6 +566,10 @@ class LammpsDataWriter:
         p = f'Bonds\n\n'
         n_bonds = 1
         for edge, images in self._bead_bonds.items():
+        
+            if any([e < 0 for e in edge]):
+                continue
+                
             atom1 = self._beads[edge[0]].bead_id
             atom2 = self._beads[edge[1]].bead_id
             bond_type = self._bond_to_bond_type[images[0]['bond_type']]
@@ -460,6 +581,18 @@ class LammpsDataWriter:
         return p
     
 
+    def _angles_loop(self) -> str:
+        """
+        Write the angles section.
+        """
+        p = '\nAngles\n\n'
+        p += "\n".join([
+            '{:>8}{:>8}{:>8}{:>8}{:>8}'.format(*[str(y) for y in x]) 
+            for x in self._angles
+        ])
+        return p
+    
+
     def _process_beads(self):
         """ 
         The beads in the native chic.Structure format are less easy to identify
@@ -468,28 +601,298 @@ class LammpsDataWriter:
         """
 
         # this will be chemical symbols, which we need to convert to unique 
-        # atom types, starting from 1.
-        unique_bead_types = set((bead.species for bead in self._beads.values()))
+        # atom types, starting from 1. the order needs to be deterministic for
+        # high-throughput processing.
+        unique_bead_types = sorted(set(
+            (bead.species for bead in self._beads.values())
+        ))
+        
         self._bead_type_to_atom_type = {
             bead_type: i for i, bead_type in enumerate(unique_bead_types, 1)
         }
+        
         self._masses = {
             i: {
                 'mass': Element(bead).atomic_mass, 
                 'element': bead
             } for i, bead in enumerate(unique_bead_types, 1)
         }
+        
         unique_bond_types = set((
             bond['bond_type'] 
             for bonds in self._bead_bonds.values() for bond in bonds
         ))
+        
         self._n_types = {
             'atoms': len(unique_bead_types),
             'bonds': len(unique_bond_types),
         }
+        
         self._bond_to_bond_type = {
             bond_type: i for i, bond_type in enumerate(unique_bond_types, 1)
         }
+
+
+    def _process_bead_bonds(self,
+        both_ways: bool = False,
+        bond_windows = None,
+        eps = 3,
+        min_samples=2,
+        exclude_uncategorised: bool = False
+    ):
+        """
+        Categorise bead bonds by type.
+        """
+        
+        if bond_windows is not None:
+            bond_windows = sort_bond_windows(bond_windows)
+
+        # gather the beads and their bonds to other beads.
+        beads = self._beads
+        bead_bonds = self._bead_bonds
+
+        # all bonds for every bead.
+        all_bonds = defaultdict(set)
+        for (n1,n2), bonds in bead_bonds.items():
+            for bond_info in bonds:
+                all_bonds[n1] |= {(n2, bond_info['image'])}
+                all_bonds[n2] |= {(n1, tuple(-np.array(bond_info['image'])))}
+
+        # determine all bonds.
+        bonds = []
+        bond_values_by_type = defaultdict(list)
+
+        # bonds to cluster.
+        remaining_bonds = defaultdict(list)
+        remaining_bonds_values = defaultdict(list)
+        for atom1, bonded_atoms in all_bonds.items():
+            
+            atom1_bead = beads[atom1]
+            atom1_frac = atom1_bead.frac_coord
+            this_type = None
+
+            for atom2, atom2_img in bonded_atoms:
+
+                if atom1 > atom2 and not both_ways:
+                    continue
+
+                # get the beads.
+                atom2_bead = beads[atom2]
+                atom2_frac = atom2_bead.frac_coord + np.array(atom2_img)
+                all_cart = self._parent_structure.lattice.get_cartesian_coords([
+                    atom1_frac, atom2_frac
+                ])
+
+                # compute distance.
+                d = np.linalg.norm(all_cart[1]-all_cart[0])
+
+                # get the species.
+                a1, a2 = sorted([atom1_bead.species, atom2_bead.species])
+
+                # sort the species.
+                if bond_windows is not None:
+
+                    this_type = [
+                        t for t,window in enumerate(bond_windows,1)
+                        if (
+                            a1==window[0] and a2==window[1]
+                        ) and (
+                            (d > window[2]) and (d < window[3])
+                        )
+                    ]
+
+                    if len(this_type) != 1:
+                        if not exclude_uncategorised:
+                            remaining_bonds[(a1,a2)].append([
+                                atom1, atom2
+                            ])
+                            remaining_bonds_values[(a1,a2)].append(d)
+                    else:
+                        this_type = this_type[0]
+                elif exclude_uncategorised:
+                    continue
+                else:
+                    remaining_bonds[(a1,a2)].append([
+                        atom1, atom2
+                    ])
+                    remaining_bonds_values[(a1,a2)].append(d)
+        
+        # now assign the missing bonds.
+        for bond_type in remaining_bonds.keys():
+
+            these_remaining_bonds = remaining_bonds[bond_type]
+            these_remaining_bonds_values = remaining_bonds_values[bond_type]
+            to_fit = np.array(these_remaining_bonds_values).reshape(-1, 1)
+
+            dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(to_fit)
+            current_min_ix = deepcopy(len(bond_values_by_type)) + 1
+
+            for indices, bond_value, label in zip(
+                these_remaining_bonds,
+                these_remaining_bonds_values,
+                dbscan.labels_
+            ):
+                this_type = int(label+current_min_ix)
+                bond_values_by_type[this_type].append(bond_value)
+                bonds.append([this_type, *indices])
+
+        # simplify mapping.
+        bin_to_type = {
+            o:n for n,o in enumerate(sorted(bond_values_by_type.keys()),1)
+        }
+        bond_values_by_type = {
+            n:np.mean(bond_values_by_type[o]) for o,n in bin_to_type.items()
+        }
+
+        # finalise all bonds.
+        final_bonds = []
+        for i,bond in enumerate(bonds, 1):
+            indices = bond[1:]
+            this_type = bin_to_type[bond[0]]
+            final_bonds.append([i, this_type, *indices])
+        final_bonds = np.array(final_bonds)
+
+        return final_bonds, bond_values_by_type
+        
+    def _process_bead_angles(self, 
+        both_ways: bool = False,
+        angle_windows = [
+            ("Si", "Si", "Si", 175, 185),
+            ("Si", "Si", "Si", 104, 106),
+            #("Si", "Si", "Si", 73, 76),
+        ],
+        eps = 3,
+        min_samples=2,
+        exclude_uncategorised: bool = False
+    ):
+        """
+        """
+
+        if angle_windows is not None:
+            angle_windows = sort_angle_windows(angle_windows)
+
+        # gather the beads and their bonds to other beads.
+        beads = self._beads
+        bead_bonds = self._bead_bonds
+
+        # all bonds for every bead.
+        all_bonds = defaultdict(set)
+        for (n1,n2), bonds in bead_bonds.items():
+            for bond_info in bonds:
+                all_bonds[n1] |= {(n2, bond_info['image'])}
+                all_bonds[n2] |= {(n1, tuple(-np.array(bond_info['image'])))}
+        
+        # determine all angles.
+        angles = []
+        angle_values_by_type = defaultdict(list)
+
+        # angles to cluster.
+        remaining_angles = defaultdict(list)
+        remaining_angles_values = defaultdict(list)
+        for central_atom, peripheral_atoms in all_bonds.items():
+
+            # get this fractional coordinate.
+            atom2_bead =  beads[central_atom]
+            atom2_frac = atom2_bead.frac_coord
+
+            this_type = None
+
+            for (atom1, atom3) in combinations(peripheral_atoms, r=2):
+
+                if atom1 > atom3 and not both_ways:
+                    continue
+
+                # get the beads.
+                atom1_bead =  beads[atom1[0]]
+                atom3_bead =  beads[atom3[0]]
+                
+                # get the coordinates of the atoms.
+                atom1_frac = atom1_bead.frac_coord + np.array(atom1[1])
+                atom3_frac = atom3_bead.frac_coord + np.array(atom3[1])
+                all_cart = self._parent_structure.lattice.get_cartesian_coords([
+                    atom1_frac, atom2_frac, atom3_frac
+                ])
+
+                # compute the angle.
+                v12 = all_cart[0,:] - all_cart[1,:]
+                v32 = all_cart[2,:] - all_cart[1,:]
+                a = compute_angle(v12, v32) * 180 / np.pi
+
+                a1,a3 = sorted([atom1_bead.species,atom3_bead.species])
+                a2 = atom2_bead.species
+
+                # sort the species.
+                if angle_windows is not None:
+
+                    this_type = [
+                        t for t,window in enumerate(angle_windows,1)
+                        if (
+                            a1==window[0] and a2==window[1] and a3==window[2]
+                        ) and (
+                            (a > window[3]) and (a < window[4])
+                        )
+                    ]
+
+                    if len(this_type) != 1:
+                        if not exclude_uncategorised:
+                            remaining_angles[(a1,a2,a3)].append([
+                                atom1[0], central_atom, atom3[0]
+                            ])
+                            remaining_angles_values[(a1,a2,a3)].append(a)
+                    else:
+                        this_type = this_type[0]
+
+                elif exclude_uncategorised:
+                    continue
+
+                else:
+                    remaining_angles[(a1,a2,a3)].append([
+                                atom1[0], central_atom, atom3[0]
+                            ])
+                    remaining_angles_values[(a1,a2,a3)].append(a)
+                
+                if this_type is None:
+                    continue
+
+                angle_values_by_type[this_type].append(a)
+                angles.append([this_type, atom1[0], central_atom, atom3[0]])
+
+        # now we can try assigning remaining angles.
+        for angle_type in remaining_angles.keys():
+            
+            these_remaining_angles = remaining_angles[angle_type]
+            these_remaining_angles_values = remaining_angles_values[angle_type]
+
+            to_fit = np.array(these_remaining_angles_values).reshape(-1, 1)
+            dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(to_fit)
+            current_min_ix = deepcopy(len(angle_values_by_type)) + 1
+
+            for indices, angle_value, label in zip(
+                these_remaining_angles,
+                these_remaining_angles_values,
+                dbscan.labels_
+            ):
+                this_type = int(label+current_min_ix)
+                angle_values_by_type[this_type].append(angle_value)
+                angles.append([this_type, *indices])
+
+        # simplify mapping.
+        bin_to_type = {
+            o:n for n,o in enumerate(sorted(angle_values_by_type.keys()),1)
+        }
+        angle_values_by_type = {
+            n:np.mean(angle_values_by_type[o]) for o,n in bin_to_type.items()
+        }
+
+        # finalise all angles.
+        final_angles = []
+        for i,angle in enumerate(angles,1):
+            indices = angle[1:]
+            this_type = bin_to_type[angle[0]]
+            final_angles.append([i, this_type, *indices])
+        final_angles = np.array(final_angles)
+
+        return final_angles, angle_values_by_type
 
 
 class LammpsDumpWriter:

@@ -6,6 +6,7 @@ Handling CIFs.
 
 import warnings
 from pathlib import Path
+from datetime import datetime
 from typing import Tuple, Dict, Union
 
 import numpy as np
@@ -103,8 +104,13 @@ def match_cif_pym_atoms(cif_dict, structure, tol=1e-5) -> None:
             
         for i,a in enumerate(structure):
             a.properties["label"] = remove_symbols(pym_labels[i])
+            
+        return True
+        
     except:
-        warnings.warn('Unable to match CIF atoms to Pymatgen atoms.')
+    
+        return False
+        #warnings.warn('Unable to match CIF atoms to Pymatgen atoms.')
 
 
 def get_bonding(cif_dict, structure, tol=1e-8):
@@ -204,14 +210,18 @@ def read_cif(
 
     # add the raw CIF labels to the structure properties.
     cif_dict = [x for x in parser.as_dict().values()][0]
-    match_cif_pym_atoms(cif_dict, struct, tol=match_atoms_tolerance)
+    attempt_match = match_cif_pym_atoms(
+        cif_dict, struct, tol=match_atoms_tolerance
+    )
 
     # also attempt to gather the bonds from the CIF.
-    try:
-        bonding = get_bonding(cif_dict, struct)
-    except:
-        bonding = None
-
+    bonding = None
+    if attempt_match:
+        try:
+            bonding = get_bonding(cif_dict, struct)
+        except:
+            pass
+            
     return struct, bonding
 
 
@@ -272,8 +282,12 @@ class TopoCifWriter:
         Generates the header of file string.
         """
         form = f"'{self._parent_structure.composition.anonymized_formula}'"
-        return (f"data_{self._name}\n"
-            f"_chemical_formula_sum {form:>{60-len('_chemical_formula_sum')}}\n")
+        date = datetime.now().strftime('%Y-%m-%d')
+        return (
+            f"data_{self._name}\n"
+            f"_audit_creation_date {date:>{60-len('_audit_creation_date')}}\n"
+            f"_chemical_formula_sum {form:>{60-len('_chemical_formula_sum')}}\n"
+        )
 
 
     def _cell_loop(self) -> str:
@@ -291,12 +305,12 @@ class TopoCifWriter:
                        f"_cell_angle_beta\t\t{cell_params[4]:.5f}\n"
                        f"_cell_angle_gamma\t\t{cell_params[5]:.5f}\n"
                        f"_cell_volume\t\t\t{volume:.5f}\n"
-                       f"_cell_formula_units_Z\t\t{int(Z)}\n"
-                       "_symmetry_space_group_name_H-M\t'P 1'\n"
-                       "_symmetry_Int_Tables_number\t1\n"
+                       f"_cell_formula_units_z\t\t{int(Z)}\n"
+                       "_symmetry_space_group_name_h-m\t'P 1'\n"
+                       "_symmetry_int_tables_number\t1\n"
                        "loop_\n"
-                       "_symmetry_equiv_pos_site_id\n"
-                       "_symmetry_equiv_pos_as_xyz\n"
+                       "_space_group_symop_id\n"
+                       "_space_group_symop_operation_xyz\n"
                        "1 x,y,z\n")
 
         return cell_string
@@ -306,14 +320,16 @@ class TopoCifWriter:
         """
         Writes atom positions loop.
         """
-        positions = ["loop_\n",
-                     "_atom_site_label\n",
-                     "_atom_site_type_symbol\n",
-                     "_atom_site_symmetry_multiplicity\n",
-                     "_atom_site_fract_x\n",
-                     "_atom_site_fract_y\n",
-                     "_atom_site_fract_z\n",
-                     "_atom_site_occupancy\n"]
+        positions = [
+            "loop_\n",
+            "_atom_site_label\n",
+            "_atom_site_type_symbol\n",
+            "_atom_site_symmetry_multiplicity\n",
+            "_atom_site_fract_x\n",
+            "_atom_site_fract_y\n",
+            "_atom_site_fract_z\n",
+            "_atom_site_occupancy\n"
+        ]
 
         positions.extend(
             bead.to_topocif_string() + "\n" for bead in self._beads.values()
@@ -325,20 +341,22 @@ class TopoCifWriter:
         """
         Writes bonds loop to file string in the TopoCIF format.
         """
-        bonds = ["loop_\n",
-                 "_topol_link.node_label_1\n",
-                 "_topol_link.node_label_2\n",
-                 "_topol_link.distance\n",
-                 "_topol_link.site_symmetry_symop_1\n",
-                 "_topol_link.site_symmetry_translation_1_x\n",
-                 "_topol_link.site_symmetry_translation_1_y\n",
-                 "_topol_link.site_symmetry_translation_1_z\n",
-                 "_topol_link.site_symmetry_symop_2\n",
-                 "_topol_link.site_symmetry_translation_2_x\n",
-                 "_topol_link.site_symmetry_translation_2_y\n",
-                 "_topol_link.site_symmetry_translation_2_z\n",
-                 "_topol_link.type\n",
-                 "_topol_link.multiplicity\n"]
+        bonds = [
+            "loop_\n",
+            "_topol_link.node_label_1\n",
+            "_topol_link.node_label_2\n",
+            "_topol_link.distance\n",
+            "_topol_link.site_symmetry_symop_1\n",
+            "_topol_link.site_symmetry_translation_1_x\n",
+            "_topol_link.site_symmetry_translation_1_y\n",
+            "_topol_link.site_symmetry_translation_1_z\n",
+            "_topol_link.site_symmetry_symop_2\n",
+            "_topol_link.site_symmetry_translation_2_x\n",
+            "_topol_link.site_symmetry_translation_2_y\n",
+            "_topol_link.site_symmetry_translation_2_z\n",
+            "_topol_link.type\n",
+            "_topol_link.multiplicity\n"
+        ]
 
         for edge, images in self._bead_bonds.items():
             atom1 = self._beads[edge[0]].label

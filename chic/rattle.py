@@ -28,12 +28,22 @@ def rattle_net(
     rms_atoms: float,
     cell_length_dev: float,
     cell_angle_dev: float,
-):
+) -> None:
     """
     Rattle the underlying (cg) net prior to re-decoration.
+    
+    Arguments:
+        net: the Net object to manipulate.
+        random_seed: the random seed to pass to the random number generator for
+            generating the perturbations.
+        rms_atoms: the root-mean-squared displacement to use for translating the
+            atoms (Å).
+        cell_length_dev: percentage deviation for cell length perturbations.
+        cell_angle_dev: upper and lower limits for cell angle perturbations in
+            degrees.
     """
 
-    cell_parameters = net._struct.lattice.parameters
+    cell_parameters = net.lattice.parameters
     lengths = cell_parameters[:3]
     angles = cell_parameters[3:]
 
@@ -55,24 +65,24 @@ def rattle_net(
 
     # hence set the new cell.
     ncell = cellpar_to_cell(np.concatenate([n_lengths, n_angles]))
-    net._struct.lattice = Lattice(ncell)
+    net.lattice = Lattice(ncell)
 
     # atom perturbation.
     displacements = rattle_vectors(
-        size = net._struct.cart_coords.shape, 
+        size = net.cart_coords.shape,
         stddev = rms_atoms,
         rng = rng
     )
-    for i in range(len(net._struct)):
-        net._struct.translate_sites(
+    for i in range(len(net)):
+        net.translate_sites(
             indices=i, vector=displacements[i,:], frac_coords=False
         )
 
     # update the bonding information.
-    net._bonds = Bonding(
-        net._struct, 
-        net._bonds._labels, 
-        net._bonds._bonds
+    net._bonding = Bonding(
+        net,
+        net._bonding._labels,
+        net._bonding._bonds
     )
 
 
@@ -84,13 +94,24 @@ def rattle_atoms(
     cell_angle_dev: float,
 ) -> None:
     """
-    Rattle the decorated net to sample distortions of the rings too. For the 
-    coarse-grained models, this likely equates to introducing noise into the
-    dataset since we still only represent the linkers as single spherical points
-    under the SOAP representation.
+    Rattle decorated net to sample distortions of the atomistic representation.
+    
+    For the coarse-grained models, this likely equates to introducing noise into
+    the dataset since we still only represent the linkers as single spherical
+    points under the SOAP representation.
+    
+    Arguments:
+        net: the Net object to manipulate.
+        random_seed: the random seed to pass to the random number generator for
+            generating the perturbations.
+        rms_atoms: the root-mean-squared displacement to use for translating the
+            atoms (Å).
+        cell_length_dev: percentage deviation for cell length perturbations.
+        cell_angle_dev: upper and lower limits for cell angle perturbations in
+            degrees.
     """
 
-    cell_parameters = net._struct.lattice.parameters
+    cell_parameters = net.lattice.parameters
     lengths = cell_parameters[:3]
     angles = cell_parameters[3:]
 
@@ -112,7 +133,7 @@ def rattle_atoms(
 
     # hence set the new cell.
     ncell = cellpar_to_cell(np.concatenate([n_lengths, n_angles]))
-    net._struct.lattice = Lattice(ncell)
+    net.lattice = Lattice(ncell)
 
     # atom perturbation.
     coords = net._decorated_atoms[:,-3:]

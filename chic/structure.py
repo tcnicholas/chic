@@ -6,10 +6,13 @@ The main Structure class for coarse-graining inorganic and framework materials.
 
 
 import os
+import pickle
 import inspect
+import hashlib
 import warnings
 import importlib
 import multiprocessing
+from pathlib import Path
 from functools import partial
 from collections import namedtuple
 from itertools import chain, product
@@ -59,11 +62,12 @@ from .utils import (
     Colours,
     crystal_toolkit_display,
     get_first_n_letters,
-    site_type_to_index, 
+    site_type_to_index,
     remove_non_letters,
     round_to_precision,
     parse_arguments,
     get_nn_dict,
+    get_symbol,
     timer,
 )
 
@@ -106,6 +110,7 @@ class Structure(PymatgenStructure):
         precomputed_neighbour_list: Dict[int, list] = None,
         cores: int = 1,
         verbose: bool = True,
+        allow_pickle: bool = False,
         **kwargs
     ) -> None:
         """
@@ -150,7 +155,7 @@ class Structure(PymatgenStructure):
         for species in species_to_remove:
             self.remove_sites_by_symbol(species)
 
-        self._neighbour_list = {}
+        self._neighbour_list = None
         self._neighbour_list_precomputed = precomputed_neighbour_list
         self._cores = cores
         self._atomic_clusters = precomputed_atomic_clusters
@@ -164,6 +169,12 @@ class Structure(PymatgenStructure):
         self._beads = None
         self._bead_bonds = defaultdict(list)
         self._bead_neighbour_list = defaultdict(list)
+        self._bead2cluster = defaultdict(str)
+        
+        # whether to default pickle.
+        self.__pickle_dir__ = None
+        self.__allow_pickle__ = allow_pickle
+        self.__setup_pickle__()
 
 
     @property
@@ -187,8 +198,8 @@ class Structure(PymatgenStructure):
         """
         ix = np.where(np.array([x.specie.symbol for x in self])==symbol)[0]
         self.remove_sites(ix)
-    
-    
+
+
     @timer
     def average_element_pairs(self,
         element: str,
@@ -263,11 +274,41 @@ class Structure(PymatgenStructure):
             cn_equals_one: List of elements for which the coordination number
                 should be set to 1 and therefore we can ignore from the
                 neighbourlist search.
+
             cores: Number of cores to use for parallel operations. If None,
                 use the number of cores specified in the constructor (default =
                 1). If specified, will overwrite the number of cores specified
                 in the constructor.
+
+            **kwargs:
+                weighted_cn – (bool) if set to True, will return fractional
+                weights for each potential near neighbor.
+
+                cation_anion – (bool) if set True, will restrict bonding targets
+                    to sites with opposite or zero charge. Requires an oxidation 
+                    states on all sites in the structure.
+
+                distance_cutoffs – ([float, float]) - if not None, penalizes 
+                    neighbor distances greater than sum of covalent radii plus
+                    distance_cutoffs[0]. Distances greater than covalent radii 
+                    sum plus distance_cutoffs[1] are enforced to zero weight.
+
+                x_diff_weight – (float) - if multiple types of neighbor elements 
+                    are possible, this sets preferences for targets with higher
+                    electronegativity difference.
+
+                porous_adjustment – (bool) - if True, readjusts Voronoi weights
+                    to better describe layered / porous structures
+
+                search_cutoff – (float) cutoff in Angstroms for initial neighbor
+                    search; this will be adjusted if needed internally
+
+                fingerprint_length – (int) if a fixed_length CN “fingerprint” is
+                    desired from get_nn_data(), set this parameter
         """
+        
+        if self._neighbour_list is not None:
+            return
 
         # parse the number of cores.
         cores = cores or self._cores
@@ -279,7 +320,7 @@ class Structure(PymatgenStructure):
             'distance_cutoffs': (0.5, 1),
             'x_diff_weight': 0,
             'porous_adjustment': True,
-            'search_cutoff': 5,
+            'search_cutoff': 10.0,
             'fingerprint_length': None
         }
         cnn_kwargs.update(kwargs)
@@ -361,6 +402,71 @@ class Structure(PymatgenStructure):
                     self._neighbour_list[neighbour['site_index']].append(
                         new_neighbour._asdict()
                     )
+        
+        if self.__allow_pickle__:
+            with open(self.__pickle_dir__ / 'nl.pickle', 'wb') as f:
+                pickle.dump(self._neighbour_list, f, pickle.HIGHEST_PROTOCOL)
+
+
+    def get_neighbours_by_cutoff(self, 
+        rcut: float = 1.8,
+        by_element_pair: Dict[Tuple[str, str], Union[float, Tuple[float, float]]] = None
+    ) -> None:
+        """
+        Compute the neighbourlist with potentially different radial cut-offs for 
+        different element pairs. The cutoffs for specific pairs can be defined 
+        in by_element_pair dictionary with tuples of element symbols as keys and 
+        values as either a single max cutoff or a tuple of 
+        (min_cutoff, max_cutoff).
+
+        Arguments:
+            rcut: a single global cut-off to use for all pairs of atoms. If 
+                per-atom-pair cut-offs are set to larger than this value, it
+                will be overwritten.
+            by_element_pair: specific atom pair distances. Can either be a float
+                indicating a cut-off for that pair, or a tuple of floats, which
+                act as a distance window (rmin, rmax).
+        """
+
+        if by_element_pair is None:
+            by_element_pair = {}
+
+        # Normalize the cutoff values in the dictionary
+        normalized_by_element_pair = {}
+        for key, value in by_element_pair.items():
+            if isinstance(value, tuple):
+                rmin, rmax = value if len(value) == 2 else (0, value[0])
+            else:
+                rmin, rmax = 0, value
+            normalized_by_element_pair[tuple(sorted(key))] = (rmin, rmax)
+
+        # Determine the global maximum rcut necessary for neighbor search
+        max_rcut = max(
+            [rcut] + [pair[1] for pair in normalized_by_element_pair.values()]
+        )
+
+        # Use the adjusted global rcut to compute initial neighbors.
+        ns = self.get_all_neighbors(max_rcut)
+        nl = defaultdict(list)
+        for i, neighbours in enumerate(ns):
+            this_symbol = get_symbol(self[i])
+            for neighbour in neighbours:
+                other_symbol = get_symbol(self[neighbour.index])
+                pair = tuple(sorted((this_symbol, other_symbol)))
+                pair_cuts = normalized_by_element_pair.get(pair, (0, rcut))
+
+                # Only include the neighbour if the distance is within the specified 
+                # cutoff range.
+                if pair_cuts[0] <= neighbour.nn_distance <= pair_cuts[1]:
+                    nl[i].append({
+                        'site': neighbour,
+                        'image': tuple([int(x) for x in neighbour.image]),
+                        'weight': 1.0,
+                        'site_index': neighbour.index
+                    })
+
+        # Sort the dictionary by atom index.
+        self._neighbour_list = dict(sorted(nl.items()))
 
 
     @classmethod
@@ -471,6 +577,7 @@ class Structure(PymatgenStructure):
         end: int = None,
         step: int = 1,
         verbose: bool = False,
+        gather_columns = None
     ):
         """
         Append a LAMMPS trajectory file to the current structure object. For 
@@ -490,8 +597,8 @@ class Structure(PymatgenStructure):
         """
 
         # parse the dump file one frame at a time.
-        snapshots = process_dump_file(filename, start, end, step)
-        for count, lattice, frac_coords in snapshots:
+        snapshots = process_dump_file(filename, start, end, step, gather_columns)
+        for count, lattice, frac_coords, extra_data in snapshots:
 
             atomic_clusters = defaultdict()
             for label, cluster in self._atomic_clusters.items():
@@ -511,9 +618,13 @@ class Structure(PymatgenStructure):
             # Create the new Structure object using the new lattice, the old
             # species, and the new fractional coordinates.
             snapshot_structure = type(self).from_structure(
-                PymatgenStructure(lattice, self.species, frac_coords),
+                PymatgenStructure(lattice, self.species, frac_coords, site_properties=extra_data),
                 atomic_clusters=atomic_clusters, verbose=verbose
             )
+            
+            # add any extra data collected from the file.
+            #for label, data in extra_data.items():
+            #    snapshot_structure.site_properties[label] = data
 
             yield count, snapshot_structure
         
@@ -527,6 +638,7 @@ class Structure(PymatgenStructure):
         min_inter_weight: Union[float, List[float], Dict[str, float]] = None,
         min_inter_bond_length: Union[float,List[float], Dict[str,float]] = None,
         max_inter_bond_length: Union[float,List[float], Dict[str,float]] = None,
+        allow_same_type_neighbours: bool = False
     ):
         """
         Identify atomic clusters for each site-type.
@@ -570,7 +682,7 @@ class Structure(PymatgenStructure):
             0.0, min_intra_bond_length, self._all_sites
         )
         self._max_intra_bond_length = parse_arguments(
-            2.0, max_intra_bond_length, self._all_sites
+            2.5, max_intra_bond_length, self._all_sites
         )
         self._min_inter_weight = parse_arguments(
             0.4, min_inter_weight, self._all_sites
@@ -579,7 +691,7 @@ class Structure(PymatgenStructure):
             0.0, min_inter_bond_length, self._all_sites
         )
         self._max_inter_bond_length = parse_arguments(
-            None, max_inter_bond_length, self._all_sites
+            3.0, max_inter_bond_length, self._all_sites
         )
 
         # compute adjacency matrix using the neighbourlist and any constraints.
@@ -589,7 +701,7 @@ class Structure(PymatgenStructure):
         clusters = self._identify_clusters(adjacency_matrix)
 
         # relabel clusters based on site types and cache them.
-        self._finalise_clusters(clusters)
+        self._finalise_clusters(clusters, allow_same_type_neighbours)
 
         # connect the clusters.
         self._connect_clusters()
@@ -769,6 +881,9 @@ class Structure(PymatgenStructure):
             8, maximum_coordination_numbers, self._all_sites
         )
         
+        # Reset bead bonds.
+        self._bead_bonds = defaultdict(list)
+        
         # call the coarse-graining method.
         method_func(self, **kwargs)
 
@@ -780,7 +895,8 @@ class Structure(PymatgenStructure):
         bead_type_to_element_mapping: Dict[str, str] = {
             'a': 'Si', 'b': 'O', 'X': 'Ce'
         },
-        skip_non_framework: bool = True
+        skip_non_framework: bool = True,
+        energy_key: str = 'c_pe_per_atom'
     ) -> List[Bead]:
         """
         Gather beads and assign species according to the mapping.
@@ -799,6 +915,7 @@ class Structure(PymatgenStructure):
         
         all_beads = {}
         bead_mol_id = 1
+        self._bead2cluster = defaultdict(str)
         number_of_species = defaultdict(default_factory)
         for label, cluster in self._atomic_clusters.items():
             
@@ -825,6 +942,25 @@ class Structure(PymatgenStructure):
                 add_species *= len(beads) // len(add_species) + 1
             else:
                 add_species = add_species[:len(beads)]
+                
+            # coarse-grained atomic properties.
+            elocal = None; fcm = None
+            if 'forces' in self.site_properties:
+
+                # translational.
+                these_forces = np.array([
+                    self.site_properties['forces'][x] for x in cluster.site_indices
+                ])
+                these_masses = np.array([
+                    x.atomic_mass for x in cluster.species
+                ])[:, np.newaxis]
+                fcm = these_forces.sum(axis=0)
+
+            if energy_key in self.site_properties:
+                these_energies = np.array([
+                    self.site_properties[energy_key][x] for x in cluster.site_indices
+                ])
+                elocal = these_energies.sum()
 
             # gather the bead object properties.
             for species, frac_coord, bead_id in zip(add_species,beads,bead_ids):
@@ -833,9 +969,12 @@ class Structure(PymatgenStructure):
                     number_of_species[species], 
                     bead_id, 
                     bead_mol_id,
-                    frac_coord
+                    frac_coord,
+                    energy=elocal,
+                    force=fcm
                 )
                 number_of_species[species] += 1
+                self._bead2cluster[bead_id] = label
 
             # increment the bead mol ID.
             bead_mol_id += 1
@@ -885,6 +1024,13 @@ class Structure(PymatgenStructure):
         # display the structure.
         if crystal_toolkit:
             crystal_toolkit_display(overlay_structure)
+
+    
+    def to_ase(self) -> Atoms:
+        """
+        Convert structure to ASE Atoms object.
+        """
+        return AseAtomsAdaptor.get_atoms(self)
 
 
     def to_net(self,
@@ -991,6 +1137,7 @@ class Structure(PymatgenStructure):
     def net_to_lammps_data(self,
         filename: str,
         write_bonds: bool = True,
+        write_angles: bool = False,
         two_way_bonds: bool = False,
         atom_style: str = 'full',
         bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'},
@@ -1015,6 +1162,7 @@ class Structure(PymatgenStructure):
         ).write_file(
             filename, 
             write_bonds=write_bonds, 
+            write_angles=write_angles,
             atom_style=atom_style, 
             two_way_bonds=two_way_bonds
         )
@@ -1089,6 +1237,7 @@ class Structure(PymatgenStructure):
                 the file extension.
             kwargs: Keyword arguments to pass to the writer.
         """
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
         self.net_to_struct().to(str(filename), fmt, **kwargs)
 
     
@@ -1102,7 +1251,56 @@ class Structure(PymatgenStructure):
                 the file extension.
             kwargs: Keyword arguments to pass to the writer.
         """
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
         self.net_to_ase_atoms().write(filename, format=fmt, **kwargs)
+        
+    
+    def net_to_extxyz(self,
+        filename: str,
+        bead_type_to_element_mapping: Dict[str, str] = {'a': 'Si', 'b': 'O'},
+        info_dict: dict = None,
+        append: bool = False
+    ) -> None:
+        """
+        Write coarse-grained structure to extxyz file. This will attempt to add
+        any bead energies and forces, if provided, to the file.
+        """
+        
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
+        self.get_beads(bead_type_to_element_mapping)
+        
+        # get sites.
+        sites = [
+            PeriodicSite(bead.species, bead.frac_coord, self.lattice)
+            for bead in self._beads.values()
+        ]
+
+        # get atoms.
+        columns = ['symbols', 'positions']
+        struct = PymatgenStructure.from_sites(sites)
+        atoms = AseAtomsAdaptor.get_atoms(struct)
+
+        # check for local energies and forces.
+        if all(x.energy is not None for x in self._beads.values()):
+            columns.append('elocal')
+            energies = np.array([x.energy for x in self._beads.values()])
+            atoms.set_array('elocal', energies)
+            atoms.info['energy'] = energies.sum()
+        if all(x.force is not None for x in self._beads.values()):
+            columns.append('forces')
+            atoms.set_array(
+                'forces', np.array([x.force for x in self._beads.values()])
+            )
+            
+        # add any extra information to structure.
+        if info_dict is not None:
+            atoms.info.update(info_dict)
+
+        # write to file.
+        sort(atoms).write(
+            filename, format='extxyz', columns=columns, write_info=True,
+            append=append
+        )
 
     
     def net_to_gulp_framework_nodes(self,
@@ -1135,8 +1333,7 @@ class Structure(PymatgenStructure):
         # select keywords. opti conp bond property molq phon eigenmodes
         if keywords is None:
             keywords = [
-                'conp', 'bond', 'property', 'molq', 'phon', 
-                'eigenmodes'
+                'conp', 'bond', 'property', 'molq', 'phon', 'eigenmodes'
             ]
         
         # we cam now proceed to reduce the net to the framework nodes and write
@@ -1353,6 +1550,44 @@ class Structure(PymatgenStructure):
             raise 
 
 
+    def _get_adjacency_matrix_new(self) -> csr_matrix:
+        """
+        Compute a global adjacency matrix for all intra-unit bonds.
+        """
+        data = []
+        i_indices = []
+        j_indices = []
+        
+        for site_index, site_neighbours in self._neighbour_list.items():
+            this_site = self[site_index]
+            this_site_type = self._get_site_type_index(this_site.specie.symbol)
+            
+            # Use a list comprehension to filter neighbours based on conditions
+            filtered_neighbours = [
+                neighbour for neighbour in site_neighbours
+                if self._get_site_type_index(neighbour['site'].specie.symbol) == this_site_type
+                and self._check_neighbour_conditions('intra', neighbour, self._all_sites[this_site_type])
+            ]
+            
+            for neighbour in filtered_neighbours:
+                data.append(1)
+                i_indices.append(site_index)
+                j_indices.append(neighbour['site_index'])
+                
+            # Update the neighbour list with only the filtered neighbours
+            self._neighbour_list[site_index] = filtered_neighbours
+
+        # Construct the CSR matrix using the data and indices
+        adjacency_matrix = csr_matrix(
+            (data, (i_indices, j_indices)), 
+            shape=(self.num_sites, self.num_sites)
+        ).maximum(
+            csr_matrix((data, (j_indices, i_indices)), 
+            shape=(self.num_sites, self.num_sites))
+        )
+        return adjacency_matrix
+
+
     def _get_adjacency_matrix(self) -> csr_matrix:
         """
         Compute a global adjacency matrix for all intra-unit bonds.
@@ -1382,7 +1617,8 @@ class Structure(PymatgenStructure):
                     i_indices.append(site_index)
                     j_indices.append(neighbour['site_index'])
                 else:
-                    site_neighbours.remove(neighbour)
+                    pass
+                    #site_neighbours.remove(neighbour)
 
         adjacency_matrix = csr_matrix(
             (data, (i_indices, j_indices)), 
@@ -1451,6 +1687,7 @@ class Structure(PymatgenStructure):
     def _prepare_atomic_cluster(self, 
         site_indices_set,
         site_type,
+        allow_same_type_neighbours: bool = False
     ):
         """
         """
@@ -1475,8 +1712,8 @@ class Structure(PymatgenStructure):
         external_neighbors = {
             site_index: [
                 neighbor for neighbor in self._neighbour_list[site_index] 
-            if neighbor['site_index'] not in site_indices_set
-            and self._check_neighbour_conditions('inter', neighbor, site_type)
+                if neighbor['site_index'] not in site_indices_set
+                and self._check_neighbour_conditions('inter', neighbor, site_type)
             ] 
             for site_index in site_indices_set
         }
@@ -1507,6 +1744,7 @@ class Structure(PymatgenStructure):
                         neighbor_image = neighbor['image']
                         images[site_index] = images[neighbor_index] + neighbor_image
                         break
+
                 if site_index not in images:
                     # If no visited neighbor with image was found, raise error.
                     raise ValueError(
@@ -1564,7 +1802,7 @@ class Structure(PymatgenStructure):
         return cluster
     
 
-    def _finalise_clusters(self, clusters):
+    def _finalise_clusters(self, clusters, allow_same_type_neighbours):
         """
         """
 
@@ -1583,7 +1821,7 @@ class Structure(PymatgenStructure):
             site_type = self._all_sites[site_type_index]
 
             # hence convert to AtomicCluster object.
-            cluster = self._prepare_atomic_cluster(site_indices, site_type)
+            cluster = self._prepare_atomic_cluster(site_indices, site_type, allow_same_type_neighbours)
             number = site_type_counts[site_type_index]
             final_clusters[site_type, number] = cluster
 
@@ -1832,7 +2070,9 @@ class Structure(PymatgenStructure):
             ):
                 cluster.assign_beads(
                     [non_framework_count],
-                    *self._wrap_cart_coords_to_frac(centroid, precision=precision),
+                    *self._wrap_cart_coords_to_frac(
+                        centroid, precision=precision
+                    ),
                     {i: [0] for i in cluster.site_indices},
                     internal_bead_bonds=[]
                 )
@@ -1859,3 +2099,42 @@ class Structure(PymatgenStructure):
         """
         """
         raise NotImplementedError('Shortest path method not implemented yet.')
+        
+
+    def __setup_pickle__(self):
+        """
+        If pickle is allowed, neighbours lists are pickled to a hidden
+        directory based on the structure's hash key. This will be searched
+        before further progress is made.
+        """
+        self.__pickle_dir__ = self.__hash_key__()
+        if self.__pickle_dir__.exists():
+            if (self.__pickle_dir__ / 'nl.pickle').exists():
+                with open(self.__pickle_dir__ / 'nl.pickle', 'rb') as f:
+                    self._neighbour_list = pickle.load(f)
+        else:
+            self.__pickle_dir__.mkdir(exist_ok=True, parents=True)
+            
+    
+    def tidy(self):
+        """"
+        Force clearance of the pickled data.
+        """
+        if self.__allow_pickle__ and self.__pickle_dir__.exists():
+            for item in self.__pickle_dir__.iterdir():
+                if item.is_file():
+                    item.unlink()
+            self.__pickle_dir__.rmdir()
+        
+    def __hash_key__(self):
+        """
+        Generates a unique hash key for the structure based on lattice
+        parameters, atomic positions, and types.
+        """
+        lattice_str = str(np.round(self.lattice.matrix.flatten(),3))
+        atoms_str = '_'.join(sorted([
+            f"{atom.species}_{np.round(atom.frac_coords,1)}" for atom in self
+        ]))
+        unique_str = lattice_str + atoms_str
+        hash_key = hashlib.sha256(unique_str.encode()).hexdigest()
+        return Path('.' + hash_key)

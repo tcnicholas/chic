@@ -11,7 +11,7 @@ import numpy as np
 
 from . import templates
 from .zif import Zinc, Imidizolate
-from .vector import random_vector, compute_angle, align_matrix
+from .vector import random_vector, compute_angle, align_matrix, rotate_vector
 from .utils import setattrs
 
 
@@ -51,13 +51,14 @@ def perturb_centroid(
     return centroid, v_unit, this_way
 
 
-#TODO: implement other orient methods. In particular, random orientation for 
-# defect cases.
+#TODO: implement other orient methods.
 def place_linker(
-    template: Union[templates.ZIF8_CH3, templates.ZIF8_H],
+    template: Union[templates.ZIF_CH3, templates.ZIF_H, templates.ZIF_C4H4],
     centroid: np.ndarray(3),
     vectors: np.ndarray((2,3)),
     orient: str = 'bisect',
+    allow_defects: bool = True,
+    desired_angle: float = 145.0,
     ):
     """
     Determine how to orient the linker in the structure.
@@ -67,9 +68,34 @@ def place_linker(
     :param vector: bond vectors to use to align the linker.
     :param orient: orientation method.
     """
-    vectors = vectors.astype(np.float128)
+    
+    # default to just taking the first 2 vectors if more than 2 were given.
+    #TODO: there will be better ways of deciding this.
+    vectors = vectors[:2].astype(np.float128)
+    
+    # in the case of a single bond to the oxygen atom, we randomly assign a
+    # second vector to give the placement of the imidazolate molecule. we could
+    # probably improve this by choosing a random vector at 145* to the first
+    # angle.
+    if vectors.shape==(1,3) and allow_defects:
+
+        existing_vector = vectors[0]
+        new_vector = random_vector(random.random(), random.random(), norm=True)
+        axis_of_rotation = np.cross(existing_vector, new_vector)
+        
+        # If the cross product is zero, vectors are parallel. Need a 
+        # non-parallel vector.
+        if np.all(axis_of_rotation == 0):
+            axis_of_rotation = np.cross(existing_vector, np.array([1, 0, 0]))
+            if np.all(axis_of_rotation == 0):
+                axis_of_rotation = np.array([0, 1, 0])
+
+        rotated_vec = rotate_vector(new_vector, axis_of_rotation, desired_angle)
+        vectors = np.vstack([vectors, rotated_vec])
+
     v_unit = vectors / np.linalg.norm(vectors, axis=1)[:,None]
     angle = compute_angle(*v_unit)
+    
     if orient == 'bisect':
 
         # in the case of 180 angles, perturb the position of the ring slightly

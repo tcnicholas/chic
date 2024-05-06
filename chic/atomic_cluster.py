@@ -52,9 +52,11 @@ class AtomicCluster:
         self._images = images
         self._edges = edges
         self._edges_external = edges_external
+        self._bound_to_clusters = None
+        
         self._graph = self._create_graph()
         self._rings_cache = None
-        self._bound_to_clusters = None
+        self._strong_rings_cache = None
 
         self._bead_ids = None
         self._beads_frac_coords = None
@@ -220,63 +222,72 @@ class AtomicCluster:
         """
         skip_elements = skip_elements or []
         indices = [
-            i for i, symbol in enumerate(self.species) 
+            i for i, symbol in enumerate(self._species)
             if symbol.symbol not in skip_elements
         ]
-        return np.mean(self.cart_coords[indices], axis=0)
+        return np.mean(self._cart_coords[indices], axis=0)
     
 
-    def find_rings(self, including: List[str] = None):
+    def find_rings(self,
+        including: List[str] = None,
+        strong_rings: bool = False,
+        connective_including: bool = False,
+    ):
         """
         Find all rings in the cluster.
 
         :param including: list of elements to include in the rings. If None,
             all rings will be returned irrespective of the elements included.
+
+        :param connective_including: whether or not the connecting elements
+            specified in "including" must also be the elements that connect to
+            other building units.
+
+        :param strong_rings: whether to make sure the rings cannot be decomposed
+            into smaller rings.
         """
 
-        if self._rings_cache is not None:
-            return self._rings_cache
-
         if len(self._graph) == 1:
-            result = {'nodes': self._site_indices, 'edges': None}
+            result = [{'nodes': self._site_indices, 'edges': None}]
             self._rings_cache = result
             return result
+            
+        # get all cycles. try to make use of cached results if possible,
+        # including if the strategy changes from simple -> strong.
+        if strong_rings and self._strong_rings_cache is not None:
+            result = self._strong_rings_cache
+        elif strong_rings:
+            result = find_strong_cycles(self._graph, cycles=self._rings_cache)
+            self._strong_rings_cache = result
+        elif self._rings_cache is not None:
+            result = self._rings_cache
+        else:
+            result = find_simple_cycles(self._graph)
+            self._rings_cache = result
 
-        undirected = self._graph.to_undirected()
-        directed = undirected.to_directed()
-        unique_cycles = set()
+        # if there are no rings in the structure just return all atoms.
+        if len(result) == 0:
+            result = {'nodes': self._site_indices, 'edges': None}
+            return result
 
+        # then filter the rings as per the user requests.
+        # identify which elements are required in ring, if any.
         if including is not None:
             including = set(including)
 
-        for cycle in nx.simple_cycles(directed):
-            if len(cycle) <= 2:
-                continue
-            sorted_cycle = sorted(cycle)
-            frozenset_cycle = frozenset(sorted_cycle)
-            if frozenset_cycle in unique_cycles:
-                continue
-            unique_cycles.add(frozenset_cycle)
+        # identify which specific indices are required based on the atomic
+        # cluster's links to other building units.
+        required_indices = set()
+        if connective_including:
+            required_indices = {edge[0] for edge in self._edges_external.keys()}
 
-        if not unique_cycles:
-            result = {'nodes': self._site_indices, 'edges': None}
-            self._rings_cache = result
-            return result
-
-        if including is not None:
-            cycles_nodes = [
-                list(cycle) for cycle in unique_cycles if including & cycle
-            ]
-        else:
-            cycles_nodes = [list(cycle) for cycle in unique_cycles]
-
-        cycles_edges = [
-            [(cycle[idx - 1], itm) for idx, itm in enumerate(cycle)] 
-            for cycle in cycles_nodes
-        ]
-
+        # first check at least one of each required element is found, and that
+        # the required connecting indices are in the cycle, if required.
+        # otherwise, return a list of all cycles.
         result = [
-            {'nodes': n, 'edges': e} for n, e in zip(cycles_nodes, cycles_edges)
+            entry for entry in result
+            if not including - {self._symbols[self._site_indices.index(x)] for x in entry['nodes']}
+            and not required_indices - set(entry['nodes'])
         ]
 
         self._rings_cache = result
@@ -356,6 +367,48 @@ class AtomicCluster:
         """
         return f'AtomicCluster("{self.to_molecule().composition}", ' \
             f'site_indices={self._site_indices})'
+            
+
+def find_simple_cycles(graph):
+    """
+    Find all cycles in a given graph.
+    """
+    undirected = graph.to_undirected()
+    directed = undirected.to_directed()
+    unique_cycles = set()
+
+    for cycle in nx.simple_cycles(directed):
+        if len(cycle) <= 2:
+            continue
+        sorted_cycle = sorted(cycle)
+        frozenset_cycle = frozenset(sorted_cycle)
+        if frozenset_cycle in unique_cycles:
+            continue
+        unique_cycles.add(frozenset_cycle)
+    
+    cycles_nodes = [list(cycle) for cycle in unique_cycles]
+    cycles_edges = [
+        [(cycle[idx - 1], itm) for idx, itm in enumerate(cycle)]
+        for cycle in cycles_nodes
+    ]
+
+    result = [
+        {'nodes': n, 'edges': e} for n, e in zip(cycles_nodes, cycles_edges)
+    ]
+    return result
+    
+
+def find_strong_cycles(graph, cycles=None):
+    """
+    Find strong cycles (i.e. cannot be broken down into other cycles).
+    """
+    cycles = find_simple_cycles(graph) if cycles is None else cycles
+    for cycle in cycles:
+        sg = graph.copy()
+        sg.remove_nodes_from(set(sg.nodes)-set(cycle['nodes']))
+        if len(find_simple_cycles(sg)) > 1:
+            cycles.remove(cycle)
+    return cycles
 
 
 def _get_cluster_bead_info(
@@ -433,7 +486,9 @@ class Bead:
     bead_id: int
     bead_mol_id: int
     frac_coord: np.ndarray
-
+    energy: float = None
+    force: np.ndarray = None
+    
 
     def __post_init__(self):
         """ Set the bead-id as the sort index. """
@@ -459,7 +514,8 @@ class Bead:
     
 
     def to_lammps_string(self, 
-        lattice, 
+        lattice,
+        prismobj,
         atom_style: str, 
         species_to_atom_type: Dict[str, int],
         mass_dict = None
@@ -468,6 +524,7 @@ class Bead:
         Convert the bead to a string in the LAMMPS format.
         """
         cart_coord = lattice.get_cartesian_coords(self.frac_coord % 1) + 0.0
+        cart_coord = prismobj.vector_to_lammps(cart_coord)
         atom_type = species_to_atom_type[self.species]
         mass = mass_dict[atom_type]['mass'] if mass_dict is not None else ''
         if atom_style == 'full':

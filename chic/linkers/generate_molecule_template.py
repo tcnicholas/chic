@@ -135,11 +135,10 @@ def imidazolate():
     """
     Generate an unsubstituted imidazolate molecule template.
 
-    I started by cutting out a ligand from the example ZIF8-H structure and
-    then we re-orient it to get a systematic template.
+    I started by cutting out a ligand from VEJYUF (ZIF-4) structure.
     """
 
-    im_h = read("ZIF8_H_222.xyz")
+    im_h = read("Im_raw.xyz")
     ring_pos = np.vstack([im_h.positions[:3,:], im_h.positions[-2:,:]])
     center_molecule(im_h, ring_pos)
 
@@ -148,7 +147,7 @@ def imidazolate():
     im_h.positions = coords
 
     # point the C2-H2 bond along the y-axis.
-    c2_axis = im_h.positions[4,:]-im_h.positions[1,:]
+    c2_axis = im_h.positions[3,:]-im_h.positions[0,:]
     points = align_to_y_axis(im_h.positions, c2_axis)
     im_h.positions = points
 
@@ -208,4 +207,4 @@ def benzimidazolate():
 
 
 if __name__ == '__main__':
-    benzimidazolate()
+    imidazolate()
