@@ -1,9 +1,10 @@
 name: Docs
+
 on: [push]
+
 permissions:
     contents: write
-env:
-    APT_INSTALL: sudo apt-get install -y --no-install-recommends
+
 jobs:
     docs:
         name: Docs
@@ -16,7 +17,7 @@ jobs:
                   cache-dependency-path: pyproject.toml
                   python-version: 3.8
             - name: Install dependencies
-              run: pip install -e ".[dev]"
+              run: pip install sphinx sphinx_rtd_theme myst_parser
             - name: Install pandoc
               run: $APT_INSTALL pandoc
             - name: Sphinx build
