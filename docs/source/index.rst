@@ -30,6 +30,7 @@ Install using :code:`pip install chic-lib`, and then use
    >>> struct.get_neighbours_crystalnn()
    >>> struct.find_atomic_clusters()
    >>> struct.get_coarse_grained_net()
+   >>> struct.net_to_cif("cag-net.cif")
 
 .. raw:: html
    :file: ./_static/zif4-cg.html
@@ -37,12 +38,12 @@ Install using :code:`pip install chic-lib`, and then use
 ... and redecorate with a different chemistry...
 
    >>> cag_net = struct.to_net()
-   >>> cag_net.add_zif_atoms(template='C4H4', fallbacks='H')
+   >>> cag_net.add_zif_atoms(template="CH3") # methyl-substituted imidazolate
 
 .. raw:: html
    :file: ./_static/zif4-cg-d.html
    
-chic is built upon the :class:`pymatgen.core.Structure` class:
+:code:`chic` is built upon the :class:`pymatgen.core.Structure` class:
 
    >>> struct
    Structure Summary
@@ -69,6 +70,11 @@ the University of Oxford within the `Goodwin Group <https://goodwingroupox.uk>`_
 and the `Deringer Group <https://www.chem.ox.ac.uk/people/volker-deringer>`_.
 During this time, it has been adapted several times over, with new directions
 defined by collaborations too (see :doc:`publications <publications/pub-main>`)!
+
+Please do open an issue or pull request on the 
+`GitHub repository <https://github.com/tcnicholas/chic>`_ if you are interested
+in suggesting new functionality, identifying and/or fixing a bug, or simply
+want to start a dicussion.
 
 
 .. toctree::
