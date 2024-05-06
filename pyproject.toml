@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chic-lib"
+version = "0.1.13"
+description = "Coarse-grainig hybrid and inorganic crystals (CHIC)"
+readme = "README.md"
+authors = [{ name = "Thomas C Nicholas", email = "tcnicholas@me.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["chemistry", "machine learning", "coarse-graining"]
+dependencies = [
+    'numpy',
+    'scipy',
+    'scikit-learn',
+    'pymatgen',
+    'ase',
+    'networkx',
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "notebook",
+    "pytest==7.2.0",            # kept < 8 to allow for importing from test/setup
+    "sphinx",
+    "furo",
+    "nbsphinx",
+    "sphinx-autobuild",
+    "pytest-cov",
+    "build",
+    "bumpver",
+    "twine",
+    "ruff",
+    "sphinx_autodoc_typehints",
+    "sphinx-design",
+    "sphinx_copybutton",
+    "sphinx-codeautolink",
+    "sphinxext-opengraph",
+]
+
+[project.urls]
+Homepage = "https://github.com/tcnicholas/chic"
