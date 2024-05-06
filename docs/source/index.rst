@@ -25,9 +25,6 @@ Install using :code:`pip install chic-lib`, and then use
    >>> struct = Structure.from_cif("ZIF-4-cag.cif")
    >>> struct.remove_sites_by_symbol("O")
 
-.. raw:: html
-   :file: ./_static/zif4.html
-
 ... find the nodes, linkers, and underlying net...
 
    >>> struct.get_neighbours_crystalnn()
