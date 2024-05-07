@@ -65,7 +65,7 @@ for which all of the usual functionality is available.
 Contributing
 ------------
 
-`chic <.>`_ was developed by me, Thomas Nicholas, as part of my PhD research at 
+:code:`chic` was developed by me, Thomas Nicholas, as part of my PhD research at 
 the University of Oxford within the `Goodwin Group <https://goodwingroupox.uk>`_ 
 and the `Deringer Group <https://www.chem.ox.ac.uk/people/volker-deringer>`_.
 During this time, it has been adapted several times over, with new directions
@@ -107,4 +107,4 @@ want to start a dicussion.
    case-studies/coarse-graining
    case-studies/topology-data
    case-studies/decorating
-
+   case-studies/dihedrals
