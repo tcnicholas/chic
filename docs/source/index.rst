@@ -107,4 +107,5 @@ want to start a dicussion.
    case-studies/coarse-graining
    case-studies/topology-data
    case-studies/decorating
+   case-studies/cleaning
    case-studies/dihedrals

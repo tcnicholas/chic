@@ -262,6 +262,7 @@ class Structure(PymatgenStructure):
     def get_neighbours_crystalnn(self, 
         cn_equals_one: List[str] = ['H', 'F', 'Cl'],
         cores: int = None,
+        reset: bool = False,
         **kwargs
     ) -> None:
         """
@@ -306,6 +307,9 @@ class Structure(PymatgenStructure):
                 fingerprint_length – (int) if a fixed_length CN “fingerprint” is
                     desired from get_nn_data(), set this parameter
         """
+
+        if reset:
+            self._neighbour_list = False
         
         if self._neighbour_list is not None:
             return
@@ -498,7 +502,22 @@ class Structure(PymatgenStructure):
         if atomic_clusters:
             instance._atomic_clusters = atomic_clusters
         return instance
+
     
+    @classmethod
+    def from_ase_atoms(cls, atoms: Atoms) -> 'Structure':
+        """
+        Create a new Structure object from an ASE Atoms object.
+
+        Arguments:
+            atoms: An ASE Atoms object.
+
+        Returns:
+            A new Structure object.
+        """
+        structure = AseAtomsAdaptor.get_structure(atoms)
+        return cls.from_structure(structure)
+
     
     @classmethod
     def from_cif(cls, 
@@ -1713,7 +1732,7 @@ class Structure(PymatgenStructure):
             site_index: [
                 neighbor for neighbor in self._neighbour_list[site_index] 
                 if neighbor['site_index'] not in site_indices_set
-                and self._check_neighbour_conditions('inter', neighbor, site_type)
+                and self._check_neighbour_conditions('inter',neighbor,site_type)
             ] 
             for site_index in site_indices_set
         }
@@ -1821,7 +1840,8 @@ class Structure(PymatgenStructure):
             site_type = self._all_sites[site_type_index]
 
             # hence convert to AtomicCluster object.
-            cluster = self._prepare_atomic_cluster(site_indices, site_type, allow_same_type_neighbours)
+            cluster = self._prepare_atomic_cluster(
+                site_indices, site_type, allow_same_type_neighbours)
             number = site_type_counts[site_type_index]
             final_clusters[site_type, number] = cluster
 
