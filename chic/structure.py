@@ -174,7 +174,8 @@ class Structure(PymatgenStructure):
         # whether to default pickle.
         self.__pickle_dir__ = None
         self.__allow_pickle__ = allow_pickle
-        self.__setup_pickle__()
+        if allow_pickle:
+            self.__setup_pickle__()
 
 
     @property
@@ -1721,8 +1722,8 @@ class Structure(PymatgenStructure):
         cluster_neighbors = {
             site_index: [
                 neighbour for neighbour in self._neighbour_list[site_index]
-            if neighbour['site_index'] in site_indices_set
-            and self._check_neighbour_conditions('intra', neighbour, site_type)
+                if neighbour['site_index'] in site_indices_set
+                and self._check_neighbour_conditions('intra',neighbour,site_type)
             ] 
             for site_index in site_indices_set
         }
@@ -1802,7 +1803,7 @@ class Structure(PymatgenStructure):
                 # cluster image.
                 raw_image = np.array(neighbour['image'], dtype=int)
                 image = raw_image + images[site_index]
-                edge = (site_index, neighbour['site_index'])
+                edge = (site_index, neighbour['site_index'], tuple(raw_image))
                 if edge not in edges_external:
                     edges_external[edge] = {
                         'image': raw_image,
@@ -1974,7 +1975,7 @@ class Structure(PymatgenStructure):
         # now beads have been placed, connect up the clusters.
         for local_cluster in self._atomic_clusters.values():
 
-            for (internal_site, external_site), edge_info in local_cluster._edges_external.items():
+            for (internal_site, external_site, _), edge_info in local_cluster._edges_external.items():
 
                 bound_cluster = self._atomic_clusters[edge_info['cluster']]
 

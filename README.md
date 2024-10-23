@@ -1,6 +1,6 @@
 ![CHIC logo](/docs/source/logo.svg)
 
-**C**oarse-graining **H**ybrid **I**organic **C**rystals.
+**C**oarse-graining **H**ybrid **I**norganic **C**rystals.
 
 ## Getting started
 

@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='chic-lib',
-    version='0.1.13',
+    version='0.1.17',
     packages=find_packages(),
     install_requires=[
         'numpy',
