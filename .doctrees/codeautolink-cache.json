@@ -1,0 +1,348 @@
+{
+  "api/atomic-clusters": [],
+  "api/net": [],
+  "api/structure": [],
+  "case-studies/cleaning": [
+    {
+      "source": ">>> from chic import Structure\n>>> from viz import view_molecule\n>>> mof = Structure.from_cif(\"ZIF-8-sod.cif\")\n>>> mof.remove_sites_by_symbol(\"O\")\n>>> mof.get_neighbours_crystalnn()\n>>> mof.find_atomic_clusters()",
+      "names": [
+        {
+          "import_components": [
+            "chic",
+            "Structure"
+          ],
+          "code_str": "Structure",
+          "lineno": 1,
+          "end_lineno": 1,
+          "context": "import_target",
+          "resolved_location": "chic.structure.Structure"
+        },
+        {
+          "import_components": [
+            "chic",
+            "Structure",
+            "from_cif",
+            "()"
+          ],
+          "code_str": "mof",
+          "lineno": 3,
+          "end_lineno": 3,
+          "context": "none",
+          "resolved_location": "chic.structure.Structure"
+        }
+      ],
+      "example": {
+        "document": "case-studies/cleaning",
+        "ref_id": "cleaning-structures",
+        "headings": [
+          "Cleaning structures"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> disordered_linker = mof.atomic_clusters[(\"b\", 1)]\n>>> view_molecule(disordered_linker)",
+      "names": [],
+      "example": {
+        "document": "case-studies/cleaning",
+        "ref_id": "cleaning-structures",
+        "headings": [
+          "Cleaning structures"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> mof.average_element_pairs(\"H\", rmax=0.9)\n>>> mof.get_neighbours_crystalnn(force=True)\n>>> mof.find_atomic_clusters()\n>>> ordered_linker = mof.atomic_clusters[(\"b\", 1)]\n>>> view_molecule(ordered_linker)",
+      "names": [],
+      "example": {
+        "document": "case-studies/cleaning",
+        "ref_id": "cleaning-structures",
+        "headings": [
+          "Cleaning structures"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> mof.to(\"ZIF-8-sod-ordered.cif\");",
+      "names": [],
+      "example": {
+        "document": "case-studies/cleaning",
+        "ref_id": "cleaning-structures",
+        "headings": [
+          "Cleaning structures"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "case-studies/coarse-graining": [
+    {
+      "source": ">>> from chic import Structure\n>>> struct = Structure.from_cif(\"ZIF-8-sod.cif\")\n>>> struct.remove_sites_by_symbol(\"O\")",
+      "names": [
+        {
+          "import_components": [
+            "chic",
+            "Structure"
+          ],
+          "code_str": "Structure",
+          "lineno": 1,
+          "end_lineno": 1,
+          "context": "import_target",
+          "resolved_location": "chic.structure.Structure"
+        },
+        {
+          "import_components": [
+            "chic",
+            "Structure",
+            "from_cif",
+            "()"
+          ],
+          "code_str": "struct",
+          "lineno": 2,
+          "end_lineno": 2,
+          "context": "none",
+          "resolved_location": "chic.structure.Structure"
+        }
+      ],
+      "example": {
+        "document": "case-studies/coarse-graining",
+        "ref_id": "coarse-graining",
+        "headings": [
+          "Coarse-graining"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> struct.get_neighbours_crystalnn()\n>>> struct.find_atomic_clusters()\n>>> struct.get_coarse_grained_net()",
+      "names": [],
+      "example": {
+        "document": "case-studies/coarse-graining",
+        "ref_id": "coarse-graining",
+        "headings": [
+          "Coarse-graining"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "case-studies/decorating": [],
+  "case-studies/dihedrals": [
+    {
+      "source": ">>> from chic import Structure\n>>> mof = Structure.from_cif(\"JOLFEZ.cif\")\n>>> mof.get_neighbours_crystalnn()\n>>> mof.find_atomic_clusters()\n>>> mof.get_coarse_grained_net()",
+      "names": [
+        {
+          "import_components": [
+            "chic",
+            "Structure"
+          ],
+          "code_str": "Structure",
+          "lineno": 1,
+          "end_lineno": 1,
+          "context": "import_target",
+          "resolved_location": "chic.structure.Structure"
+        },
+        {
+          "import_components": [
+            "chic",
+            "Structure",
+            "from_cif",
+            "()"
+          ],
+          "code_str": "mof",
+          "lineno": 2,
+          "end_lineno": 2,
+          "context": "none",
+          "resolved_location": "chic.structure.Structure"
+        }
+      ],
+      "example": {
+        "document": "case-studies/dihedrals",
+        "ref_id": "dihedral-angle-analysis",
+        "headings": [
+          "Dihedral angle analysis"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> linker = mof.atomic_clusters[(\"b\", 2)]\n>>> print(linker)\nAtomicCluster(\"C8 O4 H4\", site_indices=[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31])",
+      "names": [
+        {
+          "import_components": [
+            "print"
+          ],
+          "code_str": "print",
+          "lineno": 2,
+          "end_lineno": 2,
+          "context": "none",
+          "resolved_location": "print"
+        }
+      ],
+      "example": {
+        "document": "case-studies/dihedrals",
+        "ref_id": "dihedral-angle-analysis",
+        "headings": [
+          "Dihedral angle analysis"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> from dihedral import DihedralAnalysis\n>>> analysis = DihedralAnalysis()\n>>> results = analysis.analyse_ligand(linker)\n>>> print(results)\n{'carboxylate_a': array([176.342,  -5.238]),\n'carboxylate_b': array([149.77 , -32.647])}",
+      "names": [
+        {
+          "import_components": [
+            "print"
+          ],
+          "code_str": "print",
+          "lineno": 4,
+          "end_lineno": 4,
+          "context": "none",
+          "resolved_location": "print"
+        }
+      ],
+      "example": {
+        "document": "case-studies/dihedrals",
+        "ref_id": "dihedral-angle-analysis",
+        "headings": [
+          "Dihedral angle analysis"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "case-studies/topology-data": [
+    {
+      "source": ">>> from chic import Structure\n>>> mep = Structure.from_cif(\"MEP.cif\")\n>>> mep.get_neighbours_by_cutoff(rcut=1.8) # \u0100\n>>> mep.find_atomic_clusters()\n>>> mep.get_coarse_grained_net()\n>>> mep.net_to_lammps_data(\"MEP.data\", write_bonds=True, write_angles=True)",
+      "names": [
+        {
+          "import_components": [
+            "chic",
+            "Structure"
+          ],
+          "code_str": "Structure",
+          "lineno": 1,
+          "end_lineno": 1,
+          "context": "import_target",
+          "resolved_location": "chic.structure.Structure"
+        },
+        {
+          "import_components": [
+            "chic",
+            "Structure",
+            "from_cif",
+            "()"
+          ],
+          "code_str": "mep",
+          "lineno": 2,
+          "end_lineno": 2,
+          "context": "none",
+          "resolved_location": "chic.structure.Structure"
+        }
+      ],
+      "example": {
+        "document": "case-studies/topology-data",
+        "ref_id": "topology-data",
+        "headings": [
+          "Topology data"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> mep.remove_sites_by_symbol(\"O\") # remove bridging oxygens\n>>> mep.get_neighbours_by_cutoff(by_element_pair={(\"Si\", \"Si\"): (2.5, 3.5)})\n>>> mep.find_atomic_clusters(max_intra_bond_length=0.5, max_inter_bond_length=3.5)\n>>> mep.get_coarse_grained_net()\n>>> mep.net_to_lammps_data(\"MEP-nodes.data\", write_bonds=True, write_angles=True)",
+      "names": [],
+      "example": {
+        "document": "case-studies/topology-data",
+        "ref_id": "topology-data",
+        "headings": [
+          "Topology data"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "index": [
+    {
+      "source": ">>> from chic import Structure\n>>> struct = Structure.from_cif(\"ZIF-4-cag.cif\")\n>>> struct.remove_sites_by_symbol(\"O\")",
+      "names": [
+        {
+          "import_components": [
+            "chic",
+            "Structure"
+          ],
+          "code_str": "Structure",
+          "lineno": 1,
+          "end_lineno": 1,
+          "context": "import_target",
+          "resolved_location": "chic.structure.Structure"
+        },
+        {
+          "import_components": [
+            "chic",
+            "Structure",
+            "from_cif",
+            "()"
+          ],
+          "code_str": "struct",
+          "lineno": 2,
+          "end_lineno": 2,
+          "context": "none",
+          "resolved_location": "chic.structure.Structure"
+        }
+      ],
+      "example": {
+        "document": "index",
+        "ref_id": "quickstart",
+        "headings": [
+          "chic",
+          "Quickstart"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> struct.get_neighbours_crystalnn()\n>>> struct.find_atomic_clusters()\n>>> struct.get_coarse_grained_net()\n>>> struct.net_to_cif(\"cag-net.cif\")",
+      "names": [],
+      "example": {
+        "document": "index",
+        "ref_id": "quickstart",
+        "headings": [
+          "chic",
+          "Quickstart"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> cag_net = struct.to_net()\n>>> cag_net.add_zif_atoms(template=\"CH3\") # methyl-substituted imidazolate",
+      "names": [],
+      "example": {
+        "document": "index",
+        "ref_id": "quickstart",
+        "headings": [
+          "chic",
+          "Quickstart"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": ">>> struct\nStructure Summary\nLattice\n   abc : 16.8509 16.8509 16.8509\nangles : 90.0 90.0 90.0\nvolume : 4784.860756696228\n      A : 16.8509 0.0 1.0318200373876067e-15\n      B : -1.0318200373876067e-15 16.8509 1.0318200373876067e-15\n      C : 0.0 0.0 16.8509\n   pbc : True True True\nPeriodicSite: H (7.669, 7.093, 15.44) [0.4551, 0.4209, 0.9161]\nPeriodicSite: H (7.093, 7.669, 15.44) [0.4209, 0.4551, 0.9161]\n[...]",
+      "names": [],
+      "example": {
+        "document": "index",
+        "ref_id": "quickstart",
+        "headings": [
+          "chic",
+          "Quickstart"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "publications/pub-main": []
+}
