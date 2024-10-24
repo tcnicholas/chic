@@ -274,6 +274,8 @@ class AtomicCluster:
         # identify which elements are required in ring, if any.
         if including is not None:
             including = set(including)
+        else:
+            including = set()
 
         # identify which specific indices are required based on the atomic
         # cluster's links to other building units.
