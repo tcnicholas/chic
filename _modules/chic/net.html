@@ -1,0 +1,1206 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>chic.net - chic</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-codeautolink.css?v=125d5c1c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=afd88a32" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">chic</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/structure.html">Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/net.html">Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/atomic-clusters.html">Atomic clusters</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../publications/pub-main.html">Publications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Case studies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/coarse-graining.html">Coarse-graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/topology-data.html">Topology data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/decorating.html">Decorating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/cleaning.html">Cleaning structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/dihedrals.html">Dihedral angle analysis</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for chic.net</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">12.06.23</span>
+<span class="sd">@tcnicholas</span>
+<span class="sd">The main Net class for decorating frameorks to MOFs.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span><span class="p">,</span> <span class="n">product</span>
+
+<span class="kn">import</span> <span class="nn">ase</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atoms</span>
+<span class="kn">from</span> <span class="nn">ase.build.tools</span> <span class="kn">import</span> <span class="n">sort</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">ase.calculators.lammps</span> <span class="kn">import</span> <span class="n">Prism</span><span class="p">,</span> <span class="n">convert</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core</span> <span class="kn">import</span> <span class="n">Structure</span> <span class="k">as</span> <span class="n">PymatgenStructure</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">templates</span>
+<span class="kn">from</span> <span class="nn">.cif</span> <span class="kn">import</span> <span class="n">read_cif</span>
+<span class="kn">from</span> <span class="nn">.bonds</span> <span class="kn">import</span> <span class="n">Bonding</span>
+<span class="kn">from</span> <span class="nn">.zif</span> <span class="kn">import</span> <span class="n">Zinc</span><span class="p">,</span> <span class="n">Imidizolate</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">strip_number</span><span class="p">,</span>
+    <span class="n">setattrs</span><span class="p">,</span>
+    <span class="n">atom2str</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.decorate</span> <span class="kn">import</span> <span class="n">place_linker</span><span class="p">,</span> <span class="n">assign_closest_nitrogen</span>
+
+
+<div class="viewcode-block" id="Net"><a class="viewcode-back" href="../../api/net.html#chic.Net">[docs]</a><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">PymatgenStructure</span><span class="p">):</span>    
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Net class is a subclass of the Pymatgen Structure class. It is used to</span>
+<span class="sd">    specifically for decorating networks with e.g. ZIF nodes and linkers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">supercells</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialise net.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            filename: Filename of net.</span>
+<span class="sd">            supercells: Number of supercells built so far.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialise the Pymatgen Structure.</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># keep track of the filename and name of the net.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supercells</span> <span class="o">=</span> <span class="n">supercells</span>
+
+        <span class="c1"># mapping between labels and indices in Pymatgen Structure.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label_index</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">l</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]:</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="c1"># prepare empty dictionary for building units.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+
+        <span class="c1"># topology.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<div class="viewcode-block" id="Net.from_structure"><a class="viewcode-back" href="../../api/net.html#chic.Net.from_structure">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_structure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+        <span class="n">structure</span><span class="p">:</span> <span class="n">PymatgenStructure</span><span class="p">,</span>
+        <span class="n">bonding</span><span class="p">:</span> <span class="n">Bonding</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Net&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new Net object from an existing Pymatgen Structure.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            structure: Pymatgen Structure object.</span>
+<span class="sd">            bonding: Bonding object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Net object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span>
+            <span class="n">structure</span><span class="o">.</span><span class="n">species</span><span class="p">,</span>
+            <span class="n">structure</span><span class="o">.</span><span class="n">frac_coords</span><span class="p">,</span>
+            <span class="n">validate_proximity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">site_properties</span><span class="o">=</span><span class="n">structure</span><span class="o">.</span><span class="n">site_properties</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_bonding</span> <span class="o">=</span> <span class="n">bonding</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+        
+<div class="viewcode-block" id="Net.from_topocif"><a class="viewcode-back" href="../../api/net.html#chic.Net.from_topocif">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_topocif</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Net&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read structure and bonding form TopoCIF.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            filename: Filename of TopoCIF.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Net object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check which kwargs are for read_cif and which are for Net.</span>
+        <span class="n">read_cif_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">read_cif</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;self&#39;</span>
+        <span class="p">}</span>
+        <span class="n">cls_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;self&#39;</span>
+        <span class="p">}</span>
+
+        <span class="c1"># parse the file. this time we require the bonding information. Raise </span>
+        <span class="c1"># a warning if the bonding information is not present.</span>
+        <span class="n">struct</span><span class="p">,</span> <span class="n">bonding</span> <span class="o">=</span> <span class="n">read_cif</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">read_cif_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bonding</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Bonding information not found in TopoCIF. &quot;</span>
+                <span class="s2">&quot;Make sure it can be inferred easily enough. &quot;</span>
+                <span class="s2">&quot;Otherwise consider using chic to generate the bonding first.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># hence initialise the Net object.</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_structure</span><span class="p">(</span>
+            <span class="n">struct</span><span class="p">,</span> 
+            <span class="n">bonding</span><span class="p">,</span> 
+            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">cls_kwargs</span>
+        <span class="p">)</span></div>
+    
+    
+<div class="viewcode-block" id="Net.rescale"><a class="viewcode-back" href="../../api/net.html#chic.Net.rescale">[docs]</a>    <span class="k">def</span> <span class="nf">rescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">scale_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.5</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;min_a_b&#39;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rescale the unit cell.</span>
+
+<span class="sd">        The provided network may not be a suitable length-scale for the chemistry</span>
+<span class="sd">        that is being modelled. This function allows the user to rescale the</span>
+<span class="sd">        unit cell to a more suitable length-scale. The rescaling is performed</span>
+<span class="sd">        by scaling the unit cell by a factor that is the ratio of the target</span>
+<span class="sd">        value to the current value. The target value can be either the minimum</span>
+<span class="sd">        A-B bond length or the volume of the unit cell.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            scale_value: Value to scale the unit cell by.</span>
+<span class="sd">            target: Target value to scale the unit cell by. Can be either</span>
+<span class="sd">                &#39;min_a_b&#39; or &#39;volume&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="o">==</span> <span class="s1">&#39;min_a_b&#39;</span><span class="p">:</span>
+            <span class="n">lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">all_bond_lengths</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">scale_value</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
+            <span class="n">new_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">volume</span> <span class="o">*</span> <span class="n">sf</span><span class="o">**</span><span class="mi">3</span>
+        <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
+            <span class="n">new_volume</span> <span class="o">=</span> <span class="n">scale_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">new_volume</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span> <span class="o">=</span> <span class="n">Bonding</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">_labels</span><span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">_bonds</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Net.reset_decoration"><a class="viewcode-back" href="../../api/net.html#chic.Net.reset_decoration">[docs]</a>    <span class="k">def</span> <span class="nf">reset_decoration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset the decorating procedures.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># global variables.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_templates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+
+        <span class="c1"># topology.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+    <span class="c1">#TODO: add more control for how many of each template are placed rather</span>
+    <span class="c1"># than attempting to add as many bulky ones. For example, templates could</span>
+    <span class="c1"># be chosen with a certain probability, and if it cannot do that, it falls</span>
+    <span class="c1"># back on other templates. Alternatively, the coarse-grained structures</span>
+    <span class="c1"># could be labelled with different &#39;B&#39; sites (C, D, E) which get mapped to</span>
+    <span class="c1"># different ligands.</span>
+<div class="viewcode-block" id="Net.add_zif_atoms"><a class="viewcode-back" href="../../api/net.html#chic.Net.add_zif_atoms">[docs]</a>    <span class="k">def</span> <span class="nf">add_zif_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span>
+        <span class="n">fallbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">closest_approach</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decorate the net with zinc nodes and imidazolate linkers with the</span>
+<span class="sd">        imidazolate molecules with the provided template.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            template: Template ligand for decorating the net. Currently</span>
+<span class="sd">                supported templates are &#39;H&#39;, and &#39;CH3&#39;, with MOF-FF support.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the template class for this material.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_decoration</span><span class="p">()</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">templates</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ZIF_</span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="n">template</span>
+        <span class="n">fallback_templates</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">templates</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ZIF_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fallbacks</span>
+        <span class="p">]</span> <span class="k">if</span> <span class="n">fallbacks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">all_templates</span> <span class="o">=</span> <span class="p">[</span><span class="n">template</span><span class="p">]</span> <span class="k">if</span> <span class="n">fallbacks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">template</span><span class="p">]</span> <span class="o">+</span> <span class="n">fallback_templates</span>
+
+        <span class="c1"># if we allow for multiple templates, we need to be able to call them for</span>
+        <span class="c1"># each unit when outputting the structures.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_templates</span> <span class="o">=</span> <span class="n">all_templates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">this_template</span> <span class="o">=</span> <span class="n">all_templates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">atom_id</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">mol_id</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_label_index</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
+
+            <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span>
+
+            <span class="k">if</span> <span class="s1">&#39;Si&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+
+                <span class="c1"># A site nodes are simply zinc atoms in the same position.</span>
+                <span class="n">a_site</span> <span class="o">=</span> <span class="n">Zinc</span><span class="p">(</span><span class="n">mol_id</span><span class="p">,</span> <span class="n">atom_id</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_site</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">mol_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_site</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">atom_id</span><span class="p">,</span>
+                    <span class="n">mol_id</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">template</span><span class="o">.</span><span class="n">property_by_symbol</span><span class="p">(</span><span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;charge&#39;</span><span class="p">),</span>
+                    <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
+                <span class="p">])</span>
+                <span class="n">atom_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_template_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                
+            
+            <span class="k">elif</span> <span class="s1">&#39;O&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+
+                <span class="n">fb</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">placement_ok</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">num_fallbacks</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">fallbacks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_templates</span><span class="p">)</span>
+                <span class="k">while</span> <span class="p">(</span><span class="n">fb</span> <span class="o">&lt;</span> <span class="n">num_fallbacks</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">placement_ok</span><span class="p">:</span>
+                    
+                    <span class="c1"># try the first template.</span>
+                    <span class="n">this_template</span> <span class="o">=</span> <span class="n">all_templates</span><span class="p">[</span><span class="n">fb</span><span class="p">]</span>
+
+                    <span class="c1"># B site nodes are imidazolate molecules. The imidazolate</span>
+                    <span class="c1"># molecules are placed at the centroids of the O atoms. The</span>
+                    <span class="c1"># orientation of the imidazolate molecule is determined by</span>
+                    <span class="c1"># the bond vectors of the O atoms to the Si atoms.</span>
+                    <span class="n">a_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">atom_id</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">this_template</span><span class="p">)))</span>
+                    <span class="n">b_site</span> <span class="o">=</span> <span class="n">Imidizolate</span><span class="p">(</span>
+                        <span class="n">mol_id</span><span class="p">,</span>
+                        <span class="n">a_ids</span><span class="p">,</span>
+                        <span class="n">this_template</span><span class="o">.</span><span class="n">atom_labels</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_site</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">mol_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_site</span>
+                    <span class="n">coords</span> <span class="o">=</span> <span class="n">place_linker</span><span class="p">(</span>
+                        <span class="n">this_template</span><span class="p">,</span>
+                        <span class="n">centroid</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">bond_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># now check distance constraints.</span>
+                    <span class="n">placement_ok</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">):</span>
+                        <span class="n">placement_ok</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">f1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span><span class="o">.</span><span class="n">get_fractional_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+                        <span class="n">f2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span><span class="o">.</span><span class="n">get_fractional_coords</span><span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">)[:,</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+                        <span class="p">)</span>
+                        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span><span class="o">.</span><span class="n">get_all_distances</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">d</span> <span class="o">&lt;</span> <span class="n">closest_approach</span><span class="p">):</span>
+                            <span class="n">placement_ok</span> <span class="o">=</span> <span class="kc">True</span>
+                        
+
+                    <span class="n">fb</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">atom_data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span>
+                    <span class="n">this_template</span><span class="o">.</span><span class="n">atom_types</span><span class="p">,</span> <span class="n">this_template</span><span class="o">.</span><span class="n">atom_charges</span><span class="p">,</span> <span class="n">coords</span>
+                <span class="p">])</span>
+
+                <span class="k">for</span> <span class="n">a_type</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">atom_data</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">mol_id</span><span class="p">,</span> <span class="n">a_type</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">coord</span><span class="p">)])</span>
+                    <span class="n">atom_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_template_names</span> <span class="o">+=</span> <span class="p">[</span><span class="n">this_template</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">this_template</span><span class="o">.</span><span class="n">atom_types</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="Net.add_zif_atoms_legacy"><a class="viewcode-back" href="../../api/net.html#chic.Net.add_zif_atoms_legacy">[docs]</a>    <span class="k">def</span> <span class="nf">add_zif_atoms_legacy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decorate the net with zinc nodes and imidazolate linkers with the </span>
+<span class="sd">        imidazolate molecules with the provided template.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            template: Template ligand for decorating the net. Currently</span>
+<span class="sd">                supported templates are &#39;H&#39;, and &#39;CH3&#39;, with MOF-FF support.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the template class for this material.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_decoration</span><span class="p">()</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">templates</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ZIF_</span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="n">template</span>
+
+        <span class="n">atom_id</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">mol_id</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_label_index</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
+
+            <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span>
+
+            <span class="k">if</span> <span class="s1">&#39;Si&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+
+                <span class="c1"># A site nodes are simply zinc atoms in the same position.</span>
+                <span class="n">a_site</span> <span class="o">=</span> <span class="n">Zinc</span><span class="p">(</span><span class="n">mol_id</span><span class="p">,</span> <span class="n">atom_id</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_site</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">mol_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_site</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">atom_id</span><span class="p">,</span>
+                    <span class="n">mol_id</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">template</span><span class="o">.</span><span class="n">property_by_symbol</span><span class="p">(</span><span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;charge&#39;</span><span class="p">),</span>
+                    <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
+                <span class="p">])</span>
+                <span class="n">atom_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="k">elif</span> <span class="s1">&#39;O&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+
+                <span class="c1"># B site nodes are imidazolate molecules. The imidazolate</span>
+                <span class="c1"># molecules are placed at the centroids of the O atoms. The</span>
+                <span class="c1"># orientation of the imidazolate molecule is determined by the</span>
+                <span class="c1"># bond vectors of the O atoms to the Si atoms.</span>
+                <span class="n">a_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">atom_id</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="p">)))</span>
+                <span class="n">b_site</span> <span class="o">=</span> <span class="n">Imidizolate</span><span class="p">(</span>
+                    <span class="n">mol_id</span><span class="p">,</span>
+                    <span class="n">a_ids</span><span class="p">,</span>
+                    <span class="n">template</span><span class="o">.</span><span class="n">atom_labels</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_site</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">mol_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_site</span>
+                <span class="n">coords</span> <span class="o">=</span> <span class="n">place_linker</span><span class="p">(</span>
+                    <span class="n">template</span><span class="p">,</span> 
+                    <span class="n">centroid</span><span class="p">,</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">bond_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="n">atom_data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span>
+                    <span class="n">template</span><span class="o">.</span><span class="n">atom_types</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">atom_charges</span><span class="p">,</span> <span class="n">coords</span>
+                <span class="p">])</span>
+
+                <span class="k">for</span> <span class="n">a_type</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">atom_data</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">mol_id</span><span class="p">,</span> <span class="n">a_type</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">coord</span><span class="p">)])</span>
+                    <span class="n">atom_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Net.assign_mofff_topology"><a class="viewcode-back" href="../../api/net.html#chic.Net.assign_mofff_topology">[docs]</a>    <span class="k">def</span> <span class="nf">assign_mofff_topology</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign the topology based on the MOF-FF template.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">mofff_parameterised</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span> \
+            <span class="s2">&quot;Template must be parameterised with MOF-FF to add topology info.&quot;</span>
+
+        <span class="c1"># these functions will be handy throughout.</span>
+        <span class="n">get_frac</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="s2">&quot;get_fractional_coords&quot;</span><span class="p">)</span>
+        <span class="n">get_dist</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="s2">&quot;get_distance_and_image&quot;</span><span class="p">)</span>
+
+        <span class="c1"># first we assign the atomistic A-to-B site connectivity by identifying</span>
+        <span class="c1"># which nitrogen atom in the imidazolate is bound to the a site.</span>
+        <span class="k">for</span> <span class="n">a_site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            
+            <span class="n">a_site_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Si</span><span class="si">{</span><span class="n">a_site</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">bound_to</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Si</span><span class="si">{</span><span class="n">a_site</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b_site</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+
+                <span class="c1"># assign connectivity between a and b site.</span>
+                <span class="n">b_site_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">b_site</span><span class="p">]</span>
+                <span class="n">setattrs</span><span class="p">(</span><span class="n">a_site_unit</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;Im</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">mol_id</span><span class="p">})</span>
+                <span class="n">assign_closest_nitrogen</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">,</span> 
+                    <span class="n">get_frac</span><span class="p">,</span> 
+                    <span class="n">get_dist</span><span class="p">,</span> 
+                    <span class="n">a_site_unit</span><span class="p">,</span> 
+                    <span class="n">b_site_unit</span><span class="p">,</span> 
+                    <span class="n">i</span>
+                <span class="p">)</span>
+            
+            <span class="c1"># hence store Zn–N connectivity.</span>
+            <span class="n">zn_bonds</span> <span class="o">=</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">bonds</span><span class="p">()</span>
+            <span class="n">number_of_bonds</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zn_bonds</span><span class="p">)</span>
+            <span class="n">a_site_unit</span><span class="o">.</span><span class="n">BondIds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="o">+</span><span class="n">number_of_bonds</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zn_bonds</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">bond_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">bond_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">])</span>
+                <span class="n">a_site_unit</span><span class="o">.</span><span class="n">Bond2Im</span><span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a_site_unit</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;Im</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)]</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># assign all intramolecular bonds, angles, dihedrals, and out-of-planes.</span>
+        <span class="k">for</span> <span class="n">b_site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            
+            <span class="c1"># bonds.</span>
+            <span class="n">b_site_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;O</span><span class="si">{</span><span class="n">b_site</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+            <span class="n">bonds</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span> <span class="s1">&#39;bonds&#39;</span><span class="p">)</span>
+            <span class="n">number_of_bonds</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bonds</span><span class="p">)</span>
+            <span class="n">b_site_unit</span><span class="o">.</span><span class="n">BondIds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="o">+</span><span class="n">number_of_bonds</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bonds</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">bond_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">bond_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+            <span class="c1"># angles.</span>
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span> <span class="s1">&#39;angles&#39;</span><span class="p">)</span>
+            <span class="n">number_of_angles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+            <span class="n">b_site_unit</span><span class="o">.</span><span class="n">AngleIds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span><span class="o">+</span><span class="n">number_of_angles</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">angle_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">angle_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span><span class="p">,</span> <span class="n">angle_type</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="c1"># dihedrals.</span>
+            <span class="n">dihedrals</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span><span class="s1">&#39;dihedrals&#39;</span><span class="p">)</span>
+            <span class="n">number_of_dihedrals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dihedrals</span><span class="p">)</span>
+            <span class="n">b_site_unit</span><span class="o">.</span><span class="n">DihedralIds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="o">+</span><span class="n">number_of_dihedrals</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">,</span> <span class="n">d4</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dihedrals</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">dihedral_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">dihedral_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> <span class="n">dihedral_type</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">,</span> <span class="n">d4</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># out-of-planes.</span>
+            <span class="n">outofplanes</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span> <span class="s1">&#39;outofplanes&#39;</span>
+            <span class="p">)</span>
+            <span class="n">number_of_outofplanes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outofplanes</span><span class="p">)</span>
+            <span class="n">b_site_unit</span><span class="o">.</span><span class="n">OutOfPlaneIds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span><span class="o">+</span><span class="n">number_of_outofplanes</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a4</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">outofplanes</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">outofplane_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">out_of_plane_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span><span class="p">,</span> <span class="n">outofplane_type</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a4</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># many-body terms. these can all be found by iterating over all a sites</span>
+        <span class="c1"># and then in turn iterating over unique pairs of b sites.</span>
+        <span class="k">for</span> <span class="n">a_site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            
+            <span class="c1"># 2-body terms.</span>
+            <span class="n">a_site_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Si</span><span class="si">{</span><span class="n">a_site</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">b_site</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">a_or_b</span><span class="p">)</span> <span class="ow">in</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">bound_im</span><span class="p">:</span>
+
+                <span class="n">b_site_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">b_site</span><span class="p">]</span>
+
+                <span class="n">angles</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices_2body</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span>
+                    <span class="nb">ord</span><span class="p">(</span><span class="n">a_or_b</span><span class="p">)</span><span class="o">-</span><span class="mi">97</span><span class="p">,</span>
+                    <span class="s1">&#39;angles&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">number_of_angles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">angle_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">angle_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span><span class="p">,</span> 
+                        <span class="n">angle_type</span><span class="p">,</span> 
+                        <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span>
+                    <span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+                <span class="n">dihedrals</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices_2body</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span>
+                    <span class="nb">ord</span><span class="p">(</span><span class="n">a_or_b</span><span class="p">)</span><span class="o">-</span><span class="mi">97</span><span class="p">,</span>
+                    <span class="s1">&#39;dihedrals&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">number_of_dihedrals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dihedrals</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dihedrals</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">dihedral_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">dihedral_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> 
+                        <span class="n">dihedral_type</span><span class="p">,</span> 
+                        <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> 
+                        <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span>
+                    <span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">outofplanes</span> <span class="o">=</span> <span class="n">b_site_unit</span><span class="o">.</span><span class="n">topology_indices_2body</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="p">,</span>
+                    <span class="nb">ord</span><span class="p">(</span><span class="n">a_or_b</span><span class="p">)</span><span class="o">-</span><span class="mi">97</span><span class="p">,</span>
+                    <span class="s1">&#39;outofplanes&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">number_of_outofplanes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outofplanes</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">outofplanes</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">outofplane_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">out_of_plane_types</span><span class="p">[</span><span class="n">atype</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span><span class="p">,</span> 
+                        <span class="n">outofplane_type</span><span class="p">,</span> 
+                        <span class="n">a1</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span>
+                    <span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+            <span class="c1"># 3-body terms.</span>
+            <span class="c1">#TODO: ponder. I am going to hard-code these because I do not forsee</span>
+            <span class="c1"># any imidazolate linkers parameterised with MOF-FF to get any more</span>
+            <span class="c1"># complicated. If they do, I will have to think about this.</span>
+            <span class="n">all_pairs</span> <span class="o">=</span> <span class="n">combinations</span><span class="p">(</span><span class="n">a_site_unit</span><span class="o">.</span><span class="n">bound_im</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">b_site_1</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">a_or_b_1</span><span class="p">)),</span> <span class="p">(</span><span class="n">b_site_2</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">a_or_b_2</span><span class="p">))</span> <span class="ow">in</span> <span class="n">all_pairs</span><span class="p">:</span>
+
+                <span class="n">b_site_unit_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">b_site_1</span><span class="p">]</span>
+                <span class="n">b_site_unit_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_building_units</span><span class="p">[</span><span class="n">b_site_2</span><span class="p">]</span>
+
+                <span class="c1"># the only 3-body angle term is N(x)-Zn-N(y).</span>
+                <span class="c1"># hence find the atom ID of the relevant nitrogens directly.</span>
+                <span class="n">n1</span> <span class="o">=</span> <span class="n">b_site_unit_1</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;N</span><span class="si">{</span><span class="n">a_or_b_1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">n2</span> <span class="o">=</span> <span class="n">b_site_unit_2</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;N</span><span class="si">{</span><span class="n">a_or_b_2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">angle_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">angle_types</span><span class="p">[(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span><span class="p">,</span> <span class="n">angle_type</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">n2</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># dihedrals.</span>
+                <span class="n">c1_1</span> <span class="o">=</span> <span class="n">b_site_unit_1</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;C1</span><span class="si">{</span><span class="n">a_or_b_1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">c2_1</span> <span class="o">=</span> <span class="n">b_site_unit_1</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+                <span class="n">c1_2</span> <span class="o">=</span> <span class="n">b_site_unit_2</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;C1</span><span class="si">{</span><span class="n">a_or_b_2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">c2_2</span> <span class="o">=</span> <span class="n">b_site_unit_2</span><span class="o">.</span><span class="n">atom_id_by_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+
+                <span class="n">dihedral_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">dihedral_types</span><span class="p">[(</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> 
+                    <span class="n">dihedral_type</span><span class="p">,</span> 
+                    <span class="n">c1_1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">n2</span>
+                <span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> 
+                    <span class="n">dihedral_type</span><span class="p">,</span> 
+                    <span class="n">c1_2</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">n1</span>
+                <span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">dihedral_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">dihedral_types</span><span class="p">[(</span><span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> <span class="n">dihedral_type</span><span class="p">,</span> 
+                    <span class="n">c2_1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">n2</span>
+                <span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span><span class="p">,</span> <span class="n">dihedral_type</span><span class="p">,</span> 
+                    <span class="n">c2_2</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">a_site_unit</span><span class="o">.</span><span class="n">atom_id</span><span class="p">,</span> <span class="n">n1</span>
+                <span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c1"># (adds after the last bond.)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbonds</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nangles</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ndihedrals</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noutofplanes</span> <span class="o">-=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="Net.to_lammps_data"><a class="viewcode-back" href="../../api/net.html#chic.Net.to_lammps_data">[docs]</a>    <span class="k">def</span> <span class="nf">to_lammps_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">skip_topology</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write full LAMMPS data file.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            filename: Filename of LAMMPS data file.</span>
+<span class="sd">            skip_topology: Whether to skip the topology section.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Must decorate net first.&#39;</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">)</span><span class="si">}</span><span class="s1"> atoms</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span><span class="p">)</span><span class="si">}</span><span class="s1"> bonds</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span><span class="p">)</span><span class="si">}</span><span class="s1"> angles</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="p">)</span><span class="si">}</span><span class="s1"> dihedrals</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span><span class="p">)</span><span class="si">}</span><span class="s1"> impropers</span><span class="se">\n\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">default_atom_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1"> atom types</span><span class="se">\n</span><span class="s1">&#39;</span>
+        
+        <span class="k">if</span> <span class="n">skip_topology</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;0 bond types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;0 angle types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;0 dihedral types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;0 improper types</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">bond_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1"> bond types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">angle_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1"> angle types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">dihedral_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1"> dihedral types</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">out_of_plane_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1"> improper types</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+
+        <span class="c1"># use ASE converter to get LAMMPS simulation box parameters.</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Prism</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="n">xhi</span><span class="p">,</span> <span class="n">yhi</span><span class="p">,</span> <span class="n">zhi</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">xz</span><span class="p">,</span> <span class="n">yz</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_lammps_prism</span><span class="p">(),</span>
+                                            <span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;ASE&quot;</span><span class="p">,</span> <span class="s2">&quot;real&quot;</span><span class="p">)</span>
+        <span class="n">xlo</span> <span class="o">=</span> <span class="n">ylo</span> <span class="o">=</span> <span class="n">zlo</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+        <span class="c1"># convert the positions to that of the LAMMPS prism.</span>
+        <span class="n">decor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">vector_to_lammps</span><span class="p">(</span><span class="n">decor</span><span class="p">[:,</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">decor</span><span class="p">[:,</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span> <span class="o">=</span> <span class="n">decor</span>
+        
+        <span class="c1"># simulation box size/parameters.</span>
+        <span class="c1"># assume origin centred at (0, 0, 0).</span>
+        <span class="n">f</span> <span class="o">+=</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xlo</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">xhi</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> xlo xhi</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ylo</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">yhi</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> ylo yhi</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">zlo</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zhi</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> zlo zhi</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xy</span><span class="o">+</span><span class="mi">0</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">xz</span><span class="o">+</span><span class="mi">0</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">yz</span><span class="o">+</span><span class="mi">0</span><span class="si">:</span><span class="s2">&lt;10.8f</span><span class="si">}</span><span class="s2"> xy xz yz</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Add atomic masses for each atom.</span>
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;Masses</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">atom_type</span><span class="p">,</span><span class="n">symbol</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">default_atom_types</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_template</span><span class="o">.</span><span class="n">mass</span><span class="p">[</span><span class="n">atom_type</span><span class="p">]</span><span class="si">}</span><span class="se">\t</span><span class="s2"># </span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Atoms</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="n">atom2str</span><span class="p">(</span><span class="n">atom</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">skip_topology</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Bonds</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bonds_lammps</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">bond</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Angles</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles_lammps</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="o">*</span><span class="n">angle</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dihedrals</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">dihedral</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dihedrals_lammps</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">dihedral</span><span class="p">)</span>
+        
+        <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Impropers</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">improper</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outofplanes_lammps</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="s2"> </span><span class="si">{:&gt;8.0f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">improper</span><span class="p">)</span>
+            
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+    <span class="c1">#TODO: implement our own wrap function that also stores the correct periodic </span>
+    <span class="c1"># image of all atoms so that it will be easier to identify the rigid bodies</span>
+    <span class="c1"># in LAMMPS.</span>
+<div class="viewcode-block" id="Net.to_ase_atoms"><a class="viewcode-back" href="../../api/net.html#chic.Net.to_ase_atoms">[docs]</a>    <span class="k">def</span> <span class="nf">to_ase_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Atoms</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gather the decorated atoms into an ASE Atoms object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ASE Atoms object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Must decorate net first.&#39;</span>
+
+        <span class="n">all_pos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mol_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">atom</span><span class="p">,</span><span class="n">template_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_atoms</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template_names</span><span class="p">):</span>
+            <span class="n">all_pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:])</span>
+            <span class="n">mol_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">this_template</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">templates</span><span class="p">,</span> <span class="n">template_name</span><span class="p">)()</span>
+            <span class="n">symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">strip_number</span><span class="p">(</span><span class="n">this_template</span><span class="o">.</span><span class="n">default_atom_types</span><span class="p">[</span><span class="n">atom</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+            <span class="p">)</span>
+
+        <span class="c1"># hence compile the atoms object.</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span>
+            <span class="n">symbols</span><span class="p">,</span>
+            <span class="n">positions</span><span class="o">=</span><span class="n">all_pos</span><span class="p">,</span>
+            <span class="n">cell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">matrix</span><span class="p">,</span>
+            <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">atoms</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;mol-id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mol_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">atoms</span></div>
+    
+
+<div class="viewcode-block" id="Net.to_ase_to"><a class="viewcode-back" href="../../api/net.html#chic.Net.to_ase_to">[docs]</a>    <span class="k">def</span> <span class="nf">to_ase_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use ASE&#39;s writer to write the structure to a file.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            filename: filename of output file.</span>
+<span class="sd">            fmt: format of output file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_ase_atoms</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="Net.replicate"><a class="viewcode-back" href="../../api/net.html#chic.Net.replicate">[docs]</a>    <span class="k">def</span> <span class="nf">replicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Net&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a supercell of the net.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            factors: Factors by which to replicate the unit cell. Default is</span>
+<span class="sd">                [2,2,2].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Net object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">factors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+        
+        <span class="n">factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">factors</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_decoration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supercells</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Si&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+        <span class="n">new_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">new_positions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">orig2new</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">]):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">ix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label_index</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">strip_number</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frac_coords</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+                <span class="n">label_n</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+                <span class="n">new_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label_n</span><span class="p">)</span>
+                <span class="n">new_positions</span><span class="p">[</span><span class="n">label_n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">img</span><span class="p">)</span> <span class="o">/</span> <span class="n">factors</span>
+                <span class="n">num</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">orig2new</span><span class="p">[</span><span class="n">label</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">img</span> <span class="o">%</span> <span class="n">factors</span><span class="p">)]</span> <span class="o">=</span> <span class="n">label_n</span>
+
+        <span class="n">scale_factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span>
+        <span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">scale_factors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">matrix</span><span class="p">))</span>
+
+        <span class="c1"># now map old bonds to new images and determine the translation of the </span>
+        <span class="c1"># bonds for the new periodic images.</span>
+        <span class="n">new_bonds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">),</span> <span class="p">(</span><span class="n">img1</span><span class="p">,</span><span class="n">img2</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">_bonds</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">]):</span>
+
+                <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+                <span class="n">img1_n</span> <span class="o">=</span> <span class="n">img1</span> <span class="o">+</span> <span class="n">img</span>
+                <span class="n">img2_n</span> <span class="o">=</span> <span class="n">img2</span> <span class="o">+</span> <span class="n">img</span>
+
+                <span class="n">nl1</span> <span class="o">=</span> <span class="n">orig2new</span><span class="p">[</span><span class="n">a1</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">img1_n</span> <span class="o">%</span> <span class="n">factors</span><span class="p">)]</span>
+                <span class="n">ni1</span> <span class="o">=</span> <span class="n">img1_n</span> <span class="o">//</span> <span class="n">factors</span>
+                <span class="n">nl2</span> <span class="o">=</span> <span class="n">orig2new</span><span class="p">[</span><span class="n">a2</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">img2_n</span> <span class="o">%</span> <span class="n">factors</span><span class="p">)]</span>
+                <span class="n">ni2</span> <span class="o">=</span> <span class="n">img2_n</span> <span class="o">//</span> <span class="n">factors</span>
+
+                <span class="n">new_bonds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">((</span><span class="n">nl1</span><span class="p">,</span> <span class="n">nl2</span><span class="p">),</span> <span class="p">(</span><span class="n">ni1</span><span class="p">,</span> <span class="n">ni2</span><span class="p">))</span> <span class="p">)</span>
+        
+        <span class="c1"># now reload the class with everything updated.</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">strip_number</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_labels</span><span class="p">]</span>
+        <span class="n">frac_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_positions</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="c1"># gather the new structure as a Pymatgen Structure object so we can </span>
+        <span class="c1"># reinstantiate the class.</span>
+        <span class="n">struct</span> <span class="o">=</span> <span class="n">PymatgenStructure</span><span class="p">(</span>
+            <span class="n">lattice</span><span class="p">,</span>
+            <span class="n">symbols</span><span class="p">,</span>
+            <span class="n">frac_coords</span><span class="p">,</span>
+            <span class="n">validate_proximity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># add the full labels to the structure in the atom properties.</span>
+        <span class="n">struct</span><span class="o">.</span><span class="n">add_site_property</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">)</span>
+
+        <span class="c1"># create the bonding class.</span>
+        <span class="n">bonding</span> <span class="o">=</span> <span class="n">Bonding</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">new_bonds</span><span class="p">)</span>
+        
+        <span class="c1"># reinstantiate the class.</span>
+        <span class="k">return</span> <span class="n">Net</span><span class="o">.</span><span class="n">from_structure</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">bonding</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="Net.check_closest_approach"><a class="viewcode-back" href="../../api/net.html#chic.Net.check_closest_approach">[docs]</a>    <span class="k">def</span> <span class="nf">check_closest_approach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">min_allowed_dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="c1"># Å</span>
+        <span class="n">min_allowed_dist_h</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="c1"># Å</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the closest approach between pairs of atoms.</span>
+
+<span class="sd">        We divide the minimum allowed distances into those involving hydrogen</span>
+<span class="sd">        atoms and those not involving hydrogen atoms. This is because hydrogen</span>
+<span class="sd">        will likely have much closer approaches.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            min_allowed_dist: Minimum allowed distance between two atoms (Å).</span>
+<span class="sd">            min_allowed_dist_h: Minimum allowed distance between a hydrogen</span>
+<span class="sd">                atom and any other atom (Å).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True or False if the closest approach is less than the minimum</span>
+<span class="sd">            allowed distance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decorated_ase_atoms</span><span class="p">()</span>
+        <span class="n">atoms_no_h</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atoms</span><span class="o">.</span><span class="n">numbers</span><span class="o">!=</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">atoms_no_h</span><span class="o">.</span><span class="n">get_all_distances</span><span class="p">(</span><span class="n">mic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_all_distances</span><span class="p">(</span><span class="n">mic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">d1</span><span class="o">&lt;=</span><span class="n">min_allowed_dist</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">d2</span><span class="o">&lt;=</span><span class="n">min_allowed_dist_h</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="Net.check_need_for_supercell"><a class="viewcode-back" href="../../api/net.html#chic.Net.check_need_for_supercell">[docs]</a>    <span class="k">def</span> <span class="nf">check_need_for_supercell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">min_number_of_atoms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Check if the unit cell needs to be expanded. This is required if the</span>
+<span class="sd">        longest bond length is greater than half the shortest cell length.</span>
+
+<span class="sd">        While we can handle the distances properly by considering the specific </span>
+<span class="sd">        periodic image of each bond, in programs such as LAMMPS, for efficiency</span>
+<span class="sd">        the minimum image convention (MIC) is assumed, and will therefore </span>
+<span class="sd">        misinterpret the bonds.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            min_number_of_atoms: Minimum number of atoms in the unit cell.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True or False if a supercell is needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># return True if the number of atoms is less than the minimum number of</span>
+        <span class="c1"># atoms. i.e. a supercell is needed.</span>
+        <span class="n">atoms_check</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">min_number_of_atoms</span>
+
+        <span class="c1"># return True if half the shortest cell length is less than the longest</span>
+        <span class="c1"># bond length. i.e. a supercell is needed.</span>
+        <span class="n">max_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bonding</span><span class="o">.</span><span class="n">all_bond_lengths</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">bond_check</span> <span class="o">=</span> <span class="n">max_length</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># if either condition is True, return True.</span>
+        <span class="k">return</span> <span class="n">atoms_check</span> <span class="ow">or</span> <span class="n">bond_check</span></div></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Thomas Nicholas
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=02683919"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
+</html>

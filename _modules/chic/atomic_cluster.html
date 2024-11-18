@@ -1,0 +1,894 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>chic.atomic_cluster - chic</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-codeautolink.css?v=125d5c1c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=afd88a32" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #5599ff;
+  --color-brand-content: #5599ff;
+  --color-problematic: #ff5555;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">chic</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/structure.html">Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/net.html">Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/atomic-clusters.html">Atomic clusters</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Publications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../publications/pub-main.html">Publications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Case studies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/coarse-graining.html">Coarse-graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/topology-data.html">Topology data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/decorating.html">Decorating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/cleaning.html">Cleaning structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/dihedrals.html">Dihedral angle analysis</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for chic.atomic_cluster</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">27.07.23</span>
+<span class="sd">@tcnicholas</span>
+<span class="sd">Atomic cluster functionality.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core</span> <span class="kn">import</span> <span class="n">Molecule</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">crystal_toolkit_display</span>
+
+
+<div class="viewcode-block" id="AtomicCluster"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster">[docs]</a><span class="k">class</span> <span class="nc">AtomicCluster</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a cluster of atoms in a structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">site_indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">species</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">cart_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">images</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">edges_external</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param site_indices: list of site indices in the cluster. These should</span>
+<span class="sd">            correspond to the site indices in the main structure.</span>
+<span class="sd">        :param species: list of species in the cluster.</span>
+<span class="sd">        :param cart_coords: cartesian coordinates of the cluster. These should</span>
+<span class="sd">            form a set of image consistent coordinates.</span>
+<span class="sd">        :param images: images of the cluster. These are the images used to take</span>
+<span class="sd">            the wrapped fractional coordinates to the cartesian coordinates.</span>
+<span class="sd">        :param edges: dictionary of edges in the cluster. The keys should be</span>
+<span class="sd">            the connected nodes, and the values are a dictionary of properties.</span>
+<span class="sd">        :param edges_external: dictionary of edges in the cluster that connect</span>
+<span class="sd">            to atoms outside the cluster. The keys should be the connected </span>
+<span class="sd">            nodes (internal, external), and the values are a dictionary of </span>
+<span class="sd">            properties, which should include the &#39;image&#39; key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">site_indices</span><span class="p">)</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">species</span><span class="p">)</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">cart_coords</span><span class="p">)</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">),</span> \
+            <span class="s1">&#39;Input lists must have same length.&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span> <span class="o">=</span> <span class="n">site_indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_species</span> <span class="o">=</span> <span class="n">species</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">species</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cart_coords</span> <span class="o">=</span> <span class="n">cart_coords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_images</span> <span class="o">=</span> <span class="n">images</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="n">edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edges_external</span> <span class="o">=</span> <span class="n">edges_external</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bound_to_clusters</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_graph</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strong_rings_cache</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bead_ids</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beads_frac_coords</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beads_images</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atom_to_bead_index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internal_bead_bonds</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># whether this cluster is being skipped for the final network. This is</span>
+        <span class="c1"># usually based on the number of external edges, but could be set</span>
+        <span class="c1"># manually or via custom coarse-graining protocols.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_skip</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for _graph attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bead_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for bead_ids attribute. These are the unique IDs assigned to the</span>
+<span class="sd">        beads for the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bead_ids</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beads_frac_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for beads_frac_coords attribute. These are the fractional</span>
+<span class="sd">        coordinates of the beads.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beads_frac_coords</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beads_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for beads_images attribute. These are the images of the beads.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beads_images</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">atom_to_bead_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for atom_to_bead_index attribute. This is a dictionary mapping</span>
+<span class="sd">        the atom indices to the beads indices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atom_to_bead_index</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">internal_bead_bonds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for internal_bead_bonds attribute. This is a list of tuples</span>
+<span class="sd">        representing the bonds between beads in the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_bead_bonds</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">site_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: list of site indices in the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">species</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: list of species in the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_species</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cart_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: cartesian coordinates of the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cart_coords</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coordination_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: coordination number of the cluster, i.e. the number of external</span>
+<span class="sd">            edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges_external</span><span class="p">)</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for skip attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip</span>
+    
+
+    <span class="nd">@skip</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setter for skip attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_skip</span> <span class="o">=</span> <span class="n">value</span>
+    
+
+<div class="viewcode-block" id="AtomicCluster.get_indices_by_species"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.get_indices_by_species">[docs]</a>    <span class="k">def</span> <span class="nf">get_indices_by_species</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the indices of the sites in the cluster with a given species.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbols</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">species</span><span class="p">]</span></div>
+    
+
+<div class="viewcode-block" id="AtomicCluster.get_cart_coords_by_species"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.get_cart_coords_by_species">[docs]</a>    <span class="k">def</span> <span class="nf">get_cart_coords_by_species</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">species</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the cartesian coordinates of the sites in the cluster with a given</span>
+<span class="sd">        species.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cart_coords</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_indices_by_species</span><span class="p">(</span><span class="n">species</span><span class="p">)]</span></div>
+    
+
+<div class="viewcode-block" id="AtomicCluster.assign_beads"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.assign_beads">[docs]</a>    <span class="k">def</span> <span class="nf">assign_beads</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bead_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">beads_frac_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">beads_images</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">atom_to_bead_index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">internal_bead_bonds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign beads to the cluster.</span>
+
+<span class="sd">        :param bead_ids: list of bead IDs.</span>
+<span class="sd">        :param beads_frac_coords: fractional coordinates of the beads.</span>
+<span class="sd">        :param beads_images: images of the beads.</span>
+<span class="sd">        :param atom_to_bead_index: dictionary mapping the atom indices to the</span>
+<span class="sd">            beads indices.</span>
+<span class="sd">        :param internal_bead_bonds: list of tuples representing the bonds</span>
+<span class="sd">            between beads in the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bead_ids</span> <span class="o">=</span> <span class="n">bead_ids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beads_frac_coords</span> <span class="o">=</span> <span class="n">beads_frac_coords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beads_images</span> <span class="o">=</span> <span class="n">beads_images</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atom_to_bead_index</span> <span class="o">=</span> <span class="n">atom_to_bead_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internal_bead_bonds</span> <span class="o">=</span> <span class="n">internal_bead_bonds</span></div>
+
+
+<div class="viewcode-block" id="AtomicCluster.get_centroid"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.get_centroid">[docs]</a>    <span class="k">def</span> <span class="nf">get_centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">skip_elements</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the centroid of the cluster.</span>
+
+<span class="sd">        :param skip_elements: the elements to skip when computing the centroid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">skip_elements</span> <span class="o">=</span> <span class="n">skip_elements</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_species</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">symbol</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip_elements</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cart_coords</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="AtomicCluster.find_rings"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.find_rings">[docs]</a>    <span class="k">def</span> <span class="nf">find_rings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">including</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">strong_rings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">connective_including</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find all rings in the cluster.</span>
+
+<span class="sd">        :param including: list of elements to include in the rings. If None,</span>
+<span class="sd">            all rings will be returned irrespective of the elements included.</span>
+
+<span class="sd">        :param connective_including: whether or not the connecting elements</span>
+<span class="sd">            specified in &quot;including&quot; must also be the elements that connect to</span>
+<span class="sd">            other building units.</span>
+
+<span class="sd">        :param strong_rings: whether to make sure the rings cannot be decomposed</span>
+<span class="sd">            into smaller rings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="p">,</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span> <span class="o">=</span> <span class="n">result</span>
+            <span class="k">return</span> <span class="n">result</span>
+            
+        <span class="c1"># get all cycles. try to make use of cached results if possible,</span>
+        <span class="c1"># including if the strategy changes from simple -&gt; strong.</span>
+        <span class="k">if</span> <span class="n">strong_rings</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strong_rings_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strong_rings_cache</span>
+        <span class="k">elif</span> <span class="n">strong_rings</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">find_strong_cycles</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_strong_rings_cache</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">find_simple_cycles</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span> <span class="o">=</span> <span class="n">result</span>
+
+        <span class="c1"># if there are no rings in the structure just return all atoms.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="p">,</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="c1"># then filter the rings as per the user requests.</span>
+        <span class="c1"># identify which elements are required in ring, if any.</span>
+        <span class="k">if</span> <span class="n">including</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">including</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">including</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">including</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="c1"># identify which specific indices are required based on the atomic</span>
+        <span class="c1"># cluster&#39;s links to other building units.</span>
+        <span class="n">required_indices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">connective_including</span><span class="p">:</span>
+            <span class="n">required_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges_external</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+        <span class="c1"># first check at least one of each required element is found, and that</span>
+        <span class="c1"># the required connecting indices are in the cycle, if required.</span>
+        <span class="c1"># otherwise, return a list of all cycles.</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">entry</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">result</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">including</span> <span class="o">-</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_symbols</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">]}</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">required_indices</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">])</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rings_cache</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="AtomicCluster.to_molecule"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.to_molecule">[docs]</a>    <span class="k">def</span> <span class="nf">to_molecule</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Molecule</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the AtomicCluster to a pymatgen Molecule object.</span>
+<span class="sd">        </span>
+<span class="sd">        Note, this has a lot of shared functionality, but loses the site </span>
+<span class="sd">        indexing that I want to keep uniform across all representations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Molecule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_species</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cart_coords</span><span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="AtomicCluster.get_image_by_site_index"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.get_image_by_site_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_by_site_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exctract the periodic image for a given site index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_images</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">site_index</span><span class="p">)]</span></div>
+
+    
+<div class="viewcode-block" id="AtomicCluster.visualise"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.visualise">[docs]</a>    <span class="k">def</span> <span class="nf">visualise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visualise the cluster using crystal toolkit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">crystal_toolkit_display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_molecule</span><span class="p">()</span><span class="o">.</span><span class="n">get_centered_molecule</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="AtomicCluster.with_updated_coordinates_and_images"><a class="viewcode-back" href="../../api/atomic-clusters.html#chic.atomic_cluster.AtomicCluster.with_updated_coordinates_and_images">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">with_updated_coordinates_and_images</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> 
+        <span class="n">instance</span><span class="p">,</span> 
+        <span class="n">new_cart_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+        <span class="n">new_images</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a copy of an existing AtomicCluster instance with updated </span>
+<span class="sd">        cartesian coordinates and images. Also set edges_external to None.</span>
+
+<span class="sd">        :param instance: An instance of AtomicCluster to be copied.</span>
+<span class="sd">        :param new_cart_coords: Updated cartesian coordinates.</span>
+<span class="sd">        :param new_images: Updated images.</span>
+<span class="sd">        :return: New AtomicCluster instance with updated attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">site_indices</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">site_indices</span><span class="p">,</span>
+            <span class="n">species</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">species</span><span class="p">,</span>
+            <span class="n">cart_coords</span><span class="o">=</span><span class="n">new_cart_coords</span><span class="p">,</span>
+            <span class="n">images</span><span class="o">=</span><span class="n">new_images</span><span class="p">,</span>
+            <span class="n">edges</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">_edges</span><span class="p">,</span>
+            <span class="n">edges_external</span><span class="o">=</span><span class="p">{}</span>  <span class="c1"># Set edges_external to None</span>
+        <span class="p">)</span></div>
+    
+
+    <span class="k">def</span> <span class="nf">_create_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a graph from the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">graph</span>
+    
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: number of sites in the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="p">)</span>
+    
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: string representation of the cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;AtomicCluster(&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_molecule</span><span class="p">()</span><span class="o">.</span><span class="n">composition</span><span class="si">}</span><span class="s1">&quot;, &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;site_indices=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_indices</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+            
+
+<span class="k">def</span> <span class="nf">find_simple_cycles</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all cycles in a given graph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">undirected</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span>
+    <span class="n">directed</span> <span class="o">=</span> <span class="n">undirected</span><span class="o">.</span><span class="n">to_directed</span><span class="p">()</span>
+    <span class="n">unique_cycles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">simple_cycles</span><span class="p">(</span><span class="n">directed</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">sorted_cycle</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+        <span class="n">frozenset_cycle</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">sorted_cycle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frozenset_cycle</span> <span class="ow">in</span> <span class="n">unique_cycles</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">unique_cycles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">frozenset_cycle</span><span class="p">)</span>
+    
+    <span class="n">cycles_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">unique_cycles</span><span class="p">]</span>
+    <span class="n">cycles_edges</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[(</span><span class="n">cycle</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">itm</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">itm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cycle</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cycles_nodes</span>
+    <span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;nodes&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">}</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cycles_nodes</span><span class="p">,</span> <span class="n">cycles_edges</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+    
+
+<span class="k">def</span> <span class="nf">find_strong_cycles</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find strong cycles (i.e. cannot be broken down into other cycles).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cycles</span> <span class="o">=</span> <span class="n">find_simple_cycles</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="k">if</span> <span class="n">cycles</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">cycles</span>
+    <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cycles</span><span class="p">:</span>
+        <span class="n">sg</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">sg</span><span class="o">.</span><span class="n">remove_nodes_from</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">cycle</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">find_simple_cycles</span><span class="p">(</span><span class="n">sg</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">cycles</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cycles</span>
+
+
+<span class="k">def</span> <span class="nf">_get_cluster_bead_info</span><span class="p">(</span>
+    <span class="n">cluster</span><span class="p">:</span> <span class="n">AtomicCluster</span><span class="p">,</span> 
+    <span class="n">site</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the bead information for a given site in a cluster.</span>
+
+<span class="sd">    :param cluster: AtomicCluster object.</span>
+<span class="sd">    :param site: Site index in the cluster.</span>
+<span class="sd">    :return: Numpy array of bead information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bead_indices</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">_atom_to_bead_index</span><span class="p">[</span><span class="n">site</span><span class="p">]</span>                                <span class="c1"># internal indexing of beads.</span>
+    <span class="n">bead_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[(</span><span class="n">cluster</span><span class="o">.</span><span class="n">_bead_ids</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>                                                     <span class="c1"># bead index from global list.</span>
+          <span class="n">cluster</span><span class="o">.</span><span class="n">_beads_frac_coords</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>                                            <span class="c1"># bead wrapped fractional coordinates.</span>
+          <span class="n">cluster</span><span class="o">.</span><span class="n">_beads_images</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bead_indices</span><span class="p">],</span>                         <span class="c1"># image consistent bead images</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;bead_ids&#39;</span><span class="p">,</span><span class="s1">&#39;O&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bead_frac_coords&#39;</span><span class="p">,</span><span class="s1">&#39;O&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bead_images&#39;</span><span class="p">,</span><span class="s1">&#39;O&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">bead_info</span>
+
+
+<span class="k">def</span> <span class="nf">_determine_second_bead_image</span><span class="p">(</span>
+    <span class="n">bead1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+    <span class="n">bead2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+    <span class="n">local_cluster_atom_image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+    <span class="n">bound_cluster_atom_image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+    <span class="n">edge_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the distance between two beads.</span>
+
+<span class="sd">    :param bead1: Information for bead1.</span>
+<span class="sd">    :param bead2: Information for bead2.</span>
+<span class="sd">    :param local_cluster_atom_image: Image of atom in local cluster.</span>
+<span class="sd">    :param bound_cluster_atom_image: Image of atom in bound cluster.</span>
+<span class="sd">    :param edge_info: Information of the edge connecting the clusters.</span>
+<span class="sd">    :return: image of bead2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">img_diff</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">local_cluster_atom_image</span> <span class="o">-</span> \
+        <span class="n">bead1</span><span class="p">[</span><span class="s1">&#39;bead_images&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">bound_cluster_atom_image</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">bead2</span><span class="p">[</span><span class="s1">&#39;bead_images&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">img_diff</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_order_beads</span><span class="p">(</span>
+    <span class="n">bead1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+    <span class="n">bead2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Order the beads by their bead_ids.</span>
+<span class="sd">    </span>
+<span class="sd">    :param bead1: Information for bead1.</span>
+<span class="sd">    :param bead2: Information for bead2.</span>
+<span class="sd">    :param image: Image of bead2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bead1</span><span class="p">[</span><span class="s1">&#39;bead_ids&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">bead2</span><span class="p">[</span><span class="s1">&#39;bead_ids&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">bead1</span><span class="p">,</span> <span class="n">bead2</span><span class="p">,</span> <span class="p">(</span><span class="n">image</span> <span class="o">+</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bead2</span><span class="p">,</span> <span class="n">bead1</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">image</span> <span class="o">+</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Bead</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A bead is a fractional coordinate and a species.</span>
+
+<span class="sd">    The bead-mol-id allows us to group together beads that are part of the same</span>
+<span class="sd">    molecule. This is information can be used in the LAMMPS data and dump </span>
+<span class="sd">    format files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">species</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">species_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">bead_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">bead_mol_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">frac_coord</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">energy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">force</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span>
+    
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the bead-id as the sort index. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bead_id</span>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the label of the bead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">species_number</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">to_topocif_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the bead to a string in the TOPCIF format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> 1 &quot;</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">frac_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;14.10f</span><span class="si">}</span><span class="s2"> &quot;</span> \
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">frac_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;14.10f</span><span class="si">}</span><span class="s2"> &quot;</span> \
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">frac_coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;14.10f</span><span class="si">}</span><span class="s2">  1&quot;</span>
+    
+
+    <span class="k">def</span> <span class="nf">to_lammps_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">lattice</span><span class="p">,</span>
+        <span class="n">prismobj</span><span class="p">,</span>
+        <span class="n">atom_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+        <span class="n">species_to_atom_type</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">mass_dict</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the bead to a string in the LAMMPS format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cart_coord</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">get_cartesian_coords</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frac_coord</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.0</span>
+        <span class="n">cart_coord</span> <span class="o">=</span> <span class="n">prismobj</span><span class="o">.</span><span class="n">vector_to_lammps</span><span class="p">(</span><span class="n">cart_coord</span><span class="p">)</span>
+        <span class="n">atom_type</span> <span class="o">=</span> <span class="n">species_to_atom_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="p">]</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">mass_dict</span><span class="p">[</span><span class="n">atom_type</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">mass_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">atom_style</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_lammps_full</span><span class="p">(</span><span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">atom_style</span> <span class="o">==</span> <span class="s1">&#39;atomic&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_lammps_atomic</span><span class="p">(</span><span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">atom_style</span> <span class="o">==</span> <span class="s1">&#39;dump&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_lammps_dump</span><span class="p">(</span><span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;atom_style must be &#39;full&#39;, &#39;atomic&#39;, or &#39;dump&#39;, not </span><span class="si">{</span><span class="n">atom_style</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    
+
+    <span class="k">def</span> <span class="nf">to_lammps_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the bead to a string in the LAMMPS atom_style full format.</span>
+<span class="sd">        This contains the following columns for each atom:</span>
+
+<span class="sd">            atom-ID molecule-ID atom-type q x y z</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_id</span><span class="si">:</span><span class="s1">&gt;6.0f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_mol_id</span><span class="si">:</span><span class="s1">&gt;6.0f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">atom_type</span><span class="si">:</span><span class="s1">&gt;6.0f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="mf">0.0</span><span class="si">:</span><span class="s1">&gt;8.5f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1">&#39;</span>
+    
+
+    <span class="k">def</span> <span class="nf">to_lammps_atomic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the bead to a string in the LAMMPS atom_style atomic format.</span>
+<span class="sd">        This contains the following columns for each atom:</span>
+
+<span class="sd">            atom-id atom-type x y z</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_id</span><span class="si">:</span><span class="s1">&gt;6.0f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">atom_type</span><span class="si">:</span><span class="s1">&gt;6.0f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;15.10f</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    
+    <span class="k">def</span> <span class="nf">to_lammps_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom_type</span><span class="p">,</span> <span class="n">cart_coord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the bead to a string in the LAMMPS dump format.</span>
+
+<span class="sd">            id mol type mass x y z</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_id</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_mol_id</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">atom_type</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">cart_coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Pretty string formatting. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bead(id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bead_id</span><span class="si">}</span><span class="s2">, type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">species</span><span class="si">}</span><span class="s2">, frac_coord=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">frac_coord</span><span class="si">}</span><span class="s2">)&quot;</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Thomas Nicholas
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=02683919"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
+</html>
