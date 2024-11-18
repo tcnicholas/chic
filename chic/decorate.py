@@ -29,7 +29,7 @@ def perturb_centroid(
     :param vectors: bond vectors to use to align the linker.
     :return: perturbed centroid.
     """
-    vectors = vectors.astype(np.float128)
+    vectors = vectors.astype(np.float64)
     v_unit = vectors / np.linalg.norm(vectors, axis=1)[:,None]
     rvec = random_vector(random.random(), random.random(), norm=True)
     perturb = np.cross(rvec, v_unit[0])
@@ -71,7 +71,7 @@ def place_linker(
     
     # default to just taking the first 2 vectors if more than 2 were given.
     #TODO: there will be better ways of deciding this.
-    vectors = vectors[:2].astype(np.float128)
+    vectors = vectors[:2].astype(np.float64)
     
     # in the case of a single bond to the oxygen atom, we randomly assign a
     # second vector to give the placement of the imidazolate molecule. we could
@@ -108,7 +108,7 @@ def place_linker(
         this_way = this_way / np.linalg.norm(this_way)
 
         # now align molecule along bisecting vector.
-        mol_perp = np.cross(*v_unit).astype(np.float128)
+        mol_perp = np.cross(*v_unit).astype(np.float64)
         mol_perp /= np.linalg.norm(mol_perp)
         coords = template.coordinates.copy()
         if not np.allclose(np.abs(mol_perp), np.array([0,0,1])):
